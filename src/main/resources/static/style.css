@@ -1,0 +1,21 @@
+body {
+    color: #113;
+}
+.custom-control.custom-checkbox.tzz {
+    margin-left: 87px;
+}
+.col-md-6.pzz {
+    margin-bottom: 20px;
+}
+button.my-button {
+    border: none;
+    color: #007bff;
+    background: white;
+}
+button.my-button:hover{
+    color: #0056b3;
+    text-decoration: underline;
+}
+button.my-button:focus{
+    border: none;
+}
