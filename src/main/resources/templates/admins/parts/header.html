@@ -3,36 +3,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-<nav th:fragment="header" class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Sweater</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+            <nav th:fragment="header" >
+                <a class="navbar-brand" href="/admins/indexAdmin">Spring Boot App</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/main">Messages</a>
-            </li>
-            <#if isAdmin>
-            <li class="nav-item">
-                <a class="nav-link" href="/user">User list</a>
-            </li>
-        </#if>
-        <#if user??>
-        <li class="nav-item">
-            <a class="nav-link" href="/user/profile">Profile</a>
-        </li>
-    </#if>
-    <li class="nav-item">
-        <a class="nav-link" href="/index">Index</a>
-    </li>
-    </ul>
-
-    <div class="navbar-text mr-3">${name}</div>
-    <@l.logout />
-    </div>
-</nav>
+                <div class="collapse navbar-collapse" id="navbarColor02">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admins/message">Message</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admins/users">Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <form th:action="@{/logout}" method="post">
+                                <button class="btn btn-primary" type="submit">Sign Out</button>
+                                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                            </form>
+                        </li>
+                    </ul>
+                    <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                    </form>
+                </div>
+            </nav>

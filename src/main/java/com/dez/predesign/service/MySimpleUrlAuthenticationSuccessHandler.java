@@ -24,6 +24,12 @@ public class MySimpleUrlAuthenticationSuccessHandler
                                         HttpServletResponse response, Authentication authentication)
             throws IOException {
 
+
+        System.out.println("0000000000000: " + authentication.getAuthorities());
+        System.out.println("0000000000000: " + authentication.getName());
+        System.out.println("0000000000000: " + authentication.getDetails());
+        System.out.println("0000000000000: " + authentication.getPrincipal());
+
         handle(request, response, authentication);
         clearAuthenticationAttributes(request);
     }
@@ -31,7 +37,6 @@ public class MySimpleUrlAuthenticationSuccessHandler
     protected void handle(HttpServletRequest request,
                           HttpServletResponse response, Authentication authentication)
             throws IOException {
-
         String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {
@@ -59,7 +64,7 @@ public class MySimpleUrlAuthenticationSuccessHandler
         if (isUser) {
             return "/";
         } else if (isAdmin) {
-            return "/admin/indexAdmin";
+            return "/admins/indexAdmin";
         } else {
             throw new IllegalStateException();
         }

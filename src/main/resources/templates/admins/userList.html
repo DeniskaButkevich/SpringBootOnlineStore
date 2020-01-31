@@ -1,10 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>UserList</title>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="admins/parts/head.html :: head">
+
 </head>
 <body>
+<div class="container-fluid">
 
+    <row>
+        <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
+    </row>
+    <h1>User List</h1>
+
+    <ul th:if="${users.empty}">
+        <li colspan="2"> No User Available </li>
+    </ul>
+    <div class="card-group">
+        <div class="list-group" th:each="user : ${users}">
+            <div class="card" style="text-align: center">
+                <a href="#" class="list-group-item list-group-item-action active"
+               th:text="${'ID: ' + user.id}">
+            </a>
+            <a href="#" class="list-group-item list-group-item-action disabled"
+               th:text="${'Username: ' + user.username}"></a>
+            <a href="#" class="list-group-item list-group-item-action disabled"
+               th:text="${'FirstName: ' + user.firstName}"></a>
+            <a href="#" class="list-group-item list-group-item-action disabled"
+               th:text="${'LastName: ' + user.lastName}"></a>
+            <a href="#" class="list-group-item list-group-item-action disabled"
+               th:text="${'Email: ' + user.email}"> </a>
+            <a href="#" class="list-group-item list-group-item-action disabled"
+               th:text="${'PostCode: ' + user.postCode}"></a>
+            <a href="#" class="list-group-item list-group-item-action disabled"
+               th:text="${'Adress: ' + user.address}"></a>
+            <a href="#" class="list-group-item list-group-item-action disabled"
+               th:text="${'PhoneNumber: ' + user.phoneNumber}"></a>
+
+
+            <a th:href="@{/admins/delete(id=${user.id})}" class="list-group-item list-group-item-action" style="color: #007bff"
+               >delete user</a>
+                <button  type="button" class="my-button"  data-toggle="modal" th:data-target="'#' + ${user.id}">
+                    edit
+                </button>
+                <div class="modal fade" th:id="${user.id}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form enctype="multipart/form-data" th:action="@{'/admins/edit/' + ${user.id}}" method="post">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" th:text="'Edit user № ' + ${user.id}"></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" value="" name="username" placeholder="Input username" /></div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" value="" name="firstName" placeholder="Input firstName" /></div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" value="" name="lastName" placeholder="Input lastname"></div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" value="" name="postCode" placeholder="Input postCode"></div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" value="" name="phoneNumber" placeholder="Input phoneNumber"></div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" value="" name="address" placeholder="Input address"></div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" value="" name="email" placeholder="Input Email"></div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                            </form>
+                        </div><!-- /.модальное окно-Содержание -->
+                    </div><!-- /.модальное окно-диалог -->
+                </div><!-- /.модальное окно -->
+
+        </div>
+    </div>
+    </div>
 </body>
 </html>

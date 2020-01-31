@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="admins/parts/head.html :: head">
+
 </head>
 <body>
+<div class="container-fluid">
+
+    <row>
+        <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
+    </row>
     <h1>Hello Admin</h1>
 </body>
 </html>

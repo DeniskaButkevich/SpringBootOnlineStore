@@ -13,7 +13,7 @@ public class MessageController  {
     @Autowired
     MessageRepo messageRepo;
 
-    @GetMapping("/admin/message")
+    @GetMapping("/admins/message")
     public String messagesShow(Model model, @RequestParam(required = false, defaultValue = "") String filter){
         Iterable<Message> messages = messageRepo.findAll();
 
@@ -29,7 +29,7 @@ public class MessageController  {
         return "admins/message";
     }
 
-    @PostMapping("/admin/message")
+    @PostMapping("/admins/message")
     public String messageAdd(Message message, Model model){
         messageRepo.save(message);
 

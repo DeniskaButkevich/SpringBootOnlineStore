@@ -26,7 +26,7 @@ public class User implements UserDetails {
     private String username;
     private String firstName;
     private String lastName;
-    private String Email;
+    private String email;
 
     private String password;
     private String password2;
@@ -50,21 +50,21 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return isActive();
     }
 }

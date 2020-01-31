@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .formLogin()
                         .loginPage("/admin")
-                            .successHandler(myAuthenticationSuccessHandler())
+                            .successHandler(new MySimpleUrlAuthenticationSuccessHandler())
                 .and()
                     .logout()
                         .logoutSuccessUrl("/");
