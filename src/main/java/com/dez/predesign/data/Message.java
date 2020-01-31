@@ -17,13 +17,15 @@ public class Message  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    public Message(String name, String text) {
+    public Message(String name, String text, String tag) {
         this.name = name;
         this.text = text;
+        this.tag = tag;
     }
 
     private String name;
     private String text;
+    private String tag;
 
     @Override
     public String toString() {

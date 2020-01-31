@@ -9,7 +9,17 @@
     <header th:include="admin/parts/header.html :: header"></header>
     <h1>Messages</h1>
     <br>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <form method="get" action="/admin/message" class="form-inline">
+                <input type="text" name="filter" class="form-control" th:value="${filter}" placeholder="Search by tag">
+                <button type="submit" class="btn btn-primary ml-2">Search</button>
+            </form>
+        </div>
+    </div>
+    <br>
     <form method="post" >
+        <input type="text" name="tag" placeholder="input tag" >
         <input type="text" name="name" placeholder="input name" >
         <input type="text" name="text" placeholder="input text" >
         <button type="submit" >add</button>
@@ -19,10 +29,11 @@
         <li colspan="2"> No Message Available </li>
     </ul>
     <ul th:each="message : ${messages}">
+        <li><labe>ID: </labe><span th:text="${message.id}">  </span></li>
+        <li><labe>Tag: </labe><span th:text="${message.tag}">  </span></li>
+        <li><labe>Text: </labe><span th:text="${message.text}">  </span></li>
+        <li><labe>NAme: </labe><span th:text="${message.name}">  </span></li>
 
-        <li><labe>Name: </labe><span th:text="${message.name}"> Name </span></li>
-        <li><labe>Text: </labe><span th:text="${message.text}"> Text </span></li>
-        <li><labe>ID: </labe><span th:text="${message.id}"> Id </span></li>
         <a th:href="@{/message/delete(id=${message.id})}">delete</a>
             <button type="button" class="my-button"  data-toggle="modal" th:data-target="'#' + ${message.id}">
                 edit
@@ -40,9 +51,11 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <input type="text" class="form-control" value="" name="text" placeholder="Введите сообщение" /></div>
+                                <input type="text" class="form-control" value="" name="tag" placeholder="Input tag" /></div>
                             <div class="form-group">
-                                <input type="text" class="form-control" value="" name="name" placeholder="Name"></div>
+                                <input type="text" class="form-control" value="" name="name" placeholder="Input name" /></div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" value="" name="text" placeholder="Input text"></div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

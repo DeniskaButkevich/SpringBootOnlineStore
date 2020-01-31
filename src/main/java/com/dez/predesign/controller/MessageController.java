@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.util.Iterator;
 
 @Controller
 public class MessageController  {
@@ -14,8 +15,17 @@ public class MessageController  {
     MessageRepo messageRepo;
 
     @GetMapping("/admin/message")
-    public String messagesShow(Model model){
-        model.addAttribute("messages", messageRepo.findAll());
+    public String messagesShow(Model model, @RequestParam(required = false, defaultValue = "") String filter){
+
+        Iterable<Message> messages = messageRepo.findAll();
+        if (filter != null && !filter.isEmpty()) {
+            messages = messageRepo.findByTag(filter);
+        } else {
+            messages = messageRepo.findAll();
+        }
+
+        model.addAttribute("messages", messages);
+        model.addAttribute("filter", filter);
 
         return "admin/message";
     }

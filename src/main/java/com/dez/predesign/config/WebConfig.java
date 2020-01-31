@@ -17,10 +17,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/category.html").setViewName("category");
         registry.addViewController("/category-list.html").setViewName("category-list");
         registry.addViewController("/compare-products.html").setViewName("compare-products");
-        registry.addViewController("/contacts.html").setViewName("contacts");
-        registry.addViewController("/footer1.html").setViewName("footer1");
-        registry.addViewController("/header1.html").setViewName("header1");
-        registry.addViewController("/login.html").setViewName("");
+        registry.addViewController("/contact.html").setViewName("contact");
+        registry.addViewController("/login.html").setViewName("login");
         registry.addViewController("/portfolio-2.html").setViewName("portfolio-2");
         registry.addViewController("/portfolio-masonry-2.html").setViewName("portfolio-masonry-2");
         registry.addViewController("/product.html").setViewName("product");
@@ -30,5 +28,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/single-portfolio-gallery.html").setViewName("single-portfolio-gallery");
         registry.addViewController("/single-portfolio-video.html").setViewName("single-portfolio-video");
         registry.addViewController("/checkout.html").setViewName("checkout");
+        registry.addViewController("/admin/loginAdmin.html").setViewName("loginAdmin");
+        registry.addViewController("/admin/userList.html").setViewName("userList");
+        registry.addViewController("/admin/indexAdmin.html").setViewName("indexAdmin");
+        registry.addViewController("/404.html").setViewName("404");
     }
 }
