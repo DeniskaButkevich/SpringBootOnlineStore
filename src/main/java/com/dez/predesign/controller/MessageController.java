@@ -10,14 +10,13 @@ import java.util.Iterator;
 
 @Controller
 public class MessageController  {
-
     @Autowired
     MessageRepo messageRepo;
 
     @GetMapping("/admin/message")
     public String messagesShow(Model model, @RequestParam(required = false, defaultValue = "") String filter){
-
         Iterable<Message> messages = messageRepo.findAll();
+
         if (filter != null && !filter.isEmpty()) {
             messages = messageRepo.findByTag(filter);
         } else {
@@ -27,7 +26,7 @@ public class MessageController  {
         model.addAttribute("messages", messages);
         model.addAttribute("filter", filter);
 
-        return "admin/message";
+        return "admins/message";
     }
 
     @PostMapping("/admin/message")
@@ -36,7 +35,7 @@ public class MessageController  {
 
         model.addAttribute("messages", messageRepo.findAll());
 
-        return "admin/message";
+        return "admins/message";
     }
 
     @GetMapping("/message/delete")
@@ -46,7 +45,7 @@ public class MessageController  {
                         Integer.parseInt(id)).get()
         );
 
-        return "redirect:/admin/message";
+        return "redirect:/admins/message";
     }
 
     @PostMapping("/message/edit/{id}")
@@ -58,7 +57,7 @@ public class MessageController  {
 
         messageRepo.save(mes);
 
-        return "redirect:/admin/message";
+        return "redirect:/admins/message";
     }
 
 }

@@ -2,11 +2,11 @@
 <html lang="en">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:include="admin/parts/head.html :: head">
+<head th:include="admins/parts/head.html :: head">
 
 </head>
 <body>
-    <header th:include="admin/parts/header.html :: header"></header>
+    <header th:include="admins/parts/header.html :: header"></header>
     <h1>Messages</h1>
     <br>
     <div class="form-row">
@@ -14,6 +14,7 @@
             <form method="get" action="/admin/message" class="form-inline">
                 <input type="text" name="filter" class="form-control" th:value="${filter}" placeholder="Search by tag">
                 <button type="submit" class="btn btn-primary ml-2">Search</button>
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
             </form>
         </div>
     </div>
@@ -23,6 +24,7 @@
         <input type="text" name="name" placeholder="input name" >
         <input type="text" name="text" placeholder="input text" >
         <button type="submit" >add</button>
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
     </form>
     <br>
     <ul th:if="${messages.empty}">
@@ -61,6 +63,7 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save changes</button>
                         </div>
+                        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                     </form>
                 </div><!-- /.модальное окно-Содержание -->
             </div><!-- /.модальное окно-диалог -->
