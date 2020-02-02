@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head th:include="admins/parts/head.html :: head">
 
 </head>
@@ -11,8 +13,75 @@
     <row>
         <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
     </row>
-    <h1>User List</h1>
+    <br>
+    <row  th:object="${user}">
+        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Add new User
+        </a>
 
+        <div class="collapse " th:attrappend="class=${#fields.hasErrors()} ? ' show' + ''" id="collapseExample">
+            <div class="form-group mt-3">
+                <form method="post" enctype="multipart/form-data" th:action="@{'/admins/users/add'}">
+                    <div class="form-group">
+                        <h5 th:if="${#fields.hasErrors()}">Please correct the problems below and resubmit.</h5>
+
+                        <input type="text" class="form-control"
+                              th:attrappend="class=${#fields.hasErrors('username')} ? ' is-invalid' + ''"
+                              th:field="*{username}" name="username" placeholder="Input username"
+                        />
+                        <span class="validationError text-danger"
+                              th:if="${#fields.hasErrors('username')}"  th:errors="*{username}">
+                        </span>
+                        <input type="text" class="form-control"
+                               th:field="*{firstName}" name="firstName" placeholder="Input firstName" />
+                        <input type="text" class="form-control"
+                               th:field="*{lastName}" name="lastName" placeholder="Input lastName" />
+                        <input type="text" class="form-control"
+                               th:attrappend="class=${#fields.hasErrors('email')} ? ' is-invalid' + ''"
+                               th:field="*{email}" name="email" placeholder="Input email"
+                        />
+                        <span class="validationError text-danger"
+                              th:if="${#fields.hasErrors('email')}"  th:errors="*{email}">
+                        </span>
+                        <input type="text" class="form-control"
+                               th:attrappend="class=${#fields.hasErrors('password')} ? ' is-invalid' + ''"
+                               th:field="*{password}" name="password" placeholder="Input password"
+                        />
+                        <span class="validationError text-danger"
+                              th:if="${#fields.hasErrors('password')}"  th:errors="*{password}">
+                        </span>
+                        <input type="text" class="form-control"
+                               th:attrappend="class=${#fields.hasErrors('password2')} ? ' is-invalid' + ''"
+                               th:field="*{password2}" name="password2" placeholder="Input password2"
+                        />
+                        <span class="validationError text-danger"
+                              th:if="${#fields.hasErrors('password2')}"  th:errors="*{password2}">
+                        </span>
+                        <input type="text" class="form-control"
+                               th:field="*{postCode}" name="postCode" placeholder="Input postCode" />
+                        <input type="text" class="form-control"
+                               th:field="*{address}" name="address" placeholder="Input address" />
+                        <input type="text" class="form-control"
+                               th:attrappend="class=${#fields.hasErrors('phoneNumber')} ? ' is-invalid' + ''"
+                               th:field="*{phoneNumber}" name="phoneNumber" placeholder="Input phoneNumber"
+                        />
+                        <span class="validationError text-danger"
+                              th:if="${#fields.hasErrors('phoneNumber')}"  th:errors="*{phoneNumber}">
+                        </span>
+
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </div>
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                </form>
+            </div>
+        </div>
+    </row>
+
+    <h1><br>User List</h1>
+    <br>
     <ul th:if="${users.empty}">
         <li colspan="2"> No User Available </li>
     </ul>
@@ -29,7 +98,7 @@
             <a href="#" class="list-group-item list-group-item-action disabled"
                th:text="${'LastName: ' + user.lastName}"></a>
             <a href="#" class="list-group-item list-group-item-action disabled"
-               th:text="${'Email: ' + user.email}"> </a>
+               th:text="${user.email != null ? 'Email: ' + user.email : 'Email: '}"> </a>
             <a href="#" class="list-group-item list-group-item-action disabled"
                th:text="${'PostCode: ' + user.postCode}"></a>
             <a href="#" class="list-group-item list-group-item-action disabled"
@@ -55,20 +124,38 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" value="" name="username" placeholder="Input username" /></div>
+                                        <input type="text" class="form-control" th:value="${user.username != null ? user.username : ''}"
+                                               name="username" placeholder="Input username" /></div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" value="" name="firstName" placeholder="Input firstName" /></div>
+                                        <input type="text" class="form-control" th:value="${user.firstName != null ? user.firstName : ''}"
+                                               name="firstName" placeholder="Input firstName" /></div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" value="" name="lastName" placeholder="Input lastname"></div>
+                                        <input type="text" class="form-control" th:value="${user.lastName != null ? user.lastName : ''}"
+                                               name="lastName" placeholder="Input lastname"></div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" value="" name="postCode" placeholder="Input postCode"></div>
+                                        <input type="text" class="form-control" th:value="${user.postCode != null ? user.postCode : ''}"
+                                               name="postCode" placeholder="Input postCode"></div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" value="" name="phoneNumber" placeholder="Input phoneNumber"></div>
+                                        <input type="text" class="form-control" th:value="${user.phoneNumber != null ? user.phoneNumber : ''}"
+                                               name="phoneNumber" placeholder="Input phoneNumber"></div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" value="" name="address" placeholder="Input address"></div>
+                                        <input  type="text" class="form-control" th:value="${user.address != null ? user.address : ''}"
+                                                name="address" placeholder="Input address"></div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" value="" name="email" placeholder="Input Email"></div>
+                                        <input type="text" class="form-control" th:value="${user.email != null ? user.email : ''}"
+                                               name="email" placeholder="Input Email"></div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" th:value="${user.Password != null ? user.Password : ''}"
+                                               name="Password" placeholder="Input Password"></div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" th:value="${user.Password2 != null ? user.Password2 : ''}"
+                                               name="Password2" placeholder="Input Password2"></div>
 
+                                    <h5 >Roles</h5>
+                                        <th:block th:each="role : ${roles}">
+                                            <p><input  type="checkbox" th:name="${role}"
+                                            th:checked="${#strings.contains(user.getRoles(),role)} ? 'checked' : 'No'"> [[${role}]]</p>
+                                        </th:block>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

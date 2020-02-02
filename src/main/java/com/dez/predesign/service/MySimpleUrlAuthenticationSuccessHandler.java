@@ -24,12 +24,6 @@ public class MySimpleUrlAuthenticationSuccessHandler
                                         HttpServletResponse response, Authentication authentication)
             throws IOException {
 
-
-        System.out.println("0000000000000: " + authentication.getAuthorities());
-        System.out.println("0000000000000: " + authentication.getName());
-        System.out.println("0000000000000: " + authentication.getDetails());
-        System.out.println("0000000000000: " + authentication.getPrincipal());
-
         handle(request, response, authentication);
         clearAuthenticationAttributes(request);
     }

@@ -6,6 +6,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,16 +25,24 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @NotBlank(message="Username is required")
     private String username;
     private String firstName;
     private String lastName;
+
+    @Email(message = "Incorrect email")
+    @NotBlank(message="Email is required")
     private String email;
 
+    @NotBlank(message="Password is required")
     private String password;
+    @NotBlank(message="Password  is required")
     private String password2;
 
     private String postCode;
     private String address;
+
+    @NotBlank(message="Phone number is required")
     private String phoneNumber;
     //
 
