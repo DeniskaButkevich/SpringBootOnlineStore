@@ -11,37 +11,34 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
-import java.util.Collections;
 
 @Controller
 public class LoginController {
 
     @GetMapping("/admin")
-    public String adminLoginGet(@AuthenticationPrincipal User user, Model model,HttpServletRequest httpServletRequest){
+    public String adminLoginGet(@AuthenticationPrincipal User user,
+                                HttpServletRequest httpServletRequest,
+                                Model model){
 
-
-        model.addAttribute("hasSession", httpServletRequest.getSession(false) != null);
+        model.addAttribute(
+                "hasSession",
+                httpServletRequest.getSession(false) != null
+        );
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if(authentication.getAuthorities().toString().contains("ROLE_ADMIN")){
+        if(authentication.getAuthorities().toString().contains("ROLE_ADMIN"))
             return "/admins/indexAdmin";
-        }
 
         return "/admin";
     }
     @PostMapping("/admin")
-        public String adminLogin(){
-
+    public String adminLogin(){
         return "/admins/indexAdmin";
     }
 
     @PostMapping("/logout")
     public String logoutAdmin(){
-
-        System.out.println("0000000000000");
-
         return ("/admin");
     }
 }

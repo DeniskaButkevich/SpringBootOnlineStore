@@ -17,11 +17,10 @@ public class MessageController  {
     public String messagesShow(Model model, @RequestParam(required = false, defaultValue = "") String filter){
         Iterable<Message> messages = messageRepo.findAll();
 
-        if (filter != null && !filter.isEmpty()) {
+        if (filter != null && !filter.isEmpty())
             messages = messageRepo.findByTag(filter);
-        } else {
+        else
             messages = messageRepo.findAll();
-        }
 
         model.addAttribute("messages", messages);
         model.addAttribute("filter", filter);
@@ -31,6 +30,7 @@ public class MessageController  {
 
     @PostMapping("/admins/message")
     public String messageAdd(Message message, Model model){
+
         messageRepo.save(message);
 
         model.addAttribute("messages", messageRepo.findAll());
@@ -40,6 +40,7 @@ public class MessageController  {
 
     @GetMapping("/message/delete")
     public String messageRemove(@RequestParam String id) {
+
         messageRepo.delete(
                 messageRepo.findById(
                         Integer.parseInt(id)).get()
@@ -50,6 +51,7 @@ public class MessageController  {
 
     @PostMapping("/message/edit/{id}")
     public String messageEdit(@PathVariable String id, Message message){
+
         Message mes = messageRepo.findById(Integer.parseInt(id)).get();
 
         mes.setName(message.getName());

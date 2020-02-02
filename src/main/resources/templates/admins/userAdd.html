@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:include="admins/parts/head.html :: head">
+
+</head>
+
+<body style="background-color: #eee">
+
+    <row>
+        <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
+    </row>
+    <br>
+    <row th:object="${user}" >
+        <div >
+        <div class="collapse show" id="collapseExample"
+             th:attrappend="class=${#fields.hasErrors() || (userExist != null)}  ? ' show' + ''">
+            <div class="form-group mt-3">
+                <form method="post" enctype="multipart/form-data"
+                      th:action="@{'/admins/users/add'}">
+
+
+                        <h5 th:if="${#fields.hasErrors()}">
+                            <span>Please correct the problems below and resubmit.</span>
+                        </h5>
+
+                    <div class="form-group form-inline ">
+                        <label for="username" style="text-align: center" >Username: </label>
+                        <input  id="username" type="text" class="form-control" style="width: auto"
+                                th:attrappend="class=${#fields.hasErrors('username') || (userExist != null)} ? ' is-invalid' + ''"
+                                th:field="*{username}" name="username" placeholder="Input username"/>
+                        <span class="validationError text-danger"
+                              th:if="${#fields.hasErrors('username')}"
+                              th:errors="*{username}"></span>
+                        <span class="validationError text-danger"
+                              th:if="${userExist != null}"
+                              th:text="${userExist}"></span>
+                    </div>
+
+                    <div class="form-group form-inline ">
+                        <label for="firstname" style="text-align: center">Firstname: </label>
+                        <input id="firstname" type="text" class="form-control" name="firstName" placeholder="Input firstName"
+                               th:field="*{firstName}"/>
+                    </div>
+
+                    <div class="form-group form-inline ">
+                        <label style="text-align: center">Lastname: </label>
+                        <input type="text" class="form-control" name="lastName" placeholder="Input lastName"
+                               th:field="*{lastName}"/>
+                    </div>
+
+                    <div class="form-group form-inline ">
+                        <label style="text-align: center">Password: </label>
+                        <input type="text" class="form-control" name="email" placeholder="Input email"
+                               th:field="*{email}"
+                               th:attrappend="class=${#fields.hasErrors('email')} ? ' is-invalid' + ''"/>
+                        <span class="validationError text-danger"
+                              th:if="${#fields.hasErrors('email')}"
+                              th:errors="*{email}"></span>
+                    </div>
+
+                    <div class="form-group form-inline ">
+                        <label style="text-align: center">Password: </label>
+                        <input type="text" class="form-control" name="password" placeholder="Input password"
+                               th:field="*{password}"
+                               th:attrappend="class=${#fields.hasErrors('password')} ? ' is-invalid' + ''"/>
+                        <span class="validationError text-danger"
+                              th:if="${#fields.hasErrors('password')}"
+                              th:errors="*{password}"></span>
+                    </div>
+
+                    <div class="form-group form-inline ">
+                        <label style="text-align: center">Password Copy: </label>
+                        <input type="text" class="form-control" name="password2" placeholder="Input password2"
+                               th:attrappend="class=${#fields.hasErrors('password2')} ? ' is-invalid' + ''"
+                               th:field="*{password2}"/>
+                        <span class="validationError text-danger"
+                              th:if="${#fields.hasErrors('password2')}"
+                              th:errors="*{password2}"></span>
+                    </div>
+
+                    <div class="form-group form-inline ">
+                        <label style="text-align: center">Post Code: </label>
+                        <input type="text" class="form-control" name="postCode" placeholder="Input postCode"
+                               th:field="*{postCode}"/>
+                    </div>
+
+                    <div class="form-group form-inline ">
+                        <label style="text-align: center">Address: </label>
+                        <input type="text" class="form-control" name="address" placeholder="Input address"
+                               th:field="*{address}"/>
+                    </div>
+
+                    <div class="form-group form-inline ">
+                        <label style="text-align: center">Numphone: </label>
+                        <input type="text" class="form-control" name="phoneNumber" placeholder="Input phoneNumber"
+                               th:attrappend="class=${#fields.hasErrors('phoneNumber')} ? ' is-invalid' + ''"
+                               th:field="*{phoneNumber}"/>
+                        <span class="validationError text-danger"
+                              th:if="${#fields.hasErrors('phoneNumber')}"
+                              th:errors="*{phoneNumber}"></span>
+                    </div>
+                        <div class="invalid-feedback"></div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </div>
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                </form>
+            </div>
+        </div>
+        </div>
+    </row>
+
+</body>
+</html>
