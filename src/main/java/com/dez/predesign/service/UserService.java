@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -35,8 +37,21 @@ public class UserService implements UserDetailsService {
                 "User '" + username + "' not found");
     }
 
-    public void save(String id, Map<String, String> form, User user) {
+    public boolean save(String id, Map<String, String> form, User user, Model model, Errors errors) {
+
         User usr = userRepo.findById(Integer.parseInt(id)).get();
+
+        if(userRepo.findByUsername(user.getUsername()) != null ){
+            if(user.getId() != userRepo.findByUsername(user.getUsername()).getId()) {
+                model.addAttribute("userExist", "This name is already in use.");
+                return false;
+            }
+        }
+
+        if(errors.hasErrors() ){
+            if(errors.getErrorCount()>1)
+                return  false;
+        }
 
         usr.setUsername(user.getUsername());
         usr.setFirstName(user.getFirstName());
@@ -52,14 +67,31 @@ public class UserService implements UserDetailsService {
 
         usr.getRoles().clear();
 
-        for (String key : form.keySet()) {
-            if (roles.contains(key)) {
+        for (String key : form.keySet())
+            if (roles.contains(key))
                 usr.getRoles().add(Role.valueOf(key));
-            }
-        }
-        usr.setPassword(passwordEncoder.encode(user.getPassword()));
+
         userRepo.save(usr);
+
+        return true;
     }
 
+    public boolean passwordChange(String id, String password, String confirmPassword, Model model) {
+        User usr = userRepo.findById(Integer.parseInt(id)).get();
 
+        if (password == null || password.isEmpty()){
+            model.addAttribute("passwordEmpty", "Password is not the same");
+            return false;
+        }
+        if(!password.equals(confirmPassword)){
+            model.addAttribute("errorConform", "Password is not the same");
+            return false;
+        }
+        usr.setPassword(passwordEncoder.encode(password));
+        userRepo.save(usr);
+        return true;
+    }
+
+    public void addUser(User user, Errors errors, Model model, String confirmPassword) {
+    }
 }

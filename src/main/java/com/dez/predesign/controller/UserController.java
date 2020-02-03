@@ -49,12 +49,20 @@ public class UserController {
     }
 
     @GetMapping("/admins/users/edit/{id}")
-    public String userEditShow(@PathVariable String id,Model model){
+    public String userEdit(@PathVariable String id,Model model){
 
         User usr = userRepo.findById(Integer.parseInt(id)).get();
         model.addAttribute("user",usr);
 
         return "admins/userEdit";
+    }
+
+    @GetMapping("/admins/users/passwordChange/{id}")
+    public String userPasswordChange(@PathVariable String id, Model model)
+    {
+        //User usr = userRepo.findById(Integer.parseInt(id)).get();
+
+        return "admins/passwordChange";
     }
 
     @GetMapping("/admins/delete")
@@ -73,28 +81,39 @@ public class UserController {
                            Errors errors,
                            Model model){
 
-        if(userRepo.findByUsername(user.getUsername()) != null ){
-            if(user.getId() != userRepo.findByUsername(user.getUsername()).getId()) {
-                model.addAttribute("userExist", "This name is already in use.");
-                return "/admins/userEdit";
-            }
-        }
-        if(errors.hasErrors())
-            return  "/admins/userEdit";
-
-        userService.save(id,form,user);
-
-        return "redirect:/admins/users";
+        if(userService.save(id,form,user,model,errors))
+            return "redirect:/admins/users";
+        else
+            return "/admins/userEdit";
     }
+
+    @PostMapping("/admins/users/passwordChange/{id}")
+    public String userPasswordChange(@RequestParam String confirmPassword,
+                                     @PathVariable String id,
+                                     @RequestParam String password,
+                                     Model model) {
+        if(userService.passwordChange(id,password,confirmPassword,model)) {
+
+           return "redirect:/admins/users";
+       }
+       else
+           return "/admins/passwordChange";
+    }
+
     @PostMapping("/admins/users/add")
-    public String addUser(@Valid User user, Errors errors, Model model,@RequestParam String confirmPassword){
+    public String userAdd(@Valid User user,
+                          Errors errors,
+                          Model model,
+                          @RequestParam String confirmPassword){
+
+        userService.addUser(user,errors,model,confirmPassword);
 
         if(userRepo.findByUsername(user.getUsername()) != null){
             model.addAttribute("userExist", "This name is already in use.");
             return "/admins/userAdd";
         }
 
-        if(!confirmPassword.equals(user.getPassword())){
+        if(!confirmPassword.equals  (user.getPassword())){
             model.addAttribute("errorConfirm","passwords are not the same");
             return "/admins/userAdd";
         }
@@ -110,5 +129,4 @@ public class UserController {
 
         return "redirect:/admins/users";
     }
-
 }

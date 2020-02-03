@@ -45,12 +45,38 @@
             <a href="#" class="list-group-item list-group-item-action "
                th:text="${'PhoneNumber: ' + user.phoneNumber}"></a>
 
-
-            <a th:href="@{/admins/delete(id=${user.id})}"
-               class="list-group-item list-group-item-action" style="color: #007bff">DELETE</a>
-
                 <a th:href="@{/admins/users/edit/{path}(path=${user.id})}"
-                   class="list-group-item list-group-item-action" style="color: #007bff">EDIT</a>
+              class="list-group-item list-group-item-action" style="color: #007bff">EDIT</a>
+                <a th:href="@{/admins/users/passwordChange/{path}(path=${user.id})}"
+                   class="list-group-item list-group-item-action" style="color: #007bff">PASSWORD<br>CHANGE</a>
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    DELETE
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Delete user?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <a th:href="@{/admins/delete(id=${user.id})}">
+                                    <button type="button" class="btn btn-primary">Delete</button>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
         </div>
     </div>

@@ -29,31 +29,29 @@
                 </div>
                 <div class="modal-body">
 
+                    <h5 th:if="${#fields.hasErrors()}">Please correct the problems below and resubmit.</h5>
+
                     <div class="form-group form-inline">
-
-                        <h5 th:if="${#fields.hasErrors()}">Please correct the problems below and resubmit.</h5>
-
                         <label for="username" style="text-align: center">Username: </label>
                         <input id="username" type="text" class="form-control fa-align-right"
                                style="margin-left: auto"
                                th:value="${user.username != null ? user.username : ''}"
                                th:attrappend="class=${#fields.hasErrors('email')} ? ' is-invalid' + ''"
-                               name="username" placeholder="Input username" />
+                               name="username" placeholder="Input username"/></div>
                         <span class="validationError text-danger"
                               th:if="${#fields.hasErrors('username')}"
                               th:errors="*{username}"></span>
                         <span class="validationError text-danger"
                               th:if="${userExist != null}"
                               th:text="${userExist}"></span>
-                    </div>
-
 
                     <div class="form-group form-inline">
                         <label style="text-align: center">Firstname</label>
                         <input type="text" class="form-control"
                                style="margin-left: auto"
                                th:value="${user.firstName != null ? user.firstName : ''}"
-                               name="firstName" placeholder="Input firstName" /></div>
+                               name="firstName" placeholder="Input firstName"/></div>
+
 
                     <div class="form-group form-inline">
                         <label style="text-align: center">Lastname</label>
@@ -79,6 +77,7 @@
                         <span class="validationError text-danger"
                               th:if="${#fields.hasErrors('phoneNumber')}"
                               th:errors="*{phoneNumber}"></span>
+                    <inpu  name="password" th:value="${user.password != null ? user.password : ''}"></inpu>
 
                     <div class="form-group form-inline">
                         <label style="text-align: center">Address</label>
@@ -98,25 +97,7 @@
                               th:if="${#fields.hasErrors('email')}"
                               th:errors="*{email}"></span>
 
-                    <div class="form-group form-inline">
-                        <label style="text-align: center">Password</label>
-                        <input type="text" class="form-control"
-                               style="margin-left: auto"
-                               th:value="${user.password != null ? user.password : ''}"
-                               th:attrappend="class=${#fields.hasErrors('password')} ? ' is-invalid' + ''"
-                               name="Password" placeholder="Input Password"></div>
-                        <span class="validationError text-danger"
-                              th:if="${#fields.hasErrors('password')}"
-                              th:errors="*{password}"></span>
 
-                    <div class="form-group form-inline">
-                        <label style="text-align: center">Confirm password</label>
-                        <input type="text" class="form-control"
-                               style="margin-left: auto" name="Password2" placeholder="Confirm password">
-<!--                               th:value="${user.password2 != null ? user.password2 : ''}"-->
-<!--                               th:attrappend="class=${#fields.hasErrors('password2')} ? ' is-invalid' + ''"-->
-                               </div>
-                        <span class="validationError text-danger"></span>
 
                     <div class="form-group form-inline">
                         <label>Roles</label>
