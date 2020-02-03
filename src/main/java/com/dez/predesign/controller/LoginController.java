@@ -20,15 +20,12 @@ public class LoginController {
                                 HttpServletRequest httpServletRequest,
                                 Model model){
 
-        model.addAttribute(
-                "hasSession",
-                httpServletRequest.getSession(false) != null
-        );
+        model.addAttribute("hasSession", httpServletRequest.getSession(false) != null);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if(authentication.getAuthorities().toString().contains("ROLE_ADMIN"))
-            return "/admins/indexAdmin";
+//        if(authentication.getAuthorities().toString().contains("ROLE_ADMIN"))
+//            return "/admins/indexAdmin";
 
         return "/admin";
     }

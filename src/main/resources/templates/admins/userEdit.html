@@ -110,15 +110,13 @@
                               th:errors="*{password}"></span>
 
                     <div class="form-group form-inline">
-                        <label style="text-align: center">Password Copy</label>
+                        <label style="text-align: center">Confirm password</label>
                         <input type="text" class="form-control"
-                               style="margin-left: auto"
-                               th:value="${user.password2 != null ? user.password2 : ''}"
-                               th:attrappend="class=${#fields.hasErrors('password2')} ? ' is-invalid' + ''"
-                               name="Password2" placeholder="Input Password2"></div>
-                        <span class="validationError text-danger"
-                              th:if="${#fields.hasErrors('password2')}"
-                              th:errors="*{password2}"></span>
+                               style="margin-left: auto" name="Password2" placeholder="Confirm password">
+<!--                               th:value="${user.password2 != null ? user.password2 : ''}"-->
+<!--                               th:attrappend="class=${#fields.hasErrors('password2')} ? ' is-invalid' + ''"-->
+                               </div>
+                        <span class="validationError text-danger"></span>
 
                     <div class="form-group form-inline">
                         <label>Roles</label>

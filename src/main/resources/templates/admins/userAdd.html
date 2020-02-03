@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="form-group form-inline ">
-                        <label style="text-align: center">Password: </label>
+                        <label style="text-align: center">Email: </label>
                         <input type="text" class="form-control" name="email" placeholder="Input email"
                                th:field="*{email}"
                                th:attrappend="class=${#fields.hasErrors('email')} ? ' is-invalid' + ''"/>
@@ -73,13 +73,13 @@
                     </div>
 
                     <div class="form-group form-inline ">
-                        <label style="text-align: center">Password Copy: </label>
-                        <input type="text" class="form-control" name="password2" placeholder="Input password2"
-                               th:attrappend="class=${#fields.hasErrors('password2')} ? ' is-invalid' + ''"
-                               th:field="*{password2}"/>
+                        <label style="text-align: center">Confirm password: </label>
+                        <input type="text" class="form-control" name="confirmPassword" placeholder="Confirm Password"
+                               th:attrappend="class=${errorConfirm != null} ? ' is-invalid' + ''"
+                        />
                         <span class="validationError text-danger"
-                              th:if="${#fields.hasErrors('password2')}"
-                              th:errors="*{password2}"></span>
+                              th:if="${errorConfirm != null}"
+                              th:text="${errorConfirm}"></span>
                     </div>
 
                     <div class="form-group form-inline ">

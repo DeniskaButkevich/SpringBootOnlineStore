@@ -36,15 +36,14 @@ public class User implements UserDetails {
 
     @NotBlank(message="Password is required")
     private String password;
-    @NotBlank(message="Password  is required")
-    private String password2;
 
     private String postCode;
     private String address;
 
     @NotBlank(message="Phone number is required")
     private String phoneNumber;
-    //
+
+    private String activationCode;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))

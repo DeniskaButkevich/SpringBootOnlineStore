@@ -5,6 +5,7 @@ import com.dez.predesign.data.User;
 import com.dez.predesign.repository.UserRepo;
 import com.dez.predesign.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,9 +13,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -25,6 +24,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @ModelAttribute(name="users")
     public Iterable<User> users() {
@@ -85,16 +87,24 @@ public class UserController {
         return "redirect:/admins/users";
     }
     @PostMapping("/admins/users/add")
-    public String addUser(@Valid User user, Errors errors, Model model){
+    public String addUser(@Valid User user, Errors errors, Model model,@RequestParam String confirmPassword){
 
         if(userRepo.findByUsername(user.getUsername()) != null){
             model.addAttribute("userExist", "This name is already in use.");
+            return "/admins/userAdd";
+        }
+
+        if(!confirmPassword.equals(user.getPassword())){
+            model.addAttribute("errorConfirm","passwords are not the same");
             return "/admins/userAdd";
         }
         if(errors.hasErrors())
             return "/admins/userAdd";
 
         user.setActive(true);
+        //user.setActivationCode(UUID.randomUUID().toString());
+        user.setRoles(Collections.singleton(Role.ROLE_USER));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepo.save(user);
 
