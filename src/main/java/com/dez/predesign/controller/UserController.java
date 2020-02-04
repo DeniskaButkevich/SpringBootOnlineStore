@@ -44,7 +44,10 @@ public class UserController {
     }
 
     @GetMapping("/admins/users")
-    public String usersShow(@ModelAttribute User user){
+    public String usersShow(@ModelAttribute User user, Model model){
+
+        final String[] freeze = {"admin", "1"};
+        model.addAttribute("freeze", freeze);
         return "admins/userList";
     }
 
@@ -58,15 +61,13 @@ public class UserController {
     }
 
     @GetMapping("/admins/users/passwordChange/{id}")
-    public String userPasswordChange(@PathVariable String id, Model model)
-    {
-        //User usr = userRepo.findById(Integer.parseInt(id)).get();
-
+    public String userPasswordChange(@PathVariable String id, Model model) {
         return "admins/passwordChange";
     }
 
     @GetMapping("/admins/delete")
     public String userRemove(@RequestParam String id) {
+
         userRepo.delete(
                 userRepo.findById(
                         Integer.parseInt(id)).get());
@@ -106,27 +107,10 @@ public class UserController {
                           Model model,
                           @RequestParam String confirmPassword){
 
-        userService.addUser(user,errors,model,confirmPassword);
+        if(userService.addUser(user,errors,model,confirmPassword))
 
-        if(userRepo.findByUsername(user.getUsername()) != null){
-            model.addAttribute("userExist", "This name is already in use.");
+            return "redirect:/admins/users";
+        else
             return "/admins/userAdd";
-        }
-
-        if(!confirmPassword.equals  (user.getPassword())){
-            model.addAttribute("errorConfirm","passwords are not the same");
-            return "/admins/userAdd";
-        }
-        if(errors.hasErrors())
-            return "/admins/userAdd";
-
-        user.setActive(true);
-        //user.setActivationCode(UUID.randomUUID().toString());
-        user.setRoles(Collections.singleton(Role.ROLE_USER));
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        userRepo.save(user);
-
-        return "redirect:/admins/users";
     }
 }

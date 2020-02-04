@@ -10,9 +10,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,6 +27,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private MailSender mailSender;
 
     @Override
     public UserDetails loadUserByUsername(String username)
@@ -92,6 +97,53 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    public void addUser(User user, Errors errors, Model model, String confirmPassword) {
+    public boolean addUser(User user, Errors errors, Model model, String confirmPassword) {
+        if (userRepo.findByUsername(user.getUsername()) != null) {
+            model.addAttribute("userExist", "This name is already in use.");
+            return false;
+        }
+
+        if (!confirmPassword.equals(user.getPassword())) {
+            model.addAttribute("errorConfirm", "passwords are not the same");
+            return false;
+        }
+
+        if (errors.hasErrors())
+            return false;
+
+
+        user.setActive(true);
+        user.setRoles(Collections.singleton(Role.ROLE_USER));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        userRepo.save(user);
+        return true;
+    }
+
+    public boolean activateUser(String code) {
+        User user = userRepo.findByActivationCode(code);
+
+        if (user == null) {
+            return false;
+        }
+
+        user.setActivationCode(null);
+        user.setActive(true);
+
+        userRepo.save(user);
+
+        return true;
+    }
+
+    public void sendMessage(User user) {
+        if (!StringUtils.isEmpty(user.getEmail())) {
+            String message = String.format(
+                    "Hello, %s! \n" +
+                            "Welcome to Sweater. Please, visit next link: http://localhost:8080/%s/activate",
+                    user.getUsername(),
+                    user.getActivationCode()
+            );
+            mailSender.send(user.getEmail(), "Activation code", message);
+        }
     }
 }

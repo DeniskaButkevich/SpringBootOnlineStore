@@ -1,17 +1,8 @@
 package com.dez.predesign.config;
 
-import com.dez.predesign.data.Role;
-import com.dez.predesign.data.User;
-import com.dez.predesign.repository.UserRepo;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import javax.validation.constraints.Null;
-import java.util.Collections;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -32,7 +23,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/portfolio-2.html").setViewName("portfolio-2");
         registry.addViewController("/portfolio-masonry-2.html").setViewName("portfolio-masonry-2");
         registry.addViewController("/product.html").setViewName("product");
-        registry.addViewController("/register-account.html").setViewName("register-account");
         registry.addViewController("/single.html").setViewName("single");
         registry.addViewController("/single-portfolio.html").setViewName("single-portfolio");
         registry.addViewController("/single-portfolio-gallery.html").setViewName("single-portfolio-gallery");
