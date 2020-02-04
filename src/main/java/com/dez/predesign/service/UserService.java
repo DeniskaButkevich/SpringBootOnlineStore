@@ -13,10 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -145,5 +142,18 @@ public class UserService implements UserDetailsService {
             );
             mailSender.send(user.getEmail(), "Activation code", message);
         }
+    }
+
+    public boolean RegistUser(User user, Errors errors, String confirmPassword) {
+
+        user.setActive(false);
+        user.setRoles(Collections.singleton(Role.ROLE_USER));
+        user.setActivationCode(UUID.randomUUID().toString());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        userRepo.save(user);
+        sendMessage(user);
+
+        return true;
     }
 }

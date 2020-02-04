@@ -3,10 +3,7 @@ package com.dez.predesign.data;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -16,15 +13,21 @@ public class Message  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    public Message(String name, String text, String tag) {
-        this.name = name;
-        this.text = text;
-        this.tag = tag;
-    }
-
     private String name;
     private String text;
     private String tag;
+    private String filename;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
+
+    public Message(String name, String text, String tag, String filename) {
+        this.name = name;
+        this.text = text;
+        this.tag = tag;
+        this.filename = filename;
+    }
 
     @Override
     public String toString() {
@@ -33,5 +36,9 @@ public class Message  {
                 ", name='" + name + '\'' +
                 ", text='" + text + '\'' +
                 '}';
+    }
+
+    public String getAuthorName() {
+        return author != null ? author.getUsername() : "<none>";
     }
 }
