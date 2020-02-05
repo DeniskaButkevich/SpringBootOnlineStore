@@ -7,106 +7,117 @@
 </head>
 <body style="background-color: #eee">
 
-    <row>
-        <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
-    </row>
+<row>
+    <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
+</row>
 
-   <div class="container mt-5">
+<div class="container mt-5">
 
-       <div class="form-row">
-           <div class="form-group col-md-6">
-               <form method="get" action="/admins/message"  class="form-inline">
-                   <input type="text" name="filter" class="form-control" th:value="${filter}" placeholder="Search by tag">
-                   <button type="submit" class="btn btn-primary ml-2">Search</button>
-                   <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-               </form>
-           </div>
-       </div>
-       <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-           Add new Message
-       </a>
-       <div class="collapse " id="collapseExample" th:attrappend="class=${message != null ? ' show' : ''}">
-           <div class="form-group mt-3">
-               <form method="post" enctype="multipart/form-data">
-                   <div class="form-group">
-                       <input type="text" class="form-control" value="" name="text" placeholder="Input message" />
-                   </div>
-                   <div class="form-group">
-                       <input type="text" class="form-control" value="" name="tag" placeholder="Tag">
-                   </div>
-                   <div class="form-group">
-                       <input type="text" class="form-control" value="" name="name" placeholder="name">
-                   </div>
-                   <div class="form-group">
-                       <div class="custom-file">
-                           <input type="file" name="file" id="customFile">
-                           <label class="custom-file-label" for="customFile">Choose file</label>
-                       </div>
-                   </div>
-                   <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-                   <div class="form-group">
-                       <button type="submit" class="btn btn-primary">Добавить</button>
-                   </div>
-                </form>
-            </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <form method="get" action="/admins/message" class="form-inline">
+                <input type="text" name="filter" class="form-control" th:value="${filter}" placeholder="Search by tag">
+                <button type="submit" class="btn btn-primary ml-2">Search</button>
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+            </form>
         </div>
+    </div>
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+       aria-controls="collapseExample">
+        Add new Message
+    </a>
+    <div class="collapse " id="collapseExample" th:attrappend="class=${message != null ? ' show' : ''}">
+        <div class="form-group mt-3">
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input type="text" class="form-control" value="" name="text" placeholder="Input message"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" value="" name="tag" placeholder="Tag">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" value="" name="name" placeholder="name">
+                </div>
+                <div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" name="file" id="customFile">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                </div>
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-       <div class="card-columns">
+    <div th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
 
-       <th:block th:if="${messages.empty}">
-           <li colspan="2"> No Message Available </li>
-       </th:block>
+    <div class="card-columns">
 
-       <th:block th:each="message : ${messages}">
-           <div class="card my-3 " >
-               <th:block th:if="${message.filename != null}" >
-                   <img th:src="'/img/' + ${message.filename}" class="card-img-top">
-               </th:block>
-               <div class="card-body">
-                   <h5 class="card-title" th:text="'Name: ' + ${message.name}">Card title</h5>
-                   <p class="card-text" th:text="'Text: ' + ${message.text}"></p>
-               </div>
-               <div class="card-footer ">
-                    <small class="text-muted" th:text="'Tag: ' + ${message.tag} + ' --- Author: ' + ${message.getAuthorName()}"></small>
-                   <div class="text-right">
-                        <a  th:href="@{/message/delete(id=${message.id})}">delete</a>
-                        <a type="button"  data-toggle="modal" th:data-target="'#' + ${message.id}">edit</a>
-                   </div >
+        <th:block th:if="${page.getTotalElements() < 1}">
+            <li colspan="2"> No Message Available</li>
+        </th:block>
 
-               </div>
+        <th:block th:each="message : ${page.content}">
+            <div class="card my-3 ">
+                <th:block th:if="${message.filename != null}">
+                    <img th:src="'/img/' + ${message.filename}" class="card-img-top">
+                </th:block>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="'Name: ' + ${message.name}">Card title</h5>
+                    <p class="card-text" th:text="'Text: ' + ${message.text}"></p>
+                </div>
+                <div class="card-footer ">
+                    <small class="text-muted"
+                           th:text="'Tag: ' + ${message.tag} + ' --- Author: ' + ${message.getAuthorName()}"></small>
+                    <div class="text-right">
+                        <a th:href="@{/message/delete(id=${message.id})}">delete</a>
+                        <a type="button" data-toggle="modal" th:data-target="'#' + ${message.id}">edit</a>
+                    </div>
 
-               <div class="modal fade" th:id="${message.id}">
-                   <div class="modal-dialog" role="document">
-                       <div class="modal-content">
-                           <form enctype="multipart/form-data" th:action="@{'/message/edit/' + ${message.id}}" method="post">
-                               <div class="modal-header">
-                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                       <span aria-hidden="true">&times;</span>
-                                   </button>
-                                   <h4 class="modal-title" th:text="'Edit Message № ' + ${message.id}"></h4>
-                               </div>
-                               <div class="modal-body">
-                                   <div class="form-group">
-                                       <input type="text" class="form-control" value="" name="tag" placeholder="Input tag" /></div>
-                                   <div class="form-group">
-                                       <input type="text" class="form-control" value="" name="name" placeholder="Input name" /></div>
-                                   <div class="form-group">
-                                       <input type="text" class="form-control" value="" name="text" placeholder="Input text"></div>
-                               </div>
-                               <div class="modal-footer">
-                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                   <button type="submit" class="btn btn-primary">Save changes</button>
-                               </div>
-                               <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-                           </form>
-                       </div><!-- /.модальное окно-Содержание -->
-                   </div><!-- /.модальное окно-диалог -->
-               </div><!-- /.модальное окно -->
-           </div>
-       </th:block>
+                </div>
 
-       </div>
-   </div>
+                <div class="modal fade" th:id="${message.id}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form enctype="multipart/form-data" th:action="@{'/message/edit/' + ${message.id}}"
+                                  method="post">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" th:text="'Edit Message № ' + ${message.id}"></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" value="" name="tag"
+                                               placeholder="Input tag"/></div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" value="" name="name"
+                                               placeholder="Input name"/></div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" value="" name="text"
+                                               placeholder="Input text"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                            </form>
+                        </div><!-- /.модальное окно-Содержание -->
+                    </div><!-- /.модальное окно-диалог -->
+                </div><!-- /.модальное окно -->
+            </div>
+        </th:block>
+
+    </div>
+
+    <div th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
+
+</div>
 
 </body>
 </html>
