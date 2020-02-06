@@ -2,6 +2,8 @@ package com.dez.predesign.data;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 
@@ -13,9 +15,14 @@ public class Message  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @NotBlank(message = "Please fill the Name")
     private String name;
+    @NotBlank(message = "Please fill the message")
+    @Length(max = 2048, message = "Message too long (more than 2kB)")
     private String text;
+    @Length(max = 255, message = "Message too long (more than 255)")
     private String tag;
+
     private String filename;
 
     @ManyToOne(fetch = FetchType.EAGER)

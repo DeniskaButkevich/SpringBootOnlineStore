@@ -14,15 +14,18 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -59,33 +62,46 @@ public class MessageController  {
     }
 
     @PostMapping("/admins/message")
-    public String messageAdd(Message message,
+    public String messageAdd(@AuthenticationPrincipal User user,
+                             @Valid Message message,
+                             BindingResult bindingResult,
                              Model model,
                              @RequestParam("file") MultipartFile file,
-                             @AuthenticationPrincipal User user,
                              @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable
     ) throws IOException {
 
-        if (file != null && !file.getOriginalFilename().isEmpty()) {
-            File uploadDir = new File(uploadPath);
+        message.setAuthor(user);
 
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("message", message);
+
+        } else {
+            if (file != null && !file.getOriginalFilename().isEmpty()) {
+                File uploadDir = new File(uploadPath);
+
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdir();
+                }
+
+                String uuidFile = UUID.randomUUID().toString();
+                String resultFilename = uuidFile + file.getOriginalFilename();
+
+
+                file.transferTo(new File("C:\\Desktop\\java\\sweater\\uploads\\" + resultFilename));
+
+                message.setFilename(resultFilename);
             }
 
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFilename = uuidFile + file.getOriginalFilename();
-
-
-            file.transferTo(new File("C:\\Desktop\\java\\sweater\\uploads\\" + resultFilename));
-
-            message.setFilename(resultFilename);
+            model.addAttribute("message", null);
+            messageRepo.save(message);
         }
-        model.addAttribute("message", null);
-
-        messageRepo.save(message);
-
         Page<Message> page = messageRepo.findAll(pageable);
+        List<Integer> listpages = messageService.listPages(pageable, page);
+
+        model.addAttribute("listpages", listpages);
 
         model.addAttribute("page", page);
 
