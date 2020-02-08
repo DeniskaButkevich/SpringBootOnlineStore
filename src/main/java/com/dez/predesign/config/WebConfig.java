@@ -12,12 +12,19 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${upload.path}")
     private String uploadPath;
 
+    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
+            "classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/js/twitter",
+            "classpath:/static/", "classpath:/public/" };
+
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/img/**")
                 .addResourceLocations("file:///Desktop/java/sweater/uploads/");
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/**")
+                .addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
     }
 
     @Override
@@ -43,24 +50,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/checkout.html").setViewName("checkout");
         registry.addViewController("/admins/indexAdmin").setViewName("/admins/indexAdmin");
         registry.addViewController("/404.html").setViewName("404");
+        registry.addViewController("/403.html").setViewName("403");
+        registry.addViewController("/403").setViewName("403");
     }
-
-//    @Bean
-//    public CommandLineRunner dataLoader(UserRepo userRepo) { // user repo for ease of testing with a built-in user
-//
-//
-//        return new CommandLineRunner() {
-//
-//            @Override
-//            public void run(String... args) throws Exception {
-//                User user = new User();
-//                user.setActive(true);
-//                user.setUsername("3");
-//                user.setFirstName("3");
-//                user.setPassword("3");
-//                user.setRoles(Collections.singleton(Role.USER));
-//                userRepo.save(user);
-//            }
-//        };
-//    }
 }

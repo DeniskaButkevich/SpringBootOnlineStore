@@ -8,7 +8,7 @@
 <head th:insert="parts/head.html :: head"></head>
     <body>
     <div id="wrapper">
-		<header th:insert="parts/header.html :: header"></header>
+		<header th:replace="parts/header.html :: header"></header>
 
 
 		<section id="content" class="no-content">
@@ -37,7 +37,7 @@
     <script src="js/retina.min.js"></script>
     <script src="js/jquery.placeholder.js"></script>
     <script src="js/jquery.hoverIntent.min.js"></script>
-	<script src="js/twitter/jquery.tweet.min.js"></script>
+	<script th:src="@{static/js/twitter/jquery.tweet.min.js}"></script>
 	<script src="js/jquery.flexslider-min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
 	<script src="js/jflickrfeed.min.js"></script>

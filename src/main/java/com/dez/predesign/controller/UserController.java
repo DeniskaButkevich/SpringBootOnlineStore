@@ -82,8 +82,9 @@ public class UserController {
                            Errors errors,
                            Model model){
 
-        if(userService.save(id,form,user,model,errors))
+        if(userService.save(id,form,user,model,errors)) {
             return "redirect:/admins/users";
+        }
         else
             return "/admins/userEdit";
     }

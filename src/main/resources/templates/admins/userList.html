@@ -8,79 +8,75 @@
 
 </head>
 <body style="background-color: #eee">
-<div class="container-fluid">
 
-    <row>
-        <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
-    </row>
-    <br>
-    <a class="btn btn-primary"  href="/admins/users/add"
+<row>
+    <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
+</row>
+
+<div class="container mt-5">
+    <a class="btn btn-primary" href="/admins/users/add"
        role="button" aria-expanded="false" aria-controls="collapseExample">
         Add new User
     </a>
 
-    <h1><br>User List</h1>
-    <br>
+
     <ul th:if="${users.empty}">
-        <li colspan="2"> No User Available </li>
+        <li colspan="2"> No User Available</li>
     </ul>
     <div class="card-group">
         <div class="list-group" th:each="user : ${users}">
             <div class="card" style="text-align: center">
                 <a href="#" class="list-group-item list-group-item-action active"
-               th:text="${'ID: ' + user.id}">
-            </a>
-            <a href="#" class="list-group-item list-group-item-action "
-               th:text="${'Username: ' + user.username}"></a>
-            <a href="#" class="list-group-item list-group-item-action "
-               th:text="${'FirstName: ' + user.firstName}"></a>
-            <a href="#" class="list-group-item list-group-item-action "
-               th:text="${'LastName: ' + user.lastName}"></a>
-            <a href="#" class="list-group-item list-group-item-action "
-               th:text="${user.email != null ? 'Email: ' + user.email : 'Email: '}"> </a>
-            <a href="#" class="list-group-item list-group-item-action "
-               th:text="${'PostCode: ' + user.postCode}"></a>
-            <a href="#" class="list-group-item list-group-item-action "
-               th:text="${'Adress: ' + user.address}"></a>
-            <a href="#" class="list-group-item list-group-item-action "
-               th:text="${'PhoneNumber: ' + user.phoneNumber}"></a>
+                   th:text="${'ID: ' + user.id}">
+                </a>
+                <a href="#" class="list-group-item list-group-item-action "
+                   th:text="${'Username: ' + user.username}"></a>
+                <a href="#" class="list-group-item list-group-item-action "
+                   th:text="${'FirstName: ' + user.firstName}"></a>
+                <a href="#" class="list-group-item list-group-item-action "
+                   th:text="${'LastName: ' + user.lastName}"></a>
+                <a href="#" class="list-group-item list-group-item-action "
+                   th:text="${user.email != null ? 'Email: ' + user.email : 'Email: '}"> </a>
+                <a href="#" class="list-group-item list-group-item-action "
+                   th:text="${'PostCode: ' + user.postCode}"></a>
+                <a href="#" class="list-group-item list-group-item-action "
+                   th:text="${'Adress: ' + user.address}"></a>
+                <a href="#" class="list-group-item list-group-item-action "
+                   th:text="${'PhoneNumber: ' + user.phoneNumber}"></a>
 
-                <th:block th:unless="${#strings.contains(freeze[0],user.username) || #strings.contains(freeze[1],user.username)}">
-                    <a th:href="@{/admins/users/edit/{path}(path=${user.id})}"
-                       class="list-group-item list-group-item-action" style="color: #007bff">EDIT</a>
-                    <a th:href="@{/admins/users/passwordChange/{path}(path=${user.id})}"
-                       class="list-group-item list-group-item-action" style="color: #007bff">PASSWORD<br>CHANGE</a>
+                <a th:href="@{/admins/users/edit/{path}(path=${user.id})}"
+                   class="list-group-item list-group-item-action" style="color: #007bff">EDIT</a>
+                <a th:href="@{/admins/users/passwordChange/{path}(path=${user.id})}"
+                   class="list-group-item list-group-item-action" style="color: #007bff">PASSWORD<br>CHANGE</a>
 
-                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                            th:attrappend="data-target='#' + ${user.id} + '_user'">DELETE</button>
-                    <!-- Modal -->
-                    <div class="modal fade" th:id="${user.id} + '_user'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    Delete user?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <a th:href="@{/admins/delete(id=${user.id})}">
-                                        <button type="button" class="btn btn-primary">Delete</button>
-                                    </a>
-
-                                </div>
+                <button type="button" class="btn btn-primary" data-toggle="modal"
+                        th:attrappend="data-target='#' + ${user.id} + '_user'">DELETE
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" th:id="${user.id} + '_user'" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Delete user?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <a th:href="@{/admins/delete(id=${user.id})}">
+                                    <button type="button" class="btn btn-primary">Delete</button>
+                                </a>
                             </div>
                         </div>
                     </div>
-                </th:block>
-
-
+                </div>
+            </div>
         </div>
-    </div>
     </div>
 </body>
 </html>

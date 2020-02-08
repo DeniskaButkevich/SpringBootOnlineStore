@@ -104,7 +104,7 @@
                         <th:block th:each="role : ${roles}">
                             <th:block th:if="${user.getRoles() != null}">
                                 <p style="margin-left: auto"><input  type="checkbox" th:name="${role}"
-                                           th:checked="${#strings.contains(user.getRoles(),role)} ? 'checked' : 'No'">[[${role}]]</p>
+                                           th:checked="${#strings.contains(user.getRoles(),role)} ? 'checked' : ''">[[${role}]]</p>
                             </th:block>
                             <th:block th:unless="${user.getRoles() != null}">
                                 <p style="margin-left: auto"><input  type="checkbox" th:name="${role}"> [[${role}]]</p>

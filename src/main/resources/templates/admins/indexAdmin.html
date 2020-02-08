@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:include="admins/parts/head.html :: head">
 
 </head>
 <body style="background-color: #eee">
-<div class="container-fluid">
-
     <row>
         <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
     </row>
-    <h1>Hello Admin</h1>
+    <div class="container mt-5">
+    <h2>Welcome</h2>
+    <p>Spring Security Thymeleaf tutorial</p>
+    <div sec:authorize="hasRole('ROLE_USER')">Text visible to user.</div>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">Text visible to admin.</div>
+    <div sec:authorize="isAuthenticated()">
+        Text visible only to authenticated users.
+    </div>
+    Authenticated username:
+    <div sec:authentication="name"></div>
+    Authenticated user roles:
+    <div sec:authentication="principal.authorities"></div>
+
+    <span sec:authorize="isAuthenticated()">| Logged user: <span sec:authentication="name"></span> |
+                Roles: <span sec:authentication="principal.authorities"></span> |
+                <a th:href="@{/logout}">Sign Out</a>
+            </span>
+</div>
 </body>
 </html>

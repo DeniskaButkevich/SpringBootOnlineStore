@@ -48,7 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             .successHandler(new MySimpleUrlAuthenticationSuccessHandler())
                 .and()
                     .logout()
-                        .logoutSuccessUrl("/");
+                        .logoutSuccessUrl("/")
+                .and()
+                    .exceptionHandling().accessDeniedPage("/403");
     }
 
 //    @Autowired
