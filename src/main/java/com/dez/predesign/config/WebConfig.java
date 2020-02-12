@@ -12,19 +12,13 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${upload.path}")
     private String uploadPath;
 
-    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
-            "classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/js/twitter",
-            "classpath:/static/", "classpath:/public/" };
-
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/img/**")
                 .addResourceLocations("file:///Desktop/java/sweater/uploads/");
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/**")
-                .addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
+
     }
 
     @Override
@@ -39,7 +33,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/category-list.html").setViewName("category-list");
         registry.addViewController("/compare-products.html").setViewName("compare-products");
         registry.addViewController("/contact.html").setViewName("contact");
-        registry.addViewController("/login.html").setViewName("login");
         registry.addViewController("/portfolio-2.html").setViewName("portfolio-2");
         registry.addViewController("/portfolio-masonry-2.html").setViewName("portfolio-masonry-2");
         registry.addViewController("/product.html").setViewName("product");

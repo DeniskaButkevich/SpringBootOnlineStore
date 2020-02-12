@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 
 <div th:fragment="header" id="header">
@@ -61,8 +62,15 @@
                             </div><!-- End .header-top-dropdowns -->
 
                             <div class="header-text-container pull-right">
-                                <p class="header-text">Welcome to Venedor!</p>
-                                <p class="header-link"><a href="/login.html">login</a>&nbsp;or&nbsp;<a
+                                <p class="header-text">Welcome to Venedor!</p> <span sec:authorize="isAuthenticated()"  sec:authentication="name"></span>
+                                    <th:block sec:authorize="isAuthenticated()">
+                                        <form th:action="@{/logout}" method="post" style="display: inline">
+                                        <span  class="header-link"><button type="submit" style="border: none; height: 36px; color: #7bae23;    background: #f5f5f5;">logout</button>&nbsp;or&nbsp <a
+                                                href="/registration">create an account</a></span>
+                                        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                                    </form>
+                                    </th:block>
+                                <p sec:authorize="!isAuthenticated()" class="header-link"><a th:href="@{/admins/users}">login</a>&nbsp;or&nbsp;<a
                                         href="/registration">create an account</a></p>
                             </div><!-- End .pull-right -->
                         </div><!-- End .header-top-right -->
@@ -120,14 +128,7 @@
                                         <a class="active" href="index.html">HOME</a>
                                         <ul>
                                             <li><a href="../green/index.html">Home 1</a></li>
-                                            <li><a href="../blue/index.html">Home 2</a></li>
-                                            <li><a href="../orange/index.html">Home 3</a></li>
-                                            <li><a href="../pink/index.html">Home 4</a></li>
-                                            <li><a href="../brown/index.html">Home 5</a></li>
-                                            <li><a href="../green2/index.html">Home 6</a></li>
-                                            <li><a href="../blueorange/index.html">Home 7</a></li>
-                                            <li><a href="../blueorange2/index.html">Home 8</a></li>
-                                            <li><a href="../browngreen/index.html">Home 9</a></li>
+
                                         </ul>
                                     </li>
                                     <li class="mega-menu-container"><a href="#">SHOP</a>

@@ -38,19 +38,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                    .antMatchers("/admins/**")
-                        .access("hasRole('ROLE_ADMIN')")
-                    .antMatchers("/**")
-                        .access("permitAll()")
+                .antMatchers("/admins/**")
+                .access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/**")
+                .access("permitAll()")
                 .and()
-                    .formLogin()
-                        .loginPage("/admin")
-                            .successHandler(new MySimpleUrlAuthenticationSuccessHandler())
+                .formLogin()
+                .loginPage("/admin")
+                .successHandler(new MySimpleUrlAuthenticationSuccessHandler())
                 .and()
-                    .logout()
-                        .logoutSuccessUrl("/")
+                .logout()
+                .logoutSuccessUrl("/")
                 .and()
-                    .exceptionHandling().accessDeniedPage("/403");
+                .exceptionHandling().accessDeniedPage("/403");
     }
 
 //    @Autowired
@@ -68,4 +68,3 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder);
     }
 }
-
