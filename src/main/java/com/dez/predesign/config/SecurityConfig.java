@@ -43,6 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**")
                 .access("permitAll()")
                 .and()
+                .rememberMe()
+                .and()
                 .formLogin()
                 .loginPage("/admin")
                 .successHandler(new MySimpleUrlAuthenticationSuccessHandler())

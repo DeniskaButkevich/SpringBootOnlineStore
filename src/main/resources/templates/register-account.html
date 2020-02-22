@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-<!--[if IE 8]> <html class="ie8"> <![endif]-->
-<!--[if IE 9]> <html class="ie9"> <![endif]-->
-<!--[if !IE]><!--> <html> <!--<![endif]-->
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:th="http://www.thymeleaf.org">
 
@@ -28,7 +25,7 @@
 							<p class="title-desc">If you already have an account, please login at <a href="#">login page</a>.</p>
 						</header>
         				<div class="xs-margin"></div><!-- space -->
-						<form th:action="@{'/registration'}" method="post" id="register-form" th:object="${user}">
+						<form action="/registration" method="post" id="register-form" th:object="${user}">
         				<div class="row">
 
 							<h5 th:if="${#fields.hasErrors()}">

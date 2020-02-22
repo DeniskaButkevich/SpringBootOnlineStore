@@ -1,14 +1,13 @@
 package com.dez.predesign.controller;
 
-import com.dez.predesign.data.Message;
+import com.dez.predesign.data.Product;
 import com.dez.predesign.data.User;
-import com.dez.predesign.repository.MessageRepo;
-import com.dez.predesign.service.MessageService;
+import com.dez.predesign.repository.ProductRepo;
 import com.dez.predesign.service.PageService;
+import com.dez.predesign.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -30,10 +29,13 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-public class MessageController  {
+public class ProductController {
 
     @Autowired
-    MessageRepo messageRepo;
+    ProductRepo productRepo;
+
+    @Autowired
+    ProductService productService;
 
     @Autowired
     PageService pageService;
@@ -41,47 +43,45 @@ public class MessageController  {
     @Value("${upload.path}")
     private String uploadPath;
 
-    @GetMapping("/admins/message")
-    public String messagesShow( @RequestParam(required = false, defaultValue = "") String filter,
+    @GetMapping("/admins/product")
+    public String productShow( @RequestParam(required = false, defaultValue = "") String filter,
                                 Model model,
                                 @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable) {
-        Page<Message> page;
+        Page<Product> page;
 
         if (filter != null && !filter.isEmpty())
-            page = messageRepo.findByTag(filter, pageable);
+            page = productRepo.findByBrand(filter, pageable);
         else
-            page = messageRepo.findAll(pageable);
+            page = productRepo.findAll(pageable);
 
         List<Integer> listpages = pageService.listPages(pageable, page);
 
         model.addAttribute("listpages", listpages);
         model.addAttribute("page", page);
-        model.addAttribute("url", "/admins/message");
+        model.addAttribute("url", "/admins/product");
         model.addAttribute("filter", filter);
 
-        return "admins/message";
+        return "admins/productList";
     }
 
-    @PostMapping("/admins/message")
-    public String messageAdd(@AuthenticationPrincipal User user,
-                             @Valid Message message,
+    @PostMapping("/admins/product")
+    public String productAdd(@AuthenticationPrincipal User user,
+                             @Valid Product product,
                              BindingResult bindingResult,
                              Model model,
                              @RequestParam("file") MultipartFile file,
                              @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable
     ) throws IOException {
 
-        message.setAuthor(user);
-
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
 
             model.mergeAttributes(errorsMap);
-            model.addAttribute("message", message);
+            model.addAttribute("product", product);
 
         } else {
             if (file != null && !file.getOriginalFilename().isEmpty()) {
-                File uploadDir = new File(uploadPath);
+                File uploadDir = new File(uploadPath + "products\\");
 
                 if (!uploadDir.exists()) {
                     uploadDir.mkdir();
@@ -91,46 +91,50 @@ public class MessageController  {
                 String resultFilename = uuidFile + file.getOriginalFilename();
 
 
-                file.transferTo(new File("C:\\Desktop\\java\\sweater\\uploads\\" + resultFilename));
+                file.transferTo(new File("C:\\Desktop\\java\\sweater\\uploads\\products\\" + resultFilename));
 
-                message.setFilename(resultFilename);
+                product.setFilename(resultFilename);
             }
 
-            model.addAttribute("message", null);
-            messageRepo.save(message);
+            model.addAttribute("product", null);
+            productRepo.save(product);
         }
-        Page<Message> page = messageRepo.findAll(pageable);
+        Page<Product> page = productRepo.findAll(pageable);
         List<Integer> listpages = pageService.listPages(pageable, page);
 
         model.addAttribute("listpages", listpages);
 
         model.addAttribute("page", page);
 
-        return "admins/message";
+        return "admins/productList";
     }
 
-    @GetMapping("/message/delete")
-    public String messageRemove(@RequestParam String id) {
+    @GetMapping("/product/delete")
+    public String productRemove(@RequestParam String id) {
 
-        messageRepo.delete(
-                messageRepo.findById(
+        productRepo.delete(
+                productRepo.findById(
                         Integer.parseInt(id)).get()
         );
 
-        return "redirect:/admins/message";
+        return "redirect:/admins/product";
     }
 
-    @PostMapping("/message/edit/{id}")
-    public String messageEdit(@PathVariable String id, Message message){
+    @PostMapping("/product/edit/{id}")
+    public String productEdit(@PathVariable String id, Product product){
 
-        Message mes = messageRepo.findById(Integer.parseInt(id)).get();
+        Product item = productRepo.findById(Integer.parseInt(id)).get();
 
-        mes.setName(message.getName());
-        mes.setText(message.getText());
+        item.setName(product.getName());
+        item.setBrand(product.getBrand());
+        item.setColor(product.getColor());
+        item.setDescription(product.getDescription());
+        item.setNewProduct(false);
+        item.setPrice(product.getPrice());
+        item.setSale(product.getSale());
 
-        messageRepo.save(mes);
+        productRepo.save(item);
 
-        return "redirect:/admins/message";
+        return "redirect:/admins/product";
     }
-
 }
