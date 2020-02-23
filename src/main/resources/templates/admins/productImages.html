@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:include="admins/parts/head.html :: head">
+
+</head>
+<body style="background-color: #eee">
+
+<row>
+    <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
+</row>
+
+
+<div class="container mt-5">
+    <h1>all images</h1>
+    <br>
+    <form method="post" enctype="multipart/form-data">
+        <h2>add general image</h2>
+        <div class="form-group">
+            <div class="custom-file">
+                <input type="file" name="imageGeneral" id="imageGeneral">
+                <label class="custom-file-label" for="imageGeneral">Choose file</label>
+            </div>
+        </div>
+        <br>
+        <th:block th:if="${product.filename != null}">
+            <img th:src="'/img/catalog/' + ${product.filename}" class="img-thumbnail">
+            <a th:href="@{/admins/product/images/{path}/delete/{filetype}/(path=${product.id},filetype='general')}">delete</a>
+        </th:block>
+        <br>
+
+        <h2>add general hover image</h2>
+        <br>
+        <div class="form-group">
+            <div class="custom-file">
+                <input type="file" name="imageHover" id="imageHover">
+                <label class="custom-file-label" for="imageHover">Choose file</label>
+            </div>
+        </div>
+        <th:block th:if="${product.hoverFilename != null}">
+            <img th:src="'/img/catalog/' + ${product.hoverFilename}" class="img-thumbnail">
+            <a th:href="@{/admins/product/images/{path}/delete/{filetype}/(path=${product.id},filetype='hover')}">delete</a>
+        </th:block>
+
+        <h2>add secondary image</h2>
+        <br>
+        <div class="form-group">
+            <div class="custom-file">
+                <input type="file" id="imageSecondary" name="imageSecondary" multiple>
+                <label class="custom-file-label" for="imageSecondary">Choose file</label>
+            </div>
+        </div>
+        <th:block th:if="${images != null}">
+            <th:block th:each="img : ${images}">
+                <img th:src="'/img/catalog/secondary/' + ${img.name}" class="img-thumbnail">
+                <a th:href="@{/admins/product/images/{path}/delete/{filetype}/(path=${product.id},filetype=${img.name})}">delete</a>
+            </th:block>
+        </th:block>
+        <br>
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Добавить</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

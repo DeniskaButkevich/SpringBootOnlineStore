@@ -73,12 +73,6 @@
                            th:attrappend="class=${saleError != null} ? ' is-invalid' : ''">
                     <div class="invalid-feedback" th:if="${saleError != null}">[[${nameError}]]</div>
                 </div>
-                <div class="form-group">
-                    <div class="custom-file">
-                        <input type="file" name="file" id="customFile">
-                        <label class="custom-file-label" for="customFile">Choose file</label>
-                    </div>
-                </div>
                 <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Добавить</button>
@@ -97,9 +91,7 @@
 
         <th:block th:each="item : ${page.content}">
             <div class="card my-3 ">
-                <th:block th:if="${item.filename != null}">
-                    <img th:src="'/img/' + ${item.filename}" class="card-img-top">
-                </th:block>
+
                 <div class="card-body">
                     <h5 class="card-title" th:text="'Id: ' + ${item.id}">Card title</h5>
                     <h5 class="card-title" th:text="'name: ' + ${item.name}">Card title</h5>
@@ -118,6 +110,7 @@
                 <div class="card-footer ">
                     <small class="text-muted" th:text="'Tag: ' + ' --- Author: '"></small>
                     <div class="text-right">
+                        <a th:href="@{/admins/product/images/{path}(path=${item.id})}">images</a>
                         <a th:href="@{/product/delete(id=${item.id})}">delete</a>
                         <a type="button" data-toggle="modal" th:data-target="'#' + ${item.id}">edit</a>
                     </div>

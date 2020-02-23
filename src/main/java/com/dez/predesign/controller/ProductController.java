@@ -85,7 +85,6 @@ public class ProductController {
                              @Valid Product product,
                              BindingResult bindingResult,
                              Model model,
-                             @RequestParam("file") MultipartFile file,
                              @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable
     ) throws IOException {
 
@@ -96,24 +95,7 @@ public class ProductController {
             model.addAttribute("product", product);
 
         } else {
-            if (file != null && !file.getOriginalFilename().isEmpty()) {
-                File uploadDir = new File(uploadPath );
-
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdir();
-                }
-
-                String uuidFile = UUID.randomUUID().toString();
-                String resultFilename = uuidFile + file.getOriginalFilename();
-
-
-                file.transferTo(new File(uploadPath + resultFilename));
-
-                product.setFilename(resultFilename);
-            }
-
             model.addAttribute("product", null);
-
             product.setNewProduct(true);
             productRepo.save(product);
         }
@@ -129,7 +111,6 @@ public class ProductController {
 
     @GetMapping("/product/delete")
     public String productRemove(@RequestParam String id) {
-
         productRepo.delete(
                 productRepo.findById(
                         Long.parseLong(id)).get()

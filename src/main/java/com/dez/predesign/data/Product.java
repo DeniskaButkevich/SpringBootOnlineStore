@@ -3,10 +3,13 @@ package com.dez.predesign.data;
 import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.data.catalog.Category;
 import com.dez.predesign.data.catalog.Color;
+import com.dez.predesign.data.catalog.Image;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -22,6 +25,7 @@ public class Product {
     private Double price;
 
     private String filename;
+    private String hoverFilename;
 
     @ManyToOne(targetEntity= Brand.class)
     private Brand brand;

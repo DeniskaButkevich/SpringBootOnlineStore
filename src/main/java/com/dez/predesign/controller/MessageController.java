@@ -25,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -91,7 +93,7 @@ public class MessageController  {
                 String resultFilename = uuidFile + file.getOriginalFilename();
 
 
-                file.transferTo(new File("C:\\Desktop\\java\\sweater\\uploads\\" + resultFilename));
+                file.transferTo(new File(uploadPath + resultFilename));
 
                 message.setFilename(resultFilename);
             }
@@ -110,12 +112,13 @@ public class MessageController  {
     }
 
     @GetMapping("/message/delete")
-    public String messageRemove(@RequestParam String id) {
+    public String messageRemove(@RequestParam String id) throws IOException {
+        Message message =  messageRepo.findById(Long.parseLong(id)).get();
+        if(message.getFilename() != null && !message.getFilename().isEmpty()){
+            Files.delete(Paths.get(uploadPath + message.getFilename()));
+        }
 
-        messageRepo.delete(
-                messageRepo.findById(
-                        Long.parseLong(id)).get()
-        );
+        messageRepo.delete(message);
 
         return "redirect:/admins/message";
     }
