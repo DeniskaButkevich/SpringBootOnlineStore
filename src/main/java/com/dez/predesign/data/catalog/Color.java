@@ -1,13 +1,13 @@
 package com.dez.predesign.data.catalog;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="Colors")
+@Data
 public class Color {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-    private String name;
+    private String rgb;
 }

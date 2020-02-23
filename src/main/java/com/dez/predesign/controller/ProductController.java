@@ -3,7 +3,9 @@ package com.dez.predesign.controller;
 import com.dez.predesign.data.Product;
 import com.dez.predesign.data.User;
 import com.dez.predesign.data.catalog.Brand;
+import com.dez.predesign.data.catalog.Color;
 import com.dez.predesign.repository.BrandRepo;
+import com.dez.predesign.repository.ColorRepo;
 import com.dez.predesign.repository.ProductRepo;
 import com.dez.predesign.service.PageService;
 import com.dez.predesign.service.ProductService;
@@ -29,12 +31,14 @@ import java.util.UUID;
 
 @Controller
 public class ProductController {
-
     @Autowired
     ProductRepo productRepo;
 
     @Autowired
     BrandRepo brandRepo;
+
+    @Autowired
+    ColorRepo colorRepo;
 
     @Autowired
     ProductService productService;
@@ -45,6 +49,11 @@ public class ProductController {
     @ModelAttribute(name = "brands")
     public Iterable<Brand> brands() {
         return brandRepo.findAll();
+    }
+
+    @ModelAttribute(name = "colors")
+    public Iterable<Color> colors() {
+        return colorRepo.findAll();
     }
 
     @Value("${upload.path}")
@@ -105,7 +114,7 @@ public class ProductController {
 
             model.addAttribute("product", null);
 
-
+            product.setNewProduct(true);
             productRepo.save(product);
         }
         Page<Product> page = productRepo.findAll(pageable);
@@ -138,7 +147,7 @@ public class ProductController {
         item.setBrand(product.getBrand());
         item.setColor(product.getColor());
         item.setDescription(product.getDescription());
-        item.setNewProduct(false);
+        item.setNewProduct(product.isNewProduct());
         item.setPrice(product.getPrice());
         item.setSale(product.getSale());
 

@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Table(name="Brands")
 @Data
 public class Brand {
-
     @Id
     private String name;
 }

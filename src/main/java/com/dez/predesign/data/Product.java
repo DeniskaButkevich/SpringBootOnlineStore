@@ -26,10 +26,10 @@ public class Product {
     @ManyToOne(targetEntity= Brand.class)
     private Brand brand;
     @ManyToOne(targetEntity= Color.class)
-    private String color;
+    private Color color;
+
     @ManyToOne(targetEntity= Category.class)
     private String category;
-
     private String type;
 
     private Integer sale;
