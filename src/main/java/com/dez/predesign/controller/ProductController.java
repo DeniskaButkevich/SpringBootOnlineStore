@@ -81,7 +81,7 @@ public class ProductController {
 
         } else {
             if (file != null && !file.getOriginalFilename().isEmpty()) {
-                File uploadDir = new File(uploadPath + "products\\");
+                File uploadDir = new File(uploadPath );
 
                 if (!uploadDir.exists()) {
                     uploadDir.mkdir();
@@ -91,7 +91,7 @@ public class ProductController {
                 String resultFilename = uuidFile + file.getOriginalFilename();
 
 
-                file.transferTo(new File("C:\\Desktop\\java\\sweater\\uploads\\products\\" + resultFilename));
+                file.transferTo(new File(uploadPath + resultFilename));
 
                 product.setFilename(resultFilename);
             }
@@ -114,7 +114,7 @@ public class ProductController {
 
         productRepo.delete(
                 productRepo.findById(
-                        Integer.parseInt(id)).get()
+                        Long.parseLong(id)).get()
         );
 
         return "redirect:/admins/product";
@@ -123,7 +123,7 @@ public class ProductController {
     @PostMapping("/product/edit/{id}")
     public String productEdit(@PathVariable String id, Product product){
 
-        Product item = productRepo.findById(Integer.parseInt(id)).get();
+        Product item = productRepo.findById( Long.parseLong(id)).get();
 
         item.setName(product.getName());
         item.setBrand(product.getBrand());

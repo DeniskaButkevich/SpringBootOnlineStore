@@ -114,7 +114,7 @@ public class MessageController  {
 
         messageRepo.delete(
                 messageRepo.findById(
-                        Integer.parseInt(id)).get()
+                        Long.parseLong(id)).get()
         );
 
         return "redirect:/admins/message";
@@ -123,7 +123,7 @@ public class MessageController  {
     @PostMapping("/message/edit/{id}")
     public String messageEdit(@PathVariable String id, Message message){
 
-        Message mes = messageRepo.findById(Integer.parseInt(id)).get();
+        Message mes = messageRepo.findById(Long.parseLong(id)).get();
 
         mes.setName(message.getName());
         mes.setText(message.getText());

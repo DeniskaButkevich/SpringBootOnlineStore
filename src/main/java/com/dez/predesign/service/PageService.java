@@ -33,7 +33,7 @@ public class PageService {
             return result;
         }
         List<Integer> result = new ArrayList<>();
-        for (int i = 1; i< page.getTotalPages(); i++)
+        for (int i = 1; i <= page.getTotalPages(); i++)
             result.add(i);
 
         return result;

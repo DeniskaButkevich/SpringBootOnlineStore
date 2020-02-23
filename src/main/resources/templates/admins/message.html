@@ -72,6 +72,7 @@
                     <img th:src="'/img/' + ${message.filename}" class="card-img-top">
                 </th:block>
                 <div class="card-body">
+                    <h5 class="card-title" th:text="'Id: ' + ${message.Id}">Card title</h5>
                     <h5 class="card-title" th:text="'Name: ' + ${message.name}">Card title</h5>
                     <p class="card-text" th:text="'Text: ' + ${message.text}"></p>
                 </div>

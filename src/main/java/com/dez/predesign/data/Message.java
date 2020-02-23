@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Message  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @NotBlank(message = "Please fill the Name")
     private String name;
