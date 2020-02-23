@@ -24,7 +24,7 @@ public class Product {
     private String filename;
 
     @ManyToOne(targetEntity= Brand.class)
-    private String brand;
+    private Brand brand;
     @ManyToOne(targetEntity= Color.class)
     private String color;
     @ManyToOne(targetEntity= Category.class)

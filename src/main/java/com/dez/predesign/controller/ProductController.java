@@ -2,6 +2,8 @@ package com.dez.predesign.controller;
 
 import com.dez.predesign.data.Product;
 import com.dez.predesign.data.User;
+import com.dez.predesign.data.catalog.Brand;
+import com.dez.predesign.repository.BrandRepo;
 import com.dez.predesign.repository.ProductRepo;
 import com.dez.predesign.service.PageService;
 import com.dez.predesign.service.ProductService;
@@ -15,10 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -35,10 +34,18 @@ public class ProductController {
     ProductRepo productRepo;
 
     @Autowired
+    BrandRepo brandRepo;
+
+    @Autowired
     ProductService productService;
 
     @Autowired
     PageService pageService;
+
+    @ModelAttribute(name = "brands")
+    public Iterable<Brand> brands() {
+        return brandRepo.findAll();
+    }
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -97,6 +104,8 @@ public class ProductController {
             }
 
             model.addAttribute("product", null);
+
+
             productRepo.save(product);
         }
         Page<Product> page = productRepo.findAll(pageable);

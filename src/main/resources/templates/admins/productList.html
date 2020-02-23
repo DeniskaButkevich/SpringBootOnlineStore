@@ -37,14 +37,24 @@
                     <div class="invalid-feedback" th:if="${nameError != null}">[[${nameError}]]</div>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" th:value="${product != null ? product.description : ''}"  name="description" placeholder="Input description"
-                           th:attrappend="class=${descriptionError != null} ? ' is-invalid' : ''"/>
-                    <div class="invalid-feedback" th:if="${descriptionError != null}">[[${descriptionError}]]</div>
+                    <input type="text" class="form-control" th:value="${product != null ? product.description : ''}"  name="description" placeholder="Input description"/>
                 </div>
                 <div class="form-group">
                     <input type="number" class="form-control" th:value="${product != null ? product.price : ''}" name="price" placeholder="price" step="any"
                            th:attrappend="class=${priceError != null} ? ' is-invalid' : ''">
                     <div class="invalid-feedback" th:if="${priceError != null}">[[${priceError}]]</div>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" th:value="${product != null ? product.price : ''}"  id="exampleFormControlSelect1" name="brand" title="brand"
+                            th:attrappend="class=${brandError != null} ? ' is-invalid' : ''">
+                        <th:block th:each="brand : ${brands}">
+                            <option th:text="${brand.getName()}"></option>
+                        </th:block>
+                    </select>
+                    <div class="invalid-feedback" th:if="${brandError != null}">[[${brandError}]]</div>
+                </div>
+                <div class="form-group">
+
                 </div>
                 <div class="form-group">
                     <div class="custom-file">
@@ -79,7 +89,7 @@
                 <p class="card-text" th:text="'description: ' + ${item.description}"></p>
                 <p class="card-text" th:text="'price: ' + ${item.price}"></p>
                 <p class="card-text" th:text="'sale: ' + ${item.sale}"></p>
-                <p class="card-text" th:text="'brand: ' + ${item.brand}"></p>
+                <p class="card-text" th:text="'brand: ' + ${item.brand.getName()}"></p>
                 <p class="card-text" th:text="'color: ' + ${item.color}"></p>
                 <p class="card-text" th:text="'newProduct: ' + ${item.newProduct}"></p>
 
@@ -106,14 +116,25 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" value="" name="name"
+                                    <input type="text" class="form-control" th:value="${item != null ? item.name : ''}"
+                                           name="name"
                                            placeholder="Input name"/></div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" value="" name="description"
-                                           placeholder="Input tag"/></div>
+                                    <input type="text" class="form-control" th:value="${item != null ? item.description : ''}"
+                                           name="description"
+                                           placeholder="Input description"/></div>
                                 <div class="form-group">
-                                    <input type="number" class="form-control" value="" name="price"
+                                    <input type="number" class="form-control" th:value="${item != null ? item.price : ''}"
+                                           name="price"
                                            placeholder="Input text"></div>
+                                <div class="form-group">
+                                    <select class="form-control" id="edit_brand" name="brand" title="brand">
+                                        <th:block th:each="brand : ${brands}">
+                                            <th:block th:if="${#strings.contains(brand.getName(),item.brand.getName())}"> <option th:text="${brand.getName()}" selected></option>  </th:block>
+                                            <th:block th:unless="${#strings.contains(brand.getName(),item.brand.getName())}"> <option th:text="${brand.getName()}" ></option>  </th:block>
+                                        </th:block>
+                                    </select>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
