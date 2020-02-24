@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ErrorController {
 
-    private final static String ERROR_PATH = "/error";
-
-    @GetMapping(value = ERROR_PATH, produces = "text/html")
-    public String errorHtml(HttpServletRequest request) {
-        return "404";
-    }
+//    private final static String ERROR_PATH = "/error";
+//
+//    @GetMapping(value = ERROR_PATH, produces = "text/html")
+//    public String errorHtml(HttpServletRequest request) {
+//        return "404";
+//    }
 
 }

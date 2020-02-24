@@ -60,12 +60,12 @@ public class ProductController {
     private String uploadPath;
 
     @GetMapping("/admins/product")
-    public String productShow( @RequestParam(required = false, defaultValue = "") String filter,
+    public String productShow( @RequestParam(required = false, defaultValue = "") Brand filter,
                                 Model model,
                                 @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable) {
         Page<Product> page;
 
-        if (filter != null && !filter.isEmpty())
+        if (filter != null && !filter.getName().isEmpty())
             page = productRepo.findByBrand(filter, pageable);
         else
             page = productRepo.findAll(pageable);
