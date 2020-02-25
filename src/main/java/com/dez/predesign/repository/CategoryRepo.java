@@ -12,4 +12,8 @@ public interface  CategoryRepo extends CrudRepository<Category,Long> {
     List<Category> findByLevelAndDescendant(Integer level, Category category);
 
     Category findByNameAndLevelAndDescendant(String name,Integer level, Category category);
+
+    Category findByDescendant(Category descendant);
+
+    Iterable<Category> findByAncestor(Category ancestor);
 }
