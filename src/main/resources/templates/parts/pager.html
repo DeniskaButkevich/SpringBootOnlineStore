@@ -56,3 +56,98 @@
     </div>
 
 </th:block>
+
+<th:block th:fragment="itemTile(product)">
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="item item-hover">
+            <div class="item-image-wrapper">
+                <figure class="item-image-container">
+                    <a href="product.html">
+                        <img th:src="'img/catalog/' + ${product.filename}"
+                             alt="item1" class="item-image">
+                        <img th:src="'img/catalog/' + ${product.hoverFilename}"
+                             alt="item1  Hover" class="item-image-hover"></a>
+                </figure>
+                <div class="item-price-container">
+                <th:block th:if="${product.sale != null}">
+                                                            <span class="old-price"
+                                                                  th:text="${product.price != null ? product.price : ''}"></span>
+                    <span class="item-price"
+                          th:text="${product.price != null ? product.price - product.price * product.sale / 100: ''}"></span>
+                </th:block>
+                <th:block th:unless="${product.sale != null}">
+                                                            <span class="item-price"
+                                                                  th:text="${product.price != null ? product.price : ''}"></span>
+                </th:block>
+            </div><!-- End .item-price-container -->
+                <span class="new-rect" th:if="${product.newProduct}">New</span>
+                <span class="discount-rect" th:if="${product.sale != null}">[[${product.sale + '%'}]]</span>
+            </div><!-- End .item-image-wrapper -->
+            <div class="item-meta-container">
+                <div class="ratings-container">
+                    <div class="ratings">
+                        <div class="ratings-result" data-result="80"></div>
+                    </div><!-- End .ratings -->
+                    <span class="ratings-amount">5 Reviews</span>
+                </div><!-- End .rating-container -->
+                <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a>
+                </h3>
+                <div class="item-action">
+                    <a href="#" class="item-add-btn"><span class="icon-cart-text">Add to Cart</span></a>
+                    <div class="item-action-inner">
+                        <a href="#" class="icon-button icon-like">Favourite</a>
+                        <a href="#" class="icon-button icon-compare">Checkout</a>
+                    </div><!-- End .item-action-inner -->
+                </div><!-- End .item-action -->
+            </div><!-- End .item-meta-container -->
+        </div><!-- End .item -->
+    </div><!-- End .col-md-4 -->
+</th:block>
+
+<th:block th:fragment="itemList(product)">
+    <div class="item item-list clearfix">
+        <div class="item-image-container">
+            <figure>
+                <a href="product.html">
+                    <img th:src="'img/catalog/' + ${product.filename}" alt="item1" class="item-image">
+                    <img th:src="'img/catalog/' + ${product.hoverFilename}" alt="item1  Hover" class="item-image-hover">
+                </a>
+            </figure>
+            <div class="item-price-container">
+                <th:block th:if="${product.sale != null}">
+                                                            <span class="old-price"
+                                                                  th:text="${product.price != null ? product.price : ''}"></span>
+                    <span class="item-price"
+                          th:text="${product.price != null ? product.price - product.price * product.sale / 100: ''}"></span>
+                </th:block>
+                <th:block th:unless="${product.sale != null}">
+                                                            <span class="item-price"
+                                                                  th:text="${product.price != null ? product.price : ''}"></span>
+                </th:block>
+            </div><!-- End .item-price-container -->
+            <span class="new-rect" th:if="${product.newProduct}">New</span>
+            <span class="discount-rect" th:if="${product.sale != null}">[[${product.sale + '%'}]]</span>
+        </div><!-- End .item-image -->
+        <div class="item-meta-container">
+            <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a>
+            <div class="ratings-container">
+                <div class="ratings">
+                    <div class="ratings-result" data-result="70" style="width: 65.8px;"></div>
+                </div><!-- End .ratings -->
+                <span class="ratings-amount">
+    												3 Reviews
+    											</span>
+            </div><!-- End .rating-container -->
+                <p>[[${product.description}]]</p>
+                <div class="item-action" style="text-align: left;">
+                <a href="#" class="item-add-btn">
+                    <span class="icon-cart-text">Add to Cart</span>
+                </a>
+                <div class="item-action-inner">
+                    <a href="#" class="icon-button icon-like">Favourite</a>
+                    <a href="#" class="icon-button icon-compare">Checkout</a>
+                </div><!-- End .item-action-inner -->
+            </div><!-- End .item-action -->
+        </div><!-- End .item-meta-container -->
+    </div>
+</th:block>

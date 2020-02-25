@@ -72,76 +72,39 @@
                                     </div>
 
                                     <div class="view-box">
-                                        <a href="category.html" class="active icon-button icon-grid"><i
+                                        <a th:href="@{/category(page=${page.getNumber()},size=${page.getSize()},show='tile')}"
+                                           class="icon-button icon-grid"><i
                                                 class="fa fa-th-large"></i></a>
-                                        <a href="category-list.html" class="icon-button icon-list"><i
+                                        <a th:href="@{/category(page=${page.getNumber()},size=${page.getSize()},show='list')}"
+                                           class="icon-button icon-list"><i
                                                 class="fa fa-th-list"></i></a>
                                     </div><!-- End .view-box -->
-
                                 </div><!-- End .toolbox-filter -->
-
                                 <div th:include="/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
-
                             </div><!-- End .category-toolbar -->
                             <div class="md-margin"></div><!-- .space -->
-                            <div class="category-item-container" th:each="product : ${page}">
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-6 col-xs-12">
-                                        <div class="item item-hover">
-                                            <div class="item-image-wrapper">
-                                                <figure class="item-image-container">
-                                                    <a href="product.html">
-                                                        <img th:src="'img/catalog/' + ${product.filename}" alt="item1"
-                                                             class="item-image">
-                                                        <img th:src="'img/catalog/' + ${product.hoverFilename}"
-                                                             alt="item1  Hover"
-                                                             class="item-image-hover">
-                                                    </a>
-                                                </figure>
-                                                <div class="item-price-container">
-                                                    <th:block th:if="${product.sale != null}">
-                                                        <span class="old-price"
-                                                              th:text="${product.price != null ? product.price : ''}"></span>
-                                                        <span class="item-price"
-                                                              th:text="${product.price != null ? product.price - product.price * product.sale / 100: ''}"></span>
-                                                    </th:block>
-                                                    <th:block th:unless="${product.sale != null}">
-                                                        <span class="item-price"
-                                                              th:text="${product.price != null ? product.price : ''}"></span>
-                                                    </th:block>
-                                                </div><!-- End .item-price-container -->
 
-                                                <span class="new-rect" th:if="${product.newProduct}">New</span>
-                                                <span class="discount-rect" th:if="${product.sale != null}">[[${product.sale + '%'}]]</span>
-                                            </div><!-- End .item-image-wrapper -->
-                                            <div class="item-meta-container">
-                                                <div class="ratings-container">
-                                                    <div class="ratings">
-                                                        <div class="ratings-result" data-result="80"></div>
-                                                    </div><!-- End .ratings -->
-                                                    <span class="ratings-amount">
-                                                        5 Reviews
-                                                    </span>
-                                                </div><!-- End .rating-container -->
-                                                <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a>
-                                                </h3>
-                                                <div class="item-action">
-                                                    <a href="#" class="item-add-btn">
-                                                        <span class="icon-cart-text">Add to Cart</span>
-                                                    </a>
-                                                    <div class="item-action-inner">
-                                                        <a href="#" class="icon-button icon-like">Favourite</a>
-                                                        <a href="#" class="icon-button icon-compare">Checkout</a>
-                                                    </div><!-- End .item-action-inner -->
-                                                </div><!-- End .item-action -->
-                                            </div><!-- End .item-meta-container -->
-                                        </div><!-- End .item -->
-                                    </div><!-- End .col-md-4 -->
-                                </div><!-- End .row -->
-                            </div><!-- End .category-item-container -->
+                            <th:block th:if="${param.show!=null}">
+                                <th:block th:if="${#strings.contains(param.show,'tile')}">
+                                    <div class="category-item-container category-list-container"
+                                         th:each="product : ${page}">
+                                        <div th:include="/parts/pager.html :: itemTile(${product})"></div>
+                                    </div><!-- End .category-item-container -->
+                                </th:block>
+                                <th:block th:unless="${#strings.contains(param.show,'tile')}">
+                                    <div class="category-item-container" th:each="product : ${page}">
+                                        <div th:include="/parts/pager.html :: itemList(${product})"></div>
+                                    </div><!-- End .category-item-container -->
+                                </th:block>
+                            </th:block>
+                            <th:block th:unless="${param.show!=null}">
+                                    <div class="category-item-container" th:each="product : ${page}">
+                                        <div th:include="/parts/pager.html :: itemTile(product)(${product})"></div>
+                                    </div><!-- End .category-item-container -->
+                            </th:block>
+
 
                             <div th:include="/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
-
                         </div><!-- End .col-md-9 -->
 
                         <aside class="col-md-3 col-sm-4 col-xs-12 sidebar">
