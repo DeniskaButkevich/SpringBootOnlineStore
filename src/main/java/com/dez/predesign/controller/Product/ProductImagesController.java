@@ -1,4 +1,4 @@
-package com.dez.predesign.controller;
+package com.dez.predesign.controller.Product;
 
 import com.dez.predesign.data.Product;
 import com.dez.predesign.data.catalog.Image;

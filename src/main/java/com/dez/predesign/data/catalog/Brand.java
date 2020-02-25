@@ -10,4 +10,11 @@ import javax.persistence.*;
 public class Brand {
     @Id
     private String name;
+
+    public Brand(String name) {
+        this.name = name;
+    }
+
+    public Brand() {
+    }
 }

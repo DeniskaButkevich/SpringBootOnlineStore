@@ -30,6 +30,8 @@
         Add new Product
     </a>
     <a href="/admins/product/categories" class="btn btn-primary" role="button" style="color: white">Categories</a>
+    <a href="/admins/product/colors" class="btn btn-primary" role="button" style="color: white">Colors</a>
+    <a href="/admins/product/brands" class="btn btn-primary" role="button" style="color: white">Brands</a>
 
     <div class="collapse " id="collapseExample" th:attrappend="class=${product != null ? ' show' : ''}">
         <div class="form-group mt-3">
@@ -75,6 +77,17 @@
                            th:attrappend="class=${saleError != null} ? ' is-invalid' : ''">
                     <div class="invalid-feedback" th:if="${saleError != null}">[[${nameError}]]</div>
                 </div>
+                <div class="form-group">
+                    <select class="form-control" id="categoriesAdd" name="category" title="categories">
+                        <th:block th:each="categoryLevelOne : ${categoriesLevelOne}">
+                            <th:block th:each="categoryLevelTwo: ${categoriesLevelTwo}">
+                                <option th:if="${categoryLevelOne.id == categoryLevelTwo.ancestor.id}"
+                                        th:text="${categoryLevelOne.name + ' -> ' + categoryLevelTwo.name}"
+                                        th:value="${categoryLevelTwo.id}"></option>
+                            </th:block>
+                        </th:block>
+                    </select>
+                </div>
                 <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Add</button>
@@ -109,8 +122,11 @@
                     <p class="card-text" th:text="'newProduct: ' + ${item.newProduct}"></p>
 
                 </div>
+
                 <div class="card-footer ">
-                    <small class="text-muted" th:text="'Tag: ' + ' --- Author: '"></small>
+                    <small class="text-muted"
+                           th:if="${item.category != null}"
+                           th:text="${'Category: ' + item.category.name + ' -> ' + item.category.ancestor.name}"></small>
                     <div class="text-right">
                         <a th:href="@{/admins/product/images/{path}(path=${item.id})}">images</a>
                         <a th:href="@{/product/delete(id=${item.id})}">delete</a>

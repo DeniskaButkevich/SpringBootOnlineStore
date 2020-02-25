@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:include="admins/parts/head.html :: head">
+
+</head>
+<body style="background-color: #eee">
+
+<row>
+    <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
+</row>
+
+
+<div class="container mt-5">
+    <h1>Colors</h1>
+
+    <br>
+    <h2>Add color</h2>
+    <form method="post" th:action="@{/admins/product/colors/add}">
+        <div class="form-group">
+            <input type="number" class="form-control" th:value="${r != null ? r : ''}"
+                   name="r" placeholder="r"
+                   th:attrappend="class=${rError != null || colorError != null} ? ' is-invalid' : ''">
+            <div class="invalid-feedback" th:if="${rError != null}">[[${rError}]]</div>
+            <div class="invalid-feedback" th:if="${colorError != null}">[[${colorError}]]</div>
+            <input type="number" class="form-control" th:value="${g != null ? g: ''}"
+                   name="g" placeholder="g"
+                   th:attrappend="class=${gError != null} ? ' is-invalid' : ''">
+            <div class="invalid-feedback" th:if="${gError != null}">[[${gError}]]</div>
+            <input type="number" class="form-control" th:value="${b != null ? b : ''}"
+                   name="b" placeholder="b"
+                   th:attrappend="class=${bError != null} ? ' is-invalid' : ''">
+            <div class="invalid-feedback" th:if="${bError != null}">[[${bError}]]</div>
+        </div>
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Add color</button>
+        </div>
+    </form>
+
+    <br>
+    <h2>Delete color</h2>
+    <form method="post" th:action="@{/admins/product/colors/delete}">
+        <div class="form-group">
+            <th:block th:if="${colors != null}" th:each="color : ${colors}">
+                <input checked type="radio" name="color" th:id="${color.getRgb()}"
+                       th:value="${color.getRgb()}"/>
+                <label th:class="label-color" th:for="${color.getRgb()}">
+                    <span th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}"></span>
+                </label>
+            </th:block>
+        </div>
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Delete color</button>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

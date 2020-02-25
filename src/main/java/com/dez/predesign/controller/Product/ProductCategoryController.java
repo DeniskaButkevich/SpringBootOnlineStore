@@ -1,4 +1,4 @@
-package com.dez.predesign.controller;
+package com.dez.predesign.controller.Product;
 
 import com.dez.predesign.data.catalog.Category;
 import com.dez.predesign.repository.CategoryRepo;
@@ -7,9 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller

@@ -1,12 +1,13 @@
-package com.dez.predesign.controller;
+package com.dez.predesign.controller.Product;
 
+import com.dez.predesign.controller.ControllerUtils;
 import com.dez.predesign.data.Product;
 import com.dez.predesign.data.User;
 import com.dez.predesign.data.catalog.Brand;
+import com.dez.predesign.data.catalog.Category;
 import com.dez.predesign.data.catalog.Color;
-import com.dez.predesign.repository.BrandRepo;
-import com.dez.predesign.repository.ColorRepo;
-import com.dez.predesign.repository.ProductRepo;
+import com.dez.predesign.data.catalog.Image;
+import com.dez.predesign.repository.*;
 import com.dez.predesign.service.PageService;
 import com.dez.predesign.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,12 @@ public class ProductController {
     @Autowired
     PageService pageService;
 
+    @Autowired
+    CategoryRepo categoryRepo;
+
+    @Autowired
+    ImageRepo imageRepo;
+
     @ModelAttribute(name = "brands")
     public Iterable<Brand> brands() {
         return brandRepo.findAll();
@@ -54,6 +61,16 @@ public class ProductController {
     @ModelAttribute(name = "colors")
     public Iterable<Color> colors() {
         return colorRepo.findAll();
+    }
+
+    @ModelAttribute(name = "categoriesLevelOne")
+    public List<Category> setCategoriesLevelOne() {
+        return categoryRepo.findByLevelAndDescendant(1, null);
+    }
+
+    @ModelAttribute(name = "categoriesLevelTwo")
+    public List<Category> setCategoriesLevelTwo() {
+        return categoryRepo.findByLevel(2);
     }
 
     @Value("${upload.path}")
@@ -111,6 +128,13 @@ public class ProductController {
 
     @GetMapping("/product/delete")
     public String productRemove(@RequestParam String id) {
+
+        Product product = productRepo.findById(Long.parseLong(id)).get();
+
+        Iterable<Image> images= imageRepo.findByProduct(product);
+        for (Image image: images)
+            imageRepo.delete(image);
+
         productRepo.delete(
                 productRepo.findById(
                         Long.parseLong(id)).get()
