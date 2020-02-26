@@ -62,7 +62,7 @@
         <div class="item item-hover">
             <div class="item-image-wrapper">
                 <figure class="item-image-container">
-                    <a href="product.html">
+                    <a th:href="${'product/' + product.id}">
                         <img th:src="'img/catalog/' + ${product.filename}"
                              alt="item1" class="item-image">
                         <img th:src="'img/catalog/' + ${product.hoverFilename}"
@@ -108,7 +108,7 @@
     <div class="item item-list clearfix">
         <div class="item-image-container">
             <figure>
-                <a href="product.html">
+                <a th:href="${'product/' + product.id}">
                     <img th:src="'img/catalog/' + ${product.filename}" alt="item1" class="item-image">
                     <img th:src="'img/catalog/' + ${product.hoverFilename}" alt="item1  Hover" class="item-image-hover">
                 </a>
