@@ -40,7 +40,7 @@ public class ProductsController {
     @GetMapping("/product/{id}")
     public String show(@PathVariable String id, Model model){
         Product product = productRepo.findById(Long.parseLong(id)).get();
-        Iterable<Image> images = imageRepo.findAll();
+        Iterable<Image> images = imageRepo.findByProduct(product);
 
         model.addAttribute("product", product);
         model.addAttribute("images",images);

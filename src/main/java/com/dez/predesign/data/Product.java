@@ -3,6 +3,7 @@ package com.dez.predesign.data;
 import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.data.catalog.Category;
 import com.dez.predesign.data.catalog.Color;
+import com.dez.predesign.data.catalog.Image;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -35,6 +37,9 @@ public class Product {
     private String filename;
     private String hoverFilename;
 
+    @OneToMany(targetEntity = Image.class, mappedBy = "product")
+    private List<Image> imageList;
+
     @ManyToOne(targetEntity= Brand.class)
     private Brand brand;
     @ManyToOne(targetEntity= Color.class)
@@ -43,6 +48,14 @@ public class Product {
     @JoinColumn(name = "category_id")
     @ManyToOne(targetEntity= Category.class, fetch = FetchType.LAZY)
     private Category category;
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 
     @Min(value = 0, message = "sale should be more than 0")
     @Max(value = 100, message = "sale should be less than 100")

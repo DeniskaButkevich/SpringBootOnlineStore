@@ -13,10 +13,14 @@ import java.util.List;
 
 public interface ProductRepo extends CrudRepository<Product,Long>, JpaRepository<Product,Long> {
     Page<Product> findByBrand(Brand brand, Pageable pageable);
+    Iterable<Product> findByBrand(String name);
     Page<Product> findByCategory(Category category, Pageable pageable);
     Page<Product> findByCategory_Ancestor(Category categories ,Pageable pageable);
-    Page<Product> findAll(Example example, Pageable pageable);
-    Page<Product> findAll(Pageable pageable);
     List<Product> findAll(Example example);
+    Page<Product> findAll(Example example, Pageable pageable);
+    Iterable<Product> findBySaleNotNull();
+
+    List<Product> findByNewProductNotNullAndImageListNotNull();
+
 
 }

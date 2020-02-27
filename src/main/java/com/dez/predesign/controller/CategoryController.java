@@ -55,27 +55,24 @@ public class CategoryController {
                        @RequestParam Map<String, String> allRequestParams,
                        @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
 
-        ExampleMatcher matcher = ExampleMatcher
-                .matchingAll()
-                .withMatcher("brand", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                .withMatcher("category", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
-
-        Category categoryFilter = null;
-        Brand brandFilter = null;
-        Color colorFilter = null;
-        Double priceFilter = null;
-
+        //Sort by
         if (allRequestParams.get("filter") != null && !allRequestParams.get("filter").isEmpty())
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(
                     allRequestParams.get("filter")
             ));
 
+        Category categoryFilter = null;
+        Brand brandFilter = null;
+
         Page<Product> page = null;
         Iterable<Category> filterCategory = categoryRepo.findByLevel(2);
         Iterable<Brand> filterBrand = brandRepo.findAll();
-        Iterable<Color> filterColor= colorRepo.findAll();
 
-        if(allRequestParams.get("category") != null && !allRequestParams.get("category").isEmpty()){
+        if(allRequestParams.get("brand") != null && !allRequestParams.get("brand").isEmpty())
+            brandFilter = brandRepo.findByName(allRequestParams.get("brand"));
+
+        if (allRequestParams.get("category") != null && !allRequestParams.get("category").isEmpty()) {
+
             Category category = categoryRepo.findById(
                     Long.parseLong(
                             allRequestParams.get("category"))).get();
@@ -88,36 +85,19 @@ public class CategoryController {
             categoryFilter = category;
         }
 
-        Product example = Product
-                .builder()
-                .name(null)
-                .brand(new Brand("Samsung"))
-                .color(null)
-                .price(100D)
-//                .price(priceFilter)
-                .build();
+        Product productForExample = Product.builder().category(categoryFilter).brand(brandFilter).build();
 
-        ExampleMatcher caseInsensitiveExampleMatcher =
-                ExampleMatcher.matching().withIncludeNullValues().withIgnorePaths("id",
-                        "description",
-                        "filename",
-                        "hoverFilename",
-                        "sale",
-                        "newProduct").withNullHandler(ExampleMatcher.NullHandler.IGNORE);
+        ExampleMatcher matcher =
+                ExampleMatcher.matching().withIncludeNullValues().withIgnorePaths("id", "color", "price", "description", "filename", "hoverFilename", "sale", "newProduct")
+                        .withNullHandler(ExampleMatcher.NullHandler.IGNORE);
 
-        Example<Product> examp = Example.of(example,caseInsensitiveExampleMatcher);
+        Example<Product> example = Example.of(productForExample, matcher);
 
-        List<Product> t_two = productRepo.findAll(examp);
-        List<Product> t_one = productRepo.findAll(Example.of(example));
-        List<Product> t_two_m = productRepo.findAll(
-                Example.of(example,caseInsensitiveExampleMatcher));
+        page = productRepo.findAll(example, pageable);
 
-        page = productRepo.findAll(Example.of(example),pageable);
         model.addAttribute("page", page);
         model.addAttribute("filterCategory", filterCategory);
         model.addAttribute("filterBrand", filterBrand);
-        model.addAttribute("filterColor", filterColor);
-
         List<Integer> listpages = pageService.listPages(pageable, page);
         model.addAttribute("listpages", listpages);
 

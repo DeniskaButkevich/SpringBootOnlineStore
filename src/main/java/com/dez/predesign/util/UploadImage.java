@@ -31,7 +31,7 @@ public class UploadImage {
         if (flag.equals("hover"))
             product.setHoverFilename(resultFilename);
         if (flag.equals("sec"))
-            imageRepo.save(new Image(resultFilename, product));
+            imageRepo.save(new Image(product, resultFilename));
 
         productRepo.save(product);
     }

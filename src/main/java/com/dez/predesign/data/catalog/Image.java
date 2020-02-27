@@ -4,6 +4,7 @@ import com.dez.predesign.data.Product;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="Images")
@@ -15,13 +16,24 @@ public class Image {
     private Long id;
 
     @ManyToOne(targetEntity = Product.class)
+    @JoinColumn(name = "product_id")
     private Product product;
+
+    @Override
+    public String toString() {
+        return "Image{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 
     private String name;
 
-    public Image (){}
-    public Image( String name, Product product) {
+    public Image(Product product, String name) {
         this.product = product;
         this.name = name;
     }
+
+    public Image (){}
+
 }

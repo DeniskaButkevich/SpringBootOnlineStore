@@ -20,18 +20,16 @@
                 <div class="container">
                     <div class="col-2">
                         <div class="category-image">
-                            <img src="images/products/category-show.png" alt="Phone" class="img-responsive">
+                            <img th:src="${'/img/catalog/' + page.getContent().get(0).filename}" alt="Phone" class="img-responsive">
                         </div><!-- End .category-image -->
 
                     </div><!-- End .col-2 -->
 
                     <div class="col-2 last">
                         <div class="category-title">
-                            <h2>Mobile</h2>
-                            <p>Aenean dictum libero vitae magna sagittis, eu convallis dolor blandit. Fusce consectetur
-                                tincidunt pretium. Etiam non tellus massa. Aenean tincidunt in augue nec tempus. Nulla
-                                porta libero sit amet lorem pellentesque posuere...</p>
-                            <a href="#" class="btn btn-custom">LEARN MORE</a>
+                            <h2 th:text="${page.getContent().get(0).name}"></h2>
+                            <p th:text="${page.getContent().get(0).description}"></p>
+                            <a th:href="${'/product/' + page.getContent().get(0).id}" class="btn btn-custom">LEARN MORE</a>
                         </div><!-- End .category-title -->
                     </div><!-- End .col-2 -->
                 </div><!-- End .container -->
