@@ -42,7 +42,6 @@
                 <ul class="breadcrumb">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="#">Electronics</a></li>
-                    <li class="active">Mobile</li>
                 </ul>
             </div>
         </div>
@@ -58,6 +57,7 @@
                                 <div class="toolbox-filter clearfix">
 
                                     <div class="sort-box">
+
                                         <span class="separator">sort by:</span>
                                         <div class="btn-group select-dropdown">
                                             <button type="button" class="btn select-btn">Position</button>
@@ -65,22 +65,22 @@
                                                 <i class="fa fa-angle-down"></i>
                                             </button>
                                             <ul class="dropdown-menu" role="menu">
-                                                <li><a href="#">Date</a></li>
-                                                <li><a href="#">Name</a></li>
+                                                <li><a th:href="${url} + '?filter=id&' + ${setParam}">Date</a></li>
+                                                <li><a th:href="${url} + '?filter=name&' + ${setParam}">Name</a></li>
+                                                <li><a th:href="${url} + '?filter=price&' + ${setParam}">Price</a></li>
+                                                <li><a th:href="${url} + '?filter=sale&' + ${setParam}">Sale</a></li>
                                             </ul>
                                         </div>
                                     </div>
 
                                     <div class="view-box">
-                                        <a th:href="@{/category(page=${page.getNumber()},size=${page.getSize()},show='tile')}"
-                                           class="icon-button icon-grid"><i
-                                                class="fa fa-th-large"></i></a>
-                                        <a th:href="@{/category(page=${page.getNumber()},size=${page.getSize()},show='list')}"
-                                           class="icon-button icon-list"><i
-                                                class="fa fa-th-list"></i></a>
+                                        <a th:href="${url} + '?show=tile&' + ${setParam}" class="icon-button icon-grid">
+                                            <i class="fa fa-th-large"></i></a>
+                                        <a th:href="${url} + '?show=list&' + ${setParam}" class="icon-button icon-list">
+                                            <i class="fa fa-th-list"></i></a>
                                     </div><!-- End .view-box -->
                                 </div><!-- End .toolbox-filter -->
-                                <div th:include="/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
+                                <div th:include="/parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></div>
                             </div><!-- End .category-toolbar -->
                             <div class="md-margin"></div><!-- .space -->
 
@@ -98,13 +98,12 @@
                                 </th:block>
                             </th:block>
                             <th:block th:unless="${param.show!=null}">
-                                    <div class="category-item-container" th:each="product : ${page}">
-                                        <div th:include="/parts/pager.html :: itemTile(product)(${product})"></div>
-                                    </div><!-- End .category-item-container -->
+                                <div class="category-item-container" th:each="product : ${page}">
+                                    <div th:include="/parts/pager.html :: itemTile(product)(${product})"></div>
+                                </div><!-- End .category-item-container -->
                             </th:block>
-
-
-                            <div th:include="/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
+                            <div class="row"></div>
+                            <div th:include="/parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></div>
                         </div><!-- End .col-md-9 -->
 
                         <aside class="col-md-3 col-sm-4 col-xs-12 sidebar">
@@ -120,28 +119,11 @@
 
                                         <div id="category-list-1" class="collapse in">
                                             <div class="panel-body">
-                                                <ul class="category-filter-list jscrollpane">
-                                                    <li><a href="#">Mobile Phones (341)</a></li>
-                                                    <li><a href="#">Smartphones (55)</a></li>
-                                                    <li><a href="#">Communicators (24)</a></li>
-                                                    <li><a href="#">CDMA Phones (14)</a></li>
-                                                    <li><a href="#">Accessories (83)</a></li>
-                                                    <li><a href="#">Chargers (8)</a></li>
-                                                    <li><a href="#">Memory Cards (6)</a></li>
-                                                    <li><a href="#">Protectors (12)</a></li>
-                                                    <li><a href="#">ravelsim (5)</a></li>
-                                                    <li><a href="#">CDMA Phones (14)</a></li>
-                                                    <li><a href="#">Accessories (83)</a></li>
-                                                    <li><a href="#">Chargers (8)</a></li>
-                                                    <li><a href="#">Memory Cards (6)</a></li>
-                                                    <li><a href="#">Protectors (12)</a></li>
-                                                    <li><a href="#">ravelsim (5)</a></li>
-                                                    <li><a href="#">CDMA Phones (14)</a></li>
-                                                    <li><a href="#">Accessories (83)</a></li>
-                                                    <li><a href="#">Chargers (8)</a></li>
-                                                    <li><a href="#">Memory Cards (6)</a></li>
-                                                    <li><a href="#">Protectors (12)</a></li>
-                                                    <li><a href="#">ravelsim (5)</a></li>
+                                                <ul class="category-filter-list jscrollpane"
+                                                th:each=" category: ${filterCategory}">
+                                                    <li><a th:href="${url} + '?category=' + ${category.id} + '&' + ${setParam}"
+                                                           th:text="${category.name} + '(' + ${category.getProducts().size()} + ')'"
+                                                    ></a></li>
                                                 </ul>
                                             </div><!-- End .panel-body -->
                                         </div><!-- #collapse -->

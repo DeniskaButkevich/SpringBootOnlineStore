@@ -25,6 +25,9 @@ public class Category {
     @ManyToOne(targetEntity = Category.class, optional = false)
     private Category descendant;
 
+    @OneToMany(targetEntity = Product.class, mappedBy = "category", fetch = FetchType.LAZY)
+    private List<Product> products;
+
     private Integer level;
 
     public Category(String name, Category descendant, Integer level) {

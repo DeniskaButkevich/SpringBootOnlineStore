@@ -62,7 +62,7 @@
                             </div><!-- End .header-top-dropdowns -->
 
                             <div class="header-text-container pull-right">
-                                <p class="header-text">Welcome to Venedor!</p> <span sec:authorize="isAuthenticated()"
+                                <p class="header-text">Welcome to Predesign!</p> <span sec:authorize="isAuthenticated()"
                                                                                      sec:authentication="name"></span>
                                 <th:block sec:authorize="isAuthenticated()">
                                     <form th:action="@{/logout}" method="post" style="display: inline">
@@ -87,8 +87,8 @@
                     <div class="col-md-5 col-sm-5 col-xs-12 logo-container">
                         <h1 class="logo clearfix">
                             <span>Responsive eCommerce Template</span>
-                            <a href="index.html" title="Venedor eCommerce Template"><img src="/images/logo.png"
-                                                                                         alt="Venedor Commerce Template"
+                            <a href="index.html" title="Predesign"><img src="/images/logo.png"
+                                                                                         alt="Predesign Commerce Template"
                                                                                          width="238" height="76"></a>
                         </h1>
                     </div><!-- End .col-md-5 -->
@@ -96,9 +96,9 @@
 
                         <div class="header-box contact-infos pull-right">
                             <ul>
-                                <li><span class="header-box-icon header-box-icon-skype"></span>venedor_support</li>
+                                <li><span class="header-box-icon header-box-icon-skype"></span>Predesign_support</li>
                                 <li><span class="header-box-icon header-box-icon-email"></span><a
-                                        href="mailto:venedor@gmail.com">venedor@gmail.com</a></li>
+                                        href="mailto:Predesign@gmail.com">Predesign@gmail.com</a></li>
                             </ul>
                         </div><!-- End .contact-infos -->
 
@@ -131,13 +131,13 @@
 
                                         <div class="mega-menu clearfix">
                                             <div class="col-5" th:each="caterotyLevelOne : ${categoriesLevelOne}">
-                                                <a th:href="@{category(category_id=${caterotyLevelOne.id})}"
+                                                <a th:href="@{category(category=${caterotyLevelOne.id})}"
                                                    class="mega-menu-title">[[${caterotyLevelOne.name}]]</a>
                                                 <ul class="mega-menu-list clearfix"
                                                     th:each="caterotyLevelTwo : ${categoriesLevelTwo}">
 
                                                     <li th:if="${caterotyLevelTwo.ancestor.id == caterotyLevelOne.id}">
-                                                        <a th:href="@{category(category_id=${caterotyLevelTwo.id})}">[[${caterotyLevelTwo.name}]]</a>
+                                                        <a th:href="@{category(category=${caterotyLevelTwo.id})}">[[${caterotyLevelTwo.name}]]</a>
                                                     </li>
                                                 </ul>
                                             </div>

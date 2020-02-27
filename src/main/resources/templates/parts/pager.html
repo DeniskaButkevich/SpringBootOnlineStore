@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-<th:block th:fragment="pager(url,page,listpages)">
+<th:block th:fragment="pager(url,page,listpages,setParam)">
 
     <div class="toolbox-pagination clearfix">
         <ul class="pagination">
@@ -21,7 +21,7 @@
                     </th:block>
                     <th:block  th:unless="${p == -1}">
                         <li>
-                            <a th:href="@{${url}(page=${p-1},size=${page.getSize()})}" tabindex="-1">[[${p}]]</a>
+                            <a th:href="${url} + '?page=' + ${p-1} + '&size=' + ${page.getSize()} + '&' + ${setParam}" tabindex="-1">[[${p}]]</a>
                         </li>
                     </th:block>
                 </th:block>
@@ -45,7 +45,7 @@
                         </th:block>
                         <th:block th:unless="${c == page.getSize()}">
                             <li>
-                                <a th:href="@{${url}(page=${page.getNumber()},size=${c})}" tabindex="-1">[[${c}]]</a>
+                                <a th:href="${url} + '?page=' + ${page.getNumber()} + '&size=' + ${c} + '&' + ${setParam}" tabindex="-1">[[${c}]]</a>
                             </li>
                         </th:block>
                     </th:block>
@@ -73,7 +73,7 @@
                                                             <span class="old-price"
                                                                   th:text="${product.price != null ? product.price : ''}"></span>
                     <span class="item-price"
-                          th:text="${product.price != null ? product.price - product.price * product.sale / 100: ''}"></span>
+                          th:text="${  product.price != null ? product.price - product.price * product.sale / 100: ''}"></span>
                 </th:block>
                 <th:block th:unless="${product.sale != null}">
                                                             <span class="item-price"

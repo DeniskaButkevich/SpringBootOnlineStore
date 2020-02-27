@@ -30,22 +30,23 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("index");
-        registry.addViewController("/aboutus.html").setViewName("aboutus");
-        registry.addViewController("/blog.html").setViewName("blog");
-        registry.addViewController("/cart.html").setViewName("cart");
-        registry.addViewController("/category-list.html").setViewName("category-list"); //
-        registry.addViewController("/compare-products.html").setViewName("compare-products");
+        registry.addViewController("/checkout.html").setViewName("checkout");
         registry.addViewController("/contact.html").setViewName("contact");
+        registry.addViewController("/aboutus.html").setViewName("aboutus");
+        registry.addViewController("/cart.html").setViewName("cart");
+        registry.addViewController("/compare-products.html").setViewName("compare-products");
+
+        registry.addViewController("/blog.html").setViewName("blog");
         registry.addViewController("/portfolio-2.html").setViewName("portfolio-2");
         registry.addViewController("/portfolio-masonry-2.html").setViewName("portfolio-masonry-2");
         registry.addViewController("/single.html").setViewName("single");
         registry.addViewController("/single-portfolio.html").setViewName("single-portfolio");
         registry.addViewController("/single-portfolio-gallery.html").setViewName("single-portfolio-gallery");
         registry.addViewController("/single-portfolio-video.html").setViewName("single-portfolio-video");
-        registry.addViewController("/checkout.html").setViewName("checkout");
+
         registry.addViewController("/admins/indexAdmin").setViewName("/admins/indexAdmin");
         registry.addViewController("/404.html").setViewName("404");
+        registry.addViewController("/404").setViewName("404");
         registry.addViewController("/403.html").setViewName("403");
         registry.addViewController("/403").setViewName("403");
     }

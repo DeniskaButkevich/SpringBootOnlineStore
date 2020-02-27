@@ -11,22 +11,7 @@
         <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
     </row>
     <div class="container mt-5">
-    <h2>Welcome</h2>
-    <p>Spring Security Thymeleaf tutorial</p>
-    <div sec:authorize="hasRole('ROLE_USER')">Text visible to user.</div>
-    <div sec:authorize="hasRole('ROLE_ADMIN')">Text visible to admin.</div>
-    <div sec:authorize="isAuthenticated()">
-        Text visible only to authenticated users.
-    </div>
-    Authenticated username:
-    <div sec:authentication="name"></div>
-    Authenticated user roles:
-    <div sec:authentication="principal.authorities"></div>
-
-    <span sec:authorize="isAuthenticated()">| Logged user: <span sec:authentication="name"></span> |
-                Roles: <span sec:authentication="principal.authorities"></span> |
-                <a th:href="@{/logout}">Sign Out</a>
-            </span>
+        <h2 th:text="Welcome "></h2><h3 sec:authentication="name"></h3>
 </div>
 </body>
 </html>

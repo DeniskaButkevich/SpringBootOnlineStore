@@ -26,7 +26,7 @@ public class IndexController {
         return categoryRepo.findByLevel(2);
     }
 
-    @GetMapping("/index")
+    @GetMapping(value = {"/index","/"})
     public String show(Model model){
 
         return "/index";
