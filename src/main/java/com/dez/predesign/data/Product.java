@@ -3,19 +3,19 @@ package com.dez.predesign.data;
 import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.data.catalog.Category;
 import com.dez.predesign.data.catalog.Color;
-import com.dez.predesign.data.catalog.Image;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.Set;
 
 @Data
-@Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class Product {
 
     @Id

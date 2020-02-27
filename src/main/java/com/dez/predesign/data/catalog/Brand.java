@@ -1,8 +1,10 @@
 package com.dez.predesign.data.catalog;
 
+import com.dez.predesign.data.Product;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="Brands")
@@ -17,4 +19,7 @@ public class Brand {
 
     public Brand() {
     }
+
+    @OneToMany(targetEntity = Product.class, mappedBy = "brand", fetch = FetchType.LAZY)
+    private List<Product> products;
 }

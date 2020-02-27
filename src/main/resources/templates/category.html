@@ -119,11 +119,13 @@
 
                                         <div id="category-list-1" class="collapse in">
                                             <div class="panel-body">
-                                                <ul class="category-filter-list jscrollpane"
-                                                th:each=" category: ${filterCategory}">
-                                                    <li><a th:href="${url} + '?category=' + ${category.id} + '&' + ${setParam}"
-                                                           th:text="${category.name} + '(' + ${category.getProducts().size()} + ')'"
-                                                    ></a></li>
+                                                <ul class="category-filter-list jscrollpane">
+                                                    <th:block  th:each=" category: ${filterCategory}">
+                                                            <li><a
+                                                                    th:href="${url} + '?category=' + ${category.id} + '&' + ${setParam}"
+                                                                    th:text="${category.name} + '(' + ${category.getProducts().size()} + ')'"
+                                                            ></a></li>
+                                                    </th:block>
                                                 </ul>
                                             </div><!-- End .panel-body -->
                                         </div><!-- #collapse -->
@@ -140,11 +142,12 @@
                                         <div id="category-list-2" class="collapse in">
                                             <div class="panel-body">
                                                 <ul class="category-filter-list jscrollpane">
-                                                    <li><a href="#">Samsung (50)</a></li>
-                                                    <li><a href="#">Apple (80)</a></li>
-                                                    <li><a href="#">HTC (20)</a></li>
-                                                    <li><a href="#">Motoroloa (20)</a></li>
-                                                    <li><a href="#">Nokia (11)</a></li>
+                                                    <th:block  th:each=" brand: ${filterBrand}">
+                                                        <li><a
+                                                                th:href="${url} + '?brand=' + ${brand.name} + '&' + ${setParam}"
+                                                                th:text="${brand.name} + '(' + ${brand.getProducts().size()} + ')'"
+                                                        ></a></li>
+                                                    </th:block>
                                                 </ul>
                                             </div><!-- End .panel-body -->
                                         </div><!-- #collapse -->
