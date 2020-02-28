@@ -18,13 +18,14 @@
 
         <div id="slider-rev-container">
             <div id="slider-rev">
-                <ul>
-                    <li data-transition="fade" data-slotamount="6" data-masterspeed="600" data-saveperformance="on"
+                <ul >
+                    <li th:object="${mapProducts.get('newProducts').getContent().get(0)}"
+                            data-transition="fade" data-slotamount="6" data-masterspeed="600" data-saveperformance="on"
                         data-title="Special Offers">
                         <img src="/img/slide1.jpg" alt="slidebg1" data-lazyload="/img/slide1.jpg"
                              data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
                         <div class="tp-caption rev-title lfr ltr" data-x="695" data-y="198" data-speed="1600"
-                             data-start="300" data-endspeed="300">[[${newProducts.get(0).name}]]
+                             data-start="300" data-endspeed="300">[[*{name}]]
                         </div>
                         <div class="tp-caption rev-text lfr ltr" data-x="695" data-y="252" data-speed="1600"
                              data-start="600" data-endspeed="550">Performance &amp; Design. Taken right <br> to the
@@ -33,19 +34,20 @@
 
                         <div class="tp-caption lfr ltr" data-x="695" data-y="332" data-speed="1600" data-start="900"
                              data-endspeed="800">
-                            <a th:href="${'/product/' + newProducts.get(0).id}" class="btn btn-custom-2">Learn More</a>
+                            <a th:href="*{'/product/' + id}" class="btn btn-custom-2">Learn More</a>
                         </div>
                         <div class="tp-caption lfl ltl" data-x="center" data-y="bottom" data-hoffset="-230"
                              data-speed="2000" data-start="500" data-endspeed="800">
-                            <img th:src="'/img/catalog/' + ${newProducts.get(0).filename}" alt="Slide 1_1">
+                            <img th:src="'/img/catalog/' + *{filename}" alt="Slide 1_1">
                         </div>
                     </li>
-                    <li data-transition="fade" data-slotamount="5" data-masterspeed="600" data-saveperformance="on"
+                    <li th:object="${mapProducts.get('newProducts').getContent().get(1)}"
+                            data-transition="fade" data-slotamount="5" data-masterspeed="600" data-saveperformance="on"
                         data-title="Learn More">
                         <img src="/img/slide2.jfif" alt="slidebg2" data-lazyload="/img/slide2.jpg"
                              data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
                         <div class="tp-caption rev-title lfr ltr" data-x="755" data-y="238" data-speed="1600"
-                             data-start="750" data-endspeed="300">[[${newProducts.get(1).name}]]
+                             data-start="750" data-endspeed="300">[[*{name}]]
                         </div>
                         <div class="tp-caption rev-text2 lfr ltr" data-x="755" data-y="290" data-speed="1600"
                              data-start="1050" data-endspeed="550">Take, view and share photos with <br> the 13MP camera
@@ -54,55 +56,56 @@
 
                         <div class="tp-caption lfr ltr" data-x="755" data-y="360" data-speed="1600" data-start="1350"
                              data-endspeed="800">
-                            <a th:href="${'/product/' + newProducts.get(1).id}" class="btn btn-custom-2">Learn More</a>
+                            <a th:href="*{'/product/' + id}" class="btn btn-custom-2">Learn More</a>
                         </div>
 
                         <div class="tp-caption rev-price randomrotate randomrotateout" data-x="360" data-y="55"
                              data-speed="1200" data-start="2000" data-endspeed="400">
-                            [[${newProducts.get(1).price}]]
+                            [[*{price}]]
                         </div>
 
                         <div class="tp-caption lfl ltl" data-x="center" data-y="center" data-hoffset="-204"
                              data-speed="1750" data-start="400" data-endspeed="800">
-                            <img th:src="${'/img/catalog/' + newProducts.get(1).hoverFilename}" alt="Slide 2_2">
+                            <img th:src="*{'/img/catalog/' + hoverFilename}" alt="Slide 2_2">
                         </div>
 
                         <div class="tp-caption lfr ltr" data-x="380" data-y="50" data-speed="1800" data-start="250"
                              data-endspeed="800">
-                            <img th:src="${'/img/catalog/' + newProducts.get(1).filename}">
+                            <img th:src="*{'/img/catalog/' + filename}">
                         </div>
 
                     </li>
-                    <li data-transition="fade" data-slotamount="4" data-masterspeed="600" data-saveperformance="on"
+                    <li th:object="${mapProducts.get('newProducts').getContent().get(1)}"
+                            data-transition="fade" data-slotamount="4" data-masterspeed="600" data-saveperformance="on"
                         data-title="More Features">
                         <img src="/img/slide3.jpg" alt="slidebg3" data-lazyload="/img/slide3.jpg"
                              data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
 
                         <div class="tp-caption sfr str" data-x="24" data-y="bottom" data-speed="900" data-start="500"
                              data-endspeed="300">
-                            <img th:src="${'/img/catalog/' + newProducts.get(2).filename}" alt="Slide 3_1">
+                            <img th:src="*{'/img/catalog/' + filename}" alt="Slide 3_1">
                         </div>
 
                         <div class="tp-caption sfl stl" data-x="788" data-y="95" data-speed="1000" data-start="1200"
                              data-endspeed="540">
-                            <img th:src="${'/img/catalog/secondary/' + newProducts.get(2).getImageList().get(0).name}"
+                            <img th:src="*{'/img/catalog/secondary/' + getImageList().get(0).name}"
                                  alt="Slide 3_3">
                         </div>
 
                         <div class="tp-caption sfl stl" data-x="700" data-y="260" data-speed="800" data-start="800"
                              data-endspeed="420">
-                            <img th:src="${'/img/catalog/secondary/' + newProducts.get(2).getImageList().get(1).name}"
+                            <img th:src="*{'/img/catalog/secondary/' + getImageList().get(1).name}"
                                  alt="Slide 3_2">
                         </div>
 
                         <div class="tp-caption sfl stl" data-x="613" data-y="325" data-speed="600" data-start="400"
                              data-endspeed="300">
-                            <img th:src="${'/img/catalog/secondary/' +newProducts.get(2).getImageList().get(2).name}"
+                            <img th:src="*{'/img/catalog/secondary/' + getImageList().get(2).name}"
                                  alt="Slide 3_4">
                         </div>
 
                         <div class="tp-caption rev-title sfr str" data-x="20" data-y="56" data-speed="600"
-                             data-start="1400" data-endspeed="200">[[${newProducts.get(2).name}]]
+                             data-start="1400" data-endspeed="200">[[*{name}]]
                         </div>
                         <div class="tp-caption rev-text long sfr str" data-x="20" data-y="110" data-speed="600"
                              data-start="1650" data-endspeed="300">Smart Interaction lets you interact <br> with your TV
@@ -111,7 +114,7 @@
 
                         <div class="tp-caption sfr str" data-x="20" data-y="190" data-speed="600" data-start="1900"
                              data-endspeed="400">
-                            <a th:href="${'/product/' + newProducts.get(2).id}" class="btn btn-custom-2">Learn More</a>
+                            <a th:href="*{'/product/' + id}" class="btn btn-custom-2">Learn More</a>
                         </div>
 
                     </li>
@@ -275,6 +278,7 @@
                                 <header class="content-title">
                                     <div class="title-bg">
                                         <h2 class="title">On Sale</h2>
+<!--                                        productsOnSale-->
                                     </div><!-- End .title-bg -->
                                     <p class="title-desc">Only with us you can get a new model with a discount.</p>
                                 </header>
@@ -287,179 +291,53 @@
                                     </div><!-- End .carousel-next -->
                                 </div><!-- End .carousel-controls -->
                                 <div class="hot-items-slider owl-carousel">
-                                    <div class="item item-hover">
-                                        <div class="item-image-wrapper">
-                                            <figure class="item-image-container">
-                                                <a href="product.html">
-                                                    <img src="images/products/item2.jpg" alt="item1" class="item-image">
-                                                    <img src="images/products/item2-hover.jpg" alt="item1  Hover"
-                                                         class="item-image-hover">
-                                                </a>
-                                            </figure>
-                                            <div class="item-price-container">
-                                                <span class="item-price">$160<span class="sub-price">.99</span></span>
-                                            </div><!-- End .item-price-container -->
-                                            <span class="new-rect">New</span>
-                                        </div><!-- End .item-image-wrapper -->
-                                        <div class="item-meta-container">
-                                            <div class="ratings-container">
-                                                <div class="ratings">
-                                                    <div class="ratings-result" data-result="80"></div>
-                                                </div><!-- End .ratings -->
-                                                <span class="ratings-amount">
+                                    <th:block th:each="product : ${mapProducts.get('productsOnSale').getContent()}">
+                                        <div class="item item-hover">
+                                            <div class="item-image-wrapper">
+                                                <figure class="item-image-container">
+                                                    <a th:href="'/product/' +${product.id}">
+                                                        <img th:src="'/img/catalog/' + ${product.filename}" alt="item1" class="item-image">
+                                                        <img th:src="'/img/catalog/' + ${product.hoverFilename}" alt="item1  Hover"
+                                                             class="item-image-hover">
+                                                    </a>
+                                                </figure>
+                                                <div class="item-price-container">
+                                                    <th:block th:if="${product.sale != null}">
+                                                            <span class="old-price"
+                                                                  th:text="${product.price != null ? product.price : ''}"></span>
+                                                        <span class="item-price"
+                                                              th:text="${product.price != null ? product.price - product.price * product.sale / 100: ''}"></span>
+                                                    </th:block>
+                                                    <th:block th:unless="${product.sale != null}">
+                                                            <span class="item-price"
+                                                                  th:text="${product.price != null ? product.price : ''}"></span>
+                                                    </th:block>
+                                                </div><!-- End .item-price-container -->
+                                            </div><!-- End .item-image-wrapper -->
+                                            <div class="item-meta-container">
+                                                <div class="ratings-container">
+                                                    <div class="ratings">
+                                                        <div class="ratings-result" data-result="80"></div>
+                                                    </div><!-- End .ratings -->
+                                                    <span class="ratings-amount">
                                                     5 Reviews
                                                 </span>
-                                            </div><!-- End .rating-container -->
-                                            <h3 class="item-name"><a href="product.html">Phasellus consequat</a></h3>
-                                            <div class="item-action">
-                                                <a href="#" class="item-add-btn">
-                                                    <span class="icon-cart-text">Add to Cart</span>
-                                                </a>
-                                                <div class="item-action-inner">
-                                                    <a href="#" class="icon-button icon-like">Favourite</a>
-                                                    <a href="#" class="icon-button icon-compare">Checkout</a>
-                                                </div><!-- End .item-action-inner -->
-                                            </div><!-- End .item-action -->
-                                        </div><!-- End .item-meta-container -->
-                                    </div><!-- End .item -->
+                                                </div><!-- End .rating-container -->
+                                                <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a></h3>
+                                                <div class="item-action">
+                                                    <a href="#" class="item-add-btn">
+                                                        <span class="icon-cart-text">Add to Cart</span>
+                                                    </a>
+                                                    <div class="item-action-inner">
+                                                        <a href="#" class="icon-button icon-like">Favourite</a>
+                                                        <a href="#" class="icon-button icon-compare">Checkout</a>
+                                                    </div><!-- End .item-action-inner -->
+                                                </div><!-- End .item-action -->
+                                            </div><!-- End .item-meta-container -->
+                                        </div><!-- End .item -->
 
-                                    <div class="item item-hover">
-                                        <div class="item-image-wrapper">
-                                            <figure class="item-image-container">
-                                                <a href="product.html">
-                                                    <img src="images/products/item3.jpg" alt="item1" class="item-image">
-                                                    <img src="images/products/item3-hover.jpg" alt="item1  Hover"
-                                                         class="item-image-hover">
-                                                </a>
-                                            </figure>
-                                            <div class="item-price-container">
-                                                <span class="item-price">$100</span>
-                                            </div><!-- End .item-price-container -->
-                                            <span class="new-rect">New</span>
-                                        </div><!-- End .item-image-wrapper -->
-                                        <div class="item-meta-container">
-                                            <div class="ratings-container">
-                                                <div class="ratings">
-                                                    <div class="ratings-result" data-result="99"></div>
-                                                </div><!-- End .ratings -->
-                                                <span class="ratings-amount">
-                                                    4 Reviews
-                                                </span>
-                                            </div><!-- End .rating-container -->
-                                            <h3 class="item-name"><a href="product.html">Phasellus consequat</a></h3>
-                                            <div class="item-action">
-                                                <a href="#" class="item-add-btn">
-                                                    <span class="icon-cart-text">Add to Cart</span>
-                                                </a>
-                                                <div class="item-action-inner">
-                                                    <a href="#" class="icon-button icon-like">Favourite</a>
-                                                    <a href="#" class="icon-button icon-compare">Checkout</a>
-                                                </div><!-- End .item-action-inner -->
-                                            </div><!-- End .item-action -->
-                                        </div><!-- End .item-meta-container -->
-                                    </div><!-- End .item -->
+                                    </th:block>
 
-                                    <div class="item item-hover">
-                                        <div class="item-image-wrapper">
-                                            <figure class="item-image-container">
-                                                <a href="product.html">
-                                                    <img src="images/products/item8.jpg" alt="item1" class="item-image">
-                                                    <img src="images/products/item8-hover.jpg" alt="item1  Hover"
-                                                         class="item-image-hover">
-                                                </a>
-                                            </figure>
-                                            <div class="item-price-container">
-                                                <span class="old-price">$100</span>
-                                                <span class="item-price">$80</span>
-                                            </div><!-- End .item-price-container -->
-                                            <span class="discount-rect">-20%</span>
-                                        </div><!-- End .item-image-wrapper -->
-                                        <div class="item-meta-container">
-                                            <div class="ratings-container">
-                                                <div class="ratings">
-                                                    <div class="ratings-result" data-result="75"></div>
-                                                </div><!-- End .ratings -->
-                                                <span class="ratings-amount">
-                                                    2 Reviews
-                                                </span>
-                                            </div><!-- End .rating-container -->
-                                            <h3 class="item-name"><a href="product.html">Phasellus consequat</a></h3>
-                                            <div class="item-action">
-                                                <a href="#" class="item-add-btn">
-                                                    <span class="icon-cart-text">Add to Cart</span>
-                                                </a>
-                                                <div class="item-action-inner">
-                                                    <a href="#" class="icon-button icon-like">Favourite</a>
-                                                    <a href="#" class="icon-button icon-compare">Checkout</a>
-                                                </div><!-- End .item-action-inner -->
-                                            </div><!-- End .item-action -->
-                                        </div><!-- End .item-meta-container -->
-                                    </div><!-- End .item -->
-
-                                    <div class="item item-hover">
-                                        <div class="item-image-wrapper">
-                                            <figure class="item-image-container">
-                                                <a href="product.html">
-                                                    <img src="images/products/item5.jpg" alt="item1" class="item-image">
-                                                    <img src="images/products/item5-hover.jpg" alt="item1  Hover"
-                                                         class="item-image-hover">
-                                                </a>
-                                            </figure>
-                                            <div class="item-price-container">
-                                                <span class="item-price">$99</span>
-                                            </div><!-- End .item-price-container -->
-                                            <span class="new-rect">New</span>
-                                        </div><!-- End .item-image-wrapper -->
-                                        <div class="item-meta-container">
-                                            <div class="ratings-container">
-                                                <div class="ratings">
-                                                    <div class="ratings-result" data-result="40"></div>
-                                                </div><!-- End .ratings -->
-                                                <span class="ratings-amount">
-                                                    3 Reviews
-                                                </span>
-                                            </div><!-- End .rating-container -->
-                                            <h3 class="item-name"><a href="product.html">Phasellus consequat</a></h3>
-                                            <div class="item-action">
-                                                <a href="#" class="item-add-btn">
-                                                    <span class="icon-cart-text">Add to Cart</span>
-                                                </a>
-                                                <div class="item-action-inner">
-                                                    <a href="#" class="icon-button icon-like">Favourite</a>
-                                                    <a href="#" class="icon-button icon-compare">Checkout</a>
-                                                </div><!-- End .item-action-inner -->
-                                            </div><!-- End .item-action -->
-                                        </div><!-- End .item-meta-container -->
-                                    </div><!-- End .item -->
-
-                                    <div class="item item-hover">
-                                        <div class="item-image-wrapper">
-                                            <figure class="item-image-container">
-                                                <a href="product.html">
-                                                    <img src="images/products/item7.jpg" alt="item1" class="item-image">
-                                                    <img src="images/products/item7-hover.jpg" alt="item1  Hover"
-                                                         class="item-image-hover">
-                                                </a>
-                                            </figure>
-                                            <div class="item-price-container">
-                                                <span class="item-price">$280</span>
-                                            </div><!-- End .item-price-container -->
-                                        </div><!-- End .item-image-wrapper -->
-                                        <div class="item-meta-container">
-                                            <div class="ratings-container">
-                                            </div><!-- End .rating-container -->
-                                            <h3 class="item-name"><a href="product.html">Phasellus consequat</a></h3>
-                                            <div class="item-action">
-                                                <a href="#" class="item-add-btn">
-                                                    <span class="icon-cart-text">Add to Cart</span>
-                                                </a>
-                                                <div class="item-action-inner">
-                                                    <a href="#" class="icon-button icon-like">Favourite</a>
-                                                    <a href="#" class="icon-button icon-compare">Checkout</a>
-                                                </div><!-- End .item-action-inner -->
-                                            </div><!-- End .item-action -->
-                                        </div><!-- End .item-meta-container -->
-                                    </div><!-- End .item -->
                                 </div><!--hot-items-slider -->
 
                                 <div class="lg-margin"></div><!-- Space -->

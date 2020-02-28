@@ -32,9 +32,6 @@ public class IndexController {
     @Autowired
     BrandRepo brandRepo;
 
-    @ModelAttribute(name = "productsOnSale")
-    public Iterable<Product> productsOnSale() {return productRepo.findBySaleNotNull();}
-
     @ModelAttribute(name = "categoriesLevelOne")
     public List<Category> setCategoriesLevelOne() {
         return categoryRepo.findByLevelAndDescendant(1, null);
@@ -45,32 +42,32 @@ public class IndexController {
         return categoryRepo.findByLevel(2);
     }
 
-    @ModelAttribute
-
     @GetMapping(value = {"/index","/",""})
     public String show(Model model,
                        @PageableDefault(size = 6,direction = Sort.Direction.DESC, sort = {"id"})Pageable pageable){
 
+        HashMap<String,Page<Product>> mapProducts;
+        mapProducts = new HashMap<>();
+
         Page<Product> products = null;
         products = productRepo.findAll(pageable);
+        mapProducts.put("productsAll",products);
+
+        Page<Product> productsOnSale = productRepo.findBySaleNotNull(pageable);
+        mapProducts.put("productsOnSale",productsOnSale);
+
+        Page<Product> newProducts = productRepo.findByNewProductNotNullAndImageListNotNull(pageable);
+        mapProducts.put("newProducts",newProducts);
 
         Iterable<Brand> brands = brandRepo.findAll();
         model.addAttribute("brands",brands);
-
-        HashMap<String,Page<Product>> mapProducts;
-        mapProducts = new HashMap<>();
-        mapProducts.put("productsAll",products);
-
 
         for (Brand brand : brands) {
             products = productRepo.findByBrand(brand, pageable);
             mapProducts.put(brand.getName(),products);
         }
 
-        List<Product> newProducts = (List<Product>) productRepo.findByNewProductNotNullAndImageListNotNull();
-
         model.addAttribute("mapProducts",mapProducts);
-        model.addAttribute("newProducts",newProducts);
         return "/index";
     }
 }

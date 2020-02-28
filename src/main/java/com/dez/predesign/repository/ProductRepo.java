@@ -16,8 +16,9 @@ public interface ProductRepo extends CrudRepository<Product,Long>, JpaRepository
     Page<Product> findByBrand(Brand brand, Pageable pageable);
     Page<Product> findByBrand(String name, Pageable pageable);
     Page<Product> findAll(Example example, Pageable pageable);
-    Iterable<Product> findBySaleNotNull();
-    List<Product> findByNewProductNotNullAndImageListNotNull();
+    Page<Product> findBySaleNotNull(Pageable pageable);
+
+    Page<Product> findByNewProductNotNullAndImageListNotNull(Pageable pageable);
 
 
 }
