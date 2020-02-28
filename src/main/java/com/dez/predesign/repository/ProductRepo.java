@@ -10,16 +10,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepo extends CrudRepository<Product,Long>, JpaRepository<Product,Long> {
     Page<Product> findByBrand(Brand brand, Pageable pageable);
-    Iterable<Product> findByBrand(String name);
-    Page<Product> findByCategory(Category category, Pageable pageable);
-    Page<Product> findByCategory_Ancestor(Category categories ,Pageable pageable);
-    List<Product> findAll(Example example);
+    Page<Product> findByBrand(String name, Pageable pageable);
     Page<Product> findAll(Example example, Pageable pageable);
     Iterable<Product> findBySaleNotNull();
-
     List<Product> findByNewProductNotNullAndImageListNotNull();
 
 

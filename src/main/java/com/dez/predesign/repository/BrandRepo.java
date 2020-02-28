@@ -3,7 +3,8 @@ package com.dez.predesign.repository;
 import com.dez.predesign.data.catalog.Brand;
 import org.springframework.data.repository.CrudRepository;
 
-public interface BrandRepo extends CrudRepository<Brand,String> {
+import java.util.List;
 
+public interface BrandRepo extends CrudRepository<Brand,String> {
     Brand findByName(String name);
 }
