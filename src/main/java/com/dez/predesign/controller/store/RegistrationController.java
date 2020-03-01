@@ -1,4 +1,4 @@
-package com.dez.predesign.controller;
+package com.dez.predesign.controller.store;
 
 import com.dez.predesign.data.User;
 import com.dez.predesign.repository.UserRepo;

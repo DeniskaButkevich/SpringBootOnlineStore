@@ -1,6 +1,6 @@
-package com.dez.predesign.controller.Product;
+package com.dez.predesign.controller.admin;
 
-import com.dez.predesign.controller.ControllerUtils;
+import com.dez.predesign.util.ControllerUtils;
 import com.dez.predesign.data.Product;
 import com.dez.predesign.data.User;
 import com.dez.predesign.data.catalog.Brand;
@@ -21,14 +21,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 public class ProductController {
@@ -83,11 +80,11 @@ public class ProductController {
         Page<Product> page;
 
         if (filter != null && !filter.getName().isEmpty())
-            page = productRepo.findByBrand(filter, pageable);
+            page = productRepo.findByBrand(pageable, filter);
         else
             page = productRepo.findAll(pageable);
 
-        List<Integer> listpages = pageService.listPages(pageable, page);
+        List<Integer> listpages = pageService.listPages(page);
 
         model.addAttribute("listpages", listpages);
         model.addAttribute("page", page);
@@ -117,7 +114,7 @@ public class ProductController {
             productRepo.save(product);
         }
         Page<Product> page = productRepo.findAll(pageable);
-        List<Integer> listpages = pageService.listPages(pageable, page);
+        List<Integer> listpages = pageService.listPages(page);
 
         model.addAttribute("listpages", listpages);
 

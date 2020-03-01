@@ -1,4 +1,4 @@
-package com.dez.predesign.controller.Product;
+package com.dez.predesign.controller.admin.Product;
 
 import com.dez.predesign.data.catalog.Color;
 import com.dez.predesign.repository.ColorRepo;

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public class PageService {
-    public List<Integer> listPages(Pageable pageable, Page page) {
+    public List<Integer> listPages(Page page) {
 
         if(page.getTotalPages() > 7){
 

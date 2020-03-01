@@ -55,10 +55,10 @@
     <br>
     <h2> Categories Output</h2>
     <th:block th:if="${setCategoriesLevelOne != null}" th:each=" categoryLevelOne : ${setCategoriesLevelOne}">
-        <h3 style="display: inline" th:text="${'_' + categoryLevelOne.name}"></h3>
+        <h3 style="display: inline" th:text="${categoryLevelOne.id + '_' + categoryLevelOne.name}"></h3>
             <a th:href="@{/admins/product/categories/delete/{path}/(path=${categoryLevelOne.id})}">delete</a><div></div>
         <th:block th:if="${setCategoriesLevelTwo != null}" th:each="CategoriesLevelTwo : ${setCategoriesLevelTwo}">
-            <h4 style="display: inline" th:text="${CategoriesLevelTwo.ancestor == categoryLevelOne ? '___' + CategoriesLevelTwo.name : ''}"></h4>
+            <h4 style="display: inline" th:text="${CategoriesLevelTwo.ancestor == categoryLevelOne ? CategoriesLevelTwo.id + '___' + CategoriesLevelTwo.name : ''}"></h4>
             <a th:if="${CategoriesLevelTwo.ancestor == categoryLevelOne}" th:href="@{/admins/product/categories/delete/{path}/(path=${CategoriesLevelTwo.id})}">delete</a><div></div>
         </th:block>
     </th:block>

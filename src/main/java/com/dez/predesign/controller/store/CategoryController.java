@@ -1,9 +1,8 @@
-package com.dez.predesign.controller;
+package com.dez.predesign.controller.store;
 
 import com.dez.predesign.data.Product;
 import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.data.catalog.Category;
-import com.dez.predesign.data.catalog.Color;
 import com.dez.predesign.repository.BrandRepo;
 import com.dez.predesign.repository.CategoryRepo;
 import com.dez.predesign.repository.ColorRepo;
@@ -15,11 +14,11 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 @Controller
@@ -40,65 +39,63 @@ public class CategoryController {
     @Autowired
     PageService pageService;
 
-    @ModelAttribute(name = "categoriesLevelOne")
-    public List<Category> setCategoriesLevelOne() {
-        return categoryRepo.findByLevelAndDescendant(1, null);
-    }
-
-    @ModelAttribute(name = "categoriesLevelTwo")
-    public List<Category> setCategoriesLevelTwo() {
-        return categoryRepo.findByLevel(2);
-    }
 
     @GetMapping("/category")
     public String show(Model model,
                        @RequestParam Map<String, String> allRequestParams,
                        @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
-
         //Sort by
         if (allRequestParams.get("filter") != null && !allRequestParams.get("filter").isEmpty())
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(
                     allRequestParams.get("filter")
             ));
 
-        Category categoryFilter = null;
-        Brand brandFilter = null;
+        //start filter by param
+        Iterable<Category> categoriesForFilter = null;
 
-        Page<Product> page = null;
-        Iterable<Category> filterCategory = categoryRepo.findByLevel(2);
-        Iterable<Brand> filterBrand = brandRepo.findAll();
+        boolean p_category_exist = allRequestParams.get("category") != null && !allRequestParams.get("category").isEmpty();
+        boolean p_brand_exist = allRequestParams.get("brand") != null && !allRequestParams.get("brand").isEmpty();
 
-        if(allRequestParams.get("brand") != null && !allRequestParams.get("brand").isEmpty())
-            brandFilter = brandRepo.findByName(allRequestParams.get("brand"));
-
-        if (allRequestParams.get("category") != null && !allRequestParams.get("category").isEmpty()) {
-
+        if (p_category_exist) {
             Category category = categoryRepo.findById(
                     Long.parseLong(
                             allRequestParams.get("category"))).get();
 
-            if (category.getLevel() == 2) {
-                filterCategory = categoryRepo.findByAncestor(category.getAncestor());
-            } else {
-                filterCategory = categoryRepo.findByAncestor(category);
+            if (category.getLevel() == 2){
+                categoriesForFilter = categoryRepo.findByAncestor(category.getAncestor());
+            } else{
+                categoriesForFilter = categoryRepo.findByAncestor(category);
             }
-            categoryFilter = category;
+        } else{
+            categoriesForFilter = categoryRepo.findByLevel(2);
         }
 
-        Product productForExample = Product.builder().category(categoryFilter).brand(brandFilter).build();
+        Iterable<Brand> brandForFilter = null;
+        if(p_brand_exist)
+            brandForFilter = brandRepo.findByName(allRequestParams.get("brand"));
+        else
+            brandForFilter = brandRepo.findAll();
+        //end filter by param
 
-        ExampleMatcher matcher =
-                ExampleMatcher.matching().withIncludeNullValues().withIgnorePaths("id", "color", "price", "description", "filename", "hoverFilename", "sale", "newProduct")
-                        .withNullHandler(ExampleMatcher.NullHandler.IGNORE);
+        Page<Product> page = null;
 
-        Example<Product> example = Example.of(productForExample, matcher);
+        if(p_category_exist && p_brand_exist){
+            page = productRepo.findBC(pageable, categoriesForFilter, brandForFilter);
+        }else if(p_brand_exist){
+            page = productRepo.findB(pageable, brandForFilter);
+        }else if(p_category_exist){
+            page = productRepo.findC(pageable,categoriesForFilter);
+        }else
+            page = productRepo.findAll(pageable);
 
-        page = productRepo.findAll(example, pageable);
+
+        brandForFilter = brandRepo.findAll();
 
         model.addAttribute("page", page);
-        model.addAttribute("filterCategory", filterCategory);
-        model.addAttribute("filterBrand", filterBrand);
-        List<Integer> listpages = pageService.listPages(pageable, page);
+        model.addAttribute("filterCategory", categoriesForFilter);
+        model.addAttribute("filterBrand", brandForFilter);
+
+        List<Integer> listpages = pageService.listPages(page);
         model.addAttribute("listpages", listpages);
 
         String setParam = "";
@@ -113,6 +110,13 @@ public class CategoryController {
         model.addAttribute("url", url);
         model.addAttribute("setParam", setParam);
 
+        List<Long> lds = productRepo.findAllId();
+
+        Random rand = new Random();
+        Long randomElement = lds.get(rand.nextInt(lds.size()));
+
+        Product productForTop = productRepo.findOneProduct(randomElement);
+        model.addAttribute("productForTop", productForTop);
         return "/category";
     }
 }

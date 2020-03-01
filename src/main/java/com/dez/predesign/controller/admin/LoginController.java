@@ -1,4 +1,4 @@
-package com.dez.predesign.controller;
+package com.dez.predesign.controller.admin;
 
 import com.dez.predesign.data.User;
 import org.springframework.security.core.Authentication;

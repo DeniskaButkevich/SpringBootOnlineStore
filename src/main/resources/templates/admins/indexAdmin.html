@@ -12,6 +12,16 @@
     </row>
     <div class="container mt-5">
         <h2 th:text="Welcome "></h2><h3 sec:authentication="name"></h3>
+        <p th:text="${#ctx.#httpServletRequest.getCookies()}"></p>
+        <p th:text="${#ctx.#response.addHeader('eblan','dez')}"></p>
+        <h1>eee</h1>
+        <p th:text="${#ctx.#request.getHeader('eblan')}"></p>
+
+        <br>
+        <h1>go</h1>
+        <th:block th:each="item : ${#ctx.#httpServletRequest.getCookies()}">
+            <p th:text="${item}"></p>
+        </th:block>
 </div>
 </body>
 </html>

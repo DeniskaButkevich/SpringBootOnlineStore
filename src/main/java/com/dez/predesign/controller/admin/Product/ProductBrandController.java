@@ -1,4 +1,4 @@
-package com.dez.predesign.controller.Product;
+package com.dez.predesign.controller.admin.Product;
 
 import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.repository.BrandRepo;
@@ -27,7 +27,7 @@ public class ProductBrandController {
     @PostMapping("add")
     public String addBrands(@RequestParam String name,Model model){
 
-       Brand brand = brandRepo.findByName(name);
+       Iterable<Brand> brand = brandRepo.findByName(name);
 
        if(brand != null) {
            model.addAttribute("nameError", "brand already exist");

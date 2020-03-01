@@ -1,8 +1,7 @@
-package com.dez.predesign.controller;
+package com.dez.predesign.controller.store;
 
 import com.dez.predesign.data.Product;
 import com.dez.predesign.data.catalog.Brand;
-import com.dez.predesign.data.catalog.Category;
 import com.dez.predesign.repository.BrandRepo;
 import com.dez.predesign.repository.CategoryRepo;
 import com.dez.predesign.repository.ProductRepo;
@@ -14,33 +13,17 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class IndexController {
-
-    @Autowired
-    CategoryRepo categoryRepo;
 
     @Autowired
     ProductRepo productRepo;
 
     @Autowired
     BrandRepo brandRepo;
-
-    @ModelAttribute(name = "categoriesLevelOne")
-    public List<Category> setCategoriesLevelOne() {
-        return categoryRepo.findByLevelAndDescendant(1, null);
-    }
-
-    @ModelAttribute(name = "categoriesLevelTwo")
-    public List<Category> setCategoriesLevelTwo() {
-        return categoryRepo.findByLevel(2);
-    }
 
     @GetMapping(value = {"/index","/",""})
     public String show(Model model,
@@ -63,7 +46,7 @@ public class IndexController {
         model.addAttribute("brands",brands);
 
         for (Brand brand : brands) {
-            products = productRepo.findByBrand(brand, pageable);
+            products = productRepo.findByBrand(pageable, brand);
             mapProducts.put(brand.getName(),products);
         }
 

@@ -17,19 +17,22 @@
     <section id="content">
         <div id="category-header">
             <div class="row">
-                <div class="container">
+                <div class="container" th:object="${productForTop}">
                     <div class="col-2">
                         <div class="category-image">
-                            <img th:src="${'/img/catalog/' + page.getContent().get(0).filename}" alt="Phone" class="img-responsive">
+
+                            <img th:src="*{'/img/catalog/' + filename}" alt="Phone"
+                                 class="img-responsive">
                         </div><!-- End .category-image -->
 
                     </div><!-- End .col-2 -->
 
                     <div class="col-2 last">
                         <div class="category-title">
-                            <h2 th:text="${page.getContent().get(0).name}"></h2>
-                            <p th:text="${page.getContent().get(0).description}"></p>
-                            <a th:href="${'/product/' + page.getContent().get(0).id}" class="btn btn-custom">LEARN MORE</a>
+                            <h2 th:text="*{name}"></h2>
+                            <p th:text="*{description}"></p>
+                            <a th:href="*{'/product/' + id}" class="btn btn-custom">LEARN
+                                MORE</a>
                         </div><!-- End .category-title -->
                     </div><!-- End .col-2 -->
                 </div><!-- End .container -->
@@ -78,10 +81,11 @@
                                             <i class="fa fa-th-list"></i></a>
                                     </div><!-- End .view-box -->
                                 </div><!-- End .toolbox-filter -->
+
                                 <div th:include="/parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></div>
+
                             </div><!-- End .category-toolbar -->
                             <div class="md-margin"></div><!-- .space -->
-
                             <th:block th:if="${param.show!=null}">
                                 <th:block th:if="${#strings.contains(param.show,'tile')}">
                                     <div class="category-item-container category-list-container"
@@ -100,8 +104,13 @@
                                     <div th:include="/parts/pager.html :: itemTile(product)(${product})"></div>
                                 </div><!-- End .category-item-container -->
                             </th:block>
+                            <th:block th:if="${page.getNumberOfElements() == 0}">
+                                <h1>No Products</h1>
+                            </th:block>
                             <div class="row"></div>
+
                             <div th:include="/parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></div>
+
                         </div><!-- End .col-md-9 -->
 
                         <aside class="col-md-3 col-sm-4 col-xs-12 sidebar">
@@ -118,11 +127,11 @@
                                         <div id="category-list-1" class="collapse in">
                                             <div class="panel-body">
                                                 <ul class="category-filter-list jscrollpane">
-                                                    <th:block  th:each=" category: ${filterCategory}">
-                                                            <li><a
-                                                                    th:href="${url} + '?category=' + ${category.id} + '&' + ${setParam}"
-                                                                    th:text="${category.name} + '(' + ${category.getProducts().size()} + ')'"
-                                                            ></a></li>
+                                                    <th:block th:each=" category: ${filterCategory}">
+                                                        <li><a
+                                                                th:href="${url} + '?category=' + ${category.id} + '&' + ${setParam}"
+                                                                th:text="${category.name} + '(' + ${category.getProducts().size()} + ')'"
+                                                        ></a></li>
                                                     </th:block>
                                                 </ul>
                                             </div><!-- End .panel-body -->
@@ -140,7 +149,7 @@
                                         <div id="category-list-2" class="collapse in">
                                             <div class="panel-body">
                                                 <ul class="category-filter-list jscrollpane">
-                                                    <th:block  th:each=" brand: ${filterBrand}">
+                                                    <th:block th:each=" brand: ${filterBrand}">
                                                         <li><a
                                                                 th:href="${url} + '?brand=' + ${brand.name} + '&' + ${setParam}"
                                                                 th:text="${brand.name} + '(' + ${brand.getProducts().size()} + ')'"

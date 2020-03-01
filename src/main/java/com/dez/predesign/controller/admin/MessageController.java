@@ -1,14 +1,13 @@
-package com.dez.predesign.controller;
+package com.dez.predesign.controller.admin;
 
 import com.dez.predesign.data.Message;
 import com.dez.predesign.data.User;
 import com.dez.predesign.repository.MessageRepo;
-import com.dez.predesign.service.MessageService;
 import com.dez.predesign.service.PageService;
+import com.dez.predesign.util.ControllerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -54,7 +53,7 @@ public class MessageController  {
         else
             page = messageRepo.findAll(pageable);
 
-        List<Integer> listpages = pageService.listPages(pageable, page);
+        List<Integer> listpages = pageService.listPages(page);
 
         model.addAttribute("listpages", listpages);
         model.addAttribute("page", page);
@@ -102,7 +101,7 @@ public class MessageController  {
             messageRepo.save(message);
         }
         Page<Message> page = messageRepo.findAll(pageable);
-        List<Integer> listpages = pageService.listPages(pageable, page);
+        List<Integer> listpages = pageService.listPages(page);
 
         model.addAttribute("listpages", listpages);
 

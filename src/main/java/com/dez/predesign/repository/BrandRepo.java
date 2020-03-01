@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface BrandRepo extends CrudRepository<Brand,String> {
-    Brand findByName(String name);
+    Iterable<Brand> findByName(String name);
 }

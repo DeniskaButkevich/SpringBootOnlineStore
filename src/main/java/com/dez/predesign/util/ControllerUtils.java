@@ -1,4 +1,4 @@
-package com.dez.predesign.controller;
+package com.dez.predesign.util;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
