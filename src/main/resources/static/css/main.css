@@ -1,0 +1,20 @@
+div.fix_cart {
+    position: fixed;
+    bottom: 63px;
+    right: 15px;
+    padding: 2px 5px;
+    background: #7bae23;
+    color: whitesmoke;
+    border-radius: 14px;;
+    display: none;
+}
+div.fix_compare {
+    position: fixed;
+    bottom: 118px;
+    right: 15px;
+    padding: 2px 5px;
+    background: #7bae23;
+    color: whitesmoke;
+    border-radius: 14px;
+    display: none;
+}

@@ -183,9 +183,10 @@
                                                     <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a>
                                                     </h3>
                                                     <div class="item-action">
-                                                        <a href="#" class="item-add-btn">
-                                                            <span class="icon-cart-text">Add to Cart</span>
-                                                        </a>
+                                                        <button th:onclick="'addToCart(' +${product.id} +')'"  class="item-add-btn">
+                                                            <span class="icon-cart-text"
+                                                                  th:attrappend="class=${' ' + product.id}">Add to Cart</span>
+                                                        </button>
                                                         <div class="item-action-inner">
                                                             <a href="#" class="icon-button icon-like">Favourite</a>
                                                             <a href="#" class="icon-button icon-compare">Checkout</a>
@@ -236,9 +237,10 @@
                                                         <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a>
                                                         </h3>
                                                         <div class="item-action">
-                                                            <a href="#" class="item-add-btn">
-                                                                <span class="icon-cart-text">Add to Cart</span>
-                                                            </a>
+                                                            <button th:onclick="'addToCart(' +${product.id} +')'"  class="item-add-btn">
+                                                            <span class="icon-cart-text"
+                                                                  th:attrappend="class=${' ' + product.id}">Add to Cart</span>
+                                                            </button>
                                                             <div class="item-action-inner">
                                                                 <a href="#" class="icon-button icon-like">Favourite</a>
                                                                 <a href="#" class="icon-button icon-compare">Checkout</a>
@@ -325,9 +327,10 @@
                                                 </div><!-- End .rating-container -->
                                                 <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a></h3>
                                                 <div class="item-action">
-                                                    <a href="#" class="item-add-btn">
-                                                        <span class="icon-cart-text">Add to Cart</span>
-                                                    </a>
+                                                    <button th:onclick="'addToCart(' +${product.id} +')'"  class="item-add-btn">
+                                                            <span class="icon-cart-text"
+                                                                  th:attrappend="class=${' ' + product.id}">Add to Cart</span>
+                                                    </button>
                                                     <div class="item-action-inner">
                                                         <a href="#" class="icon-button icon-like">Favourite</a>
                                                         <a href="#" class="icon-button icon-compare">Checkout</a>
@@ -521,6 +524,16 @@
     <footer th:insert="parts/footer.html :: footer"></footer>
 </div><!-- End #wrapper -->
 
+<div id="scroll-compare" class="fix_compare" >
+    <a class="btn btn-custom" th:id="product_compare"></a>
+    <a class="btn btn-custom glyphicon glyphicon-trash"></a>
+</div>
+<div id="scroll-cart" class="fix_cart" >
+    <a href="/cart" class="btn btn-custom product_cart"></a>
+    <a class="btn btn-custom glyphicon glyphicon-trash"
+    th:onclick="'removeFromCart()'"></a>
+</div>
+
 <a href="#" id="scroll-top" title="Scroll to Top"><i class="fa fa-angle-up"></i></a><!-- End #scroll-top -->
 
 <!-- END -->
@@ -537,6 +550,7 @@
 <script src="js/jquery.themepunch.tools.min.js"></script>
 <script src="js/jquery.themepunch.revolution.min.js"></script>
 <script src="js/main.js"></script>
+<script src="js/index.js"></script>
 
 <script>
     $(function () {
