@@ -102,3 +102,37 @@
     </div><!-- End #footer-bottom -->
 
 </footer><!-- End #footer -->
+
+<th:block th:fragment="afterFooter">
+    <div id="scroll-compare" class="fix_compare" >
+        <a class="btn btn-custom" th:id="product_compare"></a>
+        <a class="btn btn-custom glyphicon glyphicon-trash"></a>
+    </div>
+    <div id="scroll-cart" class="fix_cart" >
+        <a href="/cart" class="btn btn-custom product_cart"></a>
+        <a class="btn btn-custom glyphicon glyphicon-trash"
+           th:onclick="'removeFromCart()'"></a>
+    </div>
+
+    <a href="#" id="scroll-top" title="Scroll to Top"><i class="fa fa-angle-up"></i></a><!-- End #scroll-top -->
+
+    <!-- END -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/smoothscroll.js"></script>
+    <script src="/js/jquery.debouncedresize.js"></script>
+    <script src="/js/retina.min.js"></script>
+    <script src="/js/jquery.placeholder.js"></script>
+    <script src="/js/jquery.hoverIntent.min.js"></script>
+    <script src="/js/jquery.flexslider-min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/jflickrfeed.min.js"></script>
+    <script src="/js/jquery.prettyPhoto.js"></script>
+    <script src="/js/jquery.nouislider.min.js"></script>
+    <script src="/js/jquery.jscrollpane.min.js"></script>
+    <script src="/js/jquery.mousewheel.js"></script>
+    <script src="/js/jquery.themepunch.tools.min.js"></script>
+    <script src="/js/jquery.themepunch.revolution.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/index.js"></script>
+
+</th:block><!-- End #footer -->

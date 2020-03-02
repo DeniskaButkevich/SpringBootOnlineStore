@@ -18,7 +18,7 @@
         <div id="breadcrumb-container">
             <div class="container">
                 <ul class="breadcrumb">
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index">Home</a></li>
                     <li class="active">Product</li>
                 </ul>
             </div>
@@ -115,7 +115,19 @@
                                     <a href="#" onclick="return false;" class="quantity-btn quantity-input-down"><i
                                             class="fa fa-angle-down"></i></a>
                                 </div>
-                                <button class="btn btn-custom-2">ADD TO CART</button>
+<!--                                <button class="btn btn-custom-2">ADD TO CART</button>-->
+                                <th:block th:if="${authorizedUserId < 0}">
+                                    <button data-toggle="modal" data-target="#exampleModal"  class="btn btn-custom-2">
+                                        <span class="icon-cart-text">Add to Cart</span>
+                                    </button>
+                                </th:block>
+
+                                <th:block th:unless="${authorizedUserId < 0}">
+                                    <button th:onclick="'addToCart(' +${product.id} +')'"  class="btn btn-custom-2">
+                                                            <span class="icon-cart-text"
+                                                                  th:attrappend="class=${' ' + product.id}">Add to Cart</span>
+                                    </button>
+                                </th:block>
                             </div><!-- .product-add -->
                             <div class="md-margin"></div><!-- Space -->
                             <div class="product-extra clearfix">
@@ -306,7 +318,7 @@
                             <div class="item item-hover">
                                 <div class="item-image-wrapper">
                                     <figure class="item-image-container">
-                                        <a href="product.html">
+                                        <a href="product">
                                             <img src="images/products/item7.jpg" alt="item1" class="item-image">
                                             <img src="images/products/item7-hover.jpg" alt="item1  Hover"
                                                  class="item-image-hover">
@@ -326,7 +338,7 @@
                                                     5 Reviews
                                                 </span>
                                     </div><!-- End .rating-container -->
-                                    <h3 class="item-name"><a href="product.html">Phasellus consequat</a></h3>
+                                    <h3 class="item-name"><a href="product">Phasellus consequat</a></h3>
                                     <div class="item-action">
                                         <a href="#" class="item-add-btn">
                                             <span class="icon-cart-text">Add to Cart</span>
@@ -516,24 +528,33 @@
 
     </section><!-- End #content -->
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Not registered</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Please register to add to cart.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <a href="/registration"><button type="button" class="btn btn-primary">Registration</button></a>
+                    <a href="/admin"><button type="button" class="btn btn-primary">Login</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer th:insert="parts/footer.html :: footer"></footer><!-- End #footer -->
+
 </div><!-- End #wrapper -->
-<a href="#" id="scroll-top" title="Scroll to Top"><i class="fa fa-angle-up"></i></a><!-- End #scroll-top -->
-<!-- END -->
-<script src="js/bootstrap.min.js"></script>
-<script src="js/smoothscroll.js"></script>
-<script src="js/jquery.debouncedresize.js"></script>
-<script src="js/retina.min.js"></script>
-<script src="js/jquery.placeholder.js"></script>
-<script src="js/jquery.hoverIntent.min.js"></script>
-<script src="js/twitter/jquery.tweet.min.js"></script>
-<script src="js/jquery.flexslider-min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/jflickrfeed.min.js"></script>
-<script src="js/jquery.prettyPhoto.js"></script>
-<script src="js/jquery.nouislider.min.js"></script>
-<script src="js/jquery.jscrollpane.min.js"></script>
-<script src="js/jquery.mousewheel.js"></script>
-<script src="js/main.js"></script>
+
+<th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer -->
+
 </body>
 </html>

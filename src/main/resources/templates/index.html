@@ -183,10 +183,20 @@
                                                     <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a>
                                                     </h3>
                                                     <div class="item-action">
-                                                        <button th:onclick="'addToCart(' +${product.id} +')'"  class="item-add-btn">
+
+                                                        <th:block th:if="${authorizedUserId < 0}">
+                                                            <button data-toggle="modal" data-target="#exampleModal"  class="item-add-btn">
+                                                                <span class="icon-cart-text">Add to Cart</span>
+                                                            </button>
+                                                        </th:block>
+
+                                                        <th:block th:unless="${authorizedUserId < 0}">
+                                                            <button th:onclick="'addToCart(' +${product.id} +')'"  class="item-add-btn">
                                                             <span class="icon-cart-text"
                                                                   th:attrappend="class=${' ' + product.id}">Add to Cart</span>
-                                                        </button>
+                                                            </button>
+                                                        </th:block>
+
                                                         <div class="item-action-inner">
                                                             <a href="#" class="icon-button icon-like">Favourite</a>
                                                             <a href="#" class="icon-button icon-compare">Checkout</a>
@@ -237,10 +247,20 @@
                                                         <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a>
                                                         </h3>
                                                         <div class="item-action">
-                                                            <button th:onclick="'addToCart(' +${product.id} +')'"  class="item-add-btn">
+
+                                                            <th:block th:if="${authorizedUserId < 0}">
+                                                                <button data-toggle="modal" data-target="#exampleModal"  class="item-add-btn">
+                                                            <span class="icon-cart-text">Add to Cart</span>
+                                                                </button>
+                                                            </th:block>
+
+                                                            <th:block th:unless="${authorizedUserId < 0}">
+                                                                <button th:onclick="'addToCart(' +${product.id} +')'"  class="item-add-btn">
                                                             <span class="icon-cart-text"
                                                                   th:attrappend="class=${' ' + product.id}">Add to Cart</span>
-                                                            </button>
+                                                                </button>
+                                                            </th:block>
+
                                                             <div class="item-action-inner">
                                                                 <a href="#" class="icon-button icon-like">Favourite</a>
                                                                 <a href="#" class="icon-button icon-compare">Checkout</a>
@@ -327,10 +347,20 @@
                                                 </div><!-- End .rating-container -->
                                                 <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a></h3>
                                                 <div class="item-action">
-                                                    <button th:onclick="'addToCart(' +${product.id} +')'"  class="item-add-btn">
+
+                                                    <th:block th:if="${authorizedUserId < 0}">
+                                                        <button data-toggle="modal" data-target="#exampleModal"  class="item-add-btn">
+                                                            <span class="icon-cart-text">Add to Cart</span>
+                                                        </button>
+                                                    </th:block>
+
+                                                    <th:block th:unless="${authorizedUserId < 0}">
+                                                        <button th:onclick="'addToCart(' +${product.id} +')'"  class="item-add-btn">
                                                             <span class="icon-cart-text"
                                                                   th:attrappend="class=${' ' + product.id}">Add to Cart</span>
-                                                    </button>
+                                                        </button>
+                                                    </th:block>
+
                                                     <div class="item-action-inner">
                                                         <a href="#" class="icon-button icon-like">Favourite</a>
                                                         <a href="#" class="icon-button icon-compare">Checkout</a>
@@ -520,37 +550,31 @@
         </div><!-- End .container -->
 
     </section><!-- End #content -->
-
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Not registered</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Please register to add to cart.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <a href="/registration"><button type="button" class="btn btn-primary">Registration</button></a>
+                    <a href="/admin"><button type="button" class="btn btn-primary">Login</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer th:insert="parts/footer.html :: footer"></footer>
 </div><!-- End #wrapper -->
 
-<div id="scroll-compare" class="fix_compare" >
-    <a class="btn btn-custom" th:id="product_compare"></a>
-    <a class="btn btn-custom glyphicon glyphicon-trash"></a>
-</div>
-<div id="scroll-cart" class="fix_cart" >
-    <a href="/cart" class="btn btn-custom product_cart"></a>
-    <a class="btn btn-custom glyphicon glyphicon-trash"
-    th:onclick="'removeFromCart()'"></a>
-</div>
-
-<a href="#" id="scroll-top" title="Scroll to Top"><i class="fa fa-angle-up"></i></a><!-- End #scroll-top -->
-
-<!-- END -->
-<script src="js/bootstrap.min.js"></script>
-<script src="js/smoothscroll.js"></script>
-<script src="js/jquery.debouncedresize.js"></script>
-<script src="js/retina.min.js"></script>
-<script src="js/jquery.placeholder.js"></script>
-<script src="js/jquery.hoverIntent.min.js"></script>
-<script src="js/jquery.flexslider-min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/jflickrfeed.min.js"></script>
-<script src="js/jquery.prettyPhoto.js"></script>
-<script src="js/jquery.themepunch.tools.min.js"></script>
-<script src="js/jquery.themepunch.revolution.min.js"></script>
-<script src="js/main.js"></script>
-<script src="js/index.js"></script>
+<div th:replace="parts/footer.html :: afterFooter"></div><!-- End #footer -->
 
 <script>
     $(function () {
