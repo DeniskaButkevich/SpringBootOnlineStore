@@ -1,4 +1,4 @@
-package com.dez.predesign.service;
+package com.dez.predesign.component;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.util.Collection;
 
 @Component
-public class MySimpleUrlAuthenticationSuccessHandler
-        implements AuthenticationSuccessHandler {
+public class MyAuthenticationSuccessHandler
+        implements AuthenticationSuccessHandler{
 
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();

@@ -3,7 +3,22 @@ var cart = {}; //моя корзина
 $('document').ready(function(){
     checkCart();
 });
+function presF() {
+    cart[656] = 777;
+    localStorage.setItem('cart', JSON.stringify(cart));
+    $.ajax({
+        type : "POST",
+        url : "/filter",
+        data : {
+            cart : JSON.parse(localStorage.getItem("cart"))
 
+        }, // parameters
+        success : function() {
+            alert('Load was performed.');
+        }
+    });
+
+}
 function addToCart(productId) {
 
     if (cart[productId] == undefined ) {

@@ -32,13 +32,15 @@ public class ForAll {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Integer userId;
 
-        if(authentication.getPrincipal().toString().equals("anonymousUser")){
+        if (authentication.getPrincipal().toString().equals("anonymousUser")) {
             userId = -1;
-        }else{
-            User customUser = (User)authentication.getPrincipal();
+        } else {
+            User customUser = (User) authentication.getPrincipal();
             userId = customUser.getId();
         }
 
         return userId;
     }
+
+
 }

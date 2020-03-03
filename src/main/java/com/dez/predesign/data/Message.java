@@ -6,11 +6,13 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
 
 @Data
 @Entity
 @NoArgsConstructor
-public class Message  {
+public class Message implements HttpSessionBindingListener {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -47,5 +49,10 @@ public class Message  {
 
     public String getAuthorName() {
         return author != null ? author.getUsername() : "<none>";
+    }
+
+    @Override
+    public void valueUnbound(HttpSessionBindingEvent event) {
+
     }
 }
