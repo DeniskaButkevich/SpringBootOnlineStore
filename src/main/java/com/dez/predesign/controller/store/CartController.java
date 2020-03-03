@@ -22,7 +22,7 @@ public class CartController {
     @GetMapping("/cart")
     public String cart(Model model, @CookieValue(name = "cart", required = false) String cart) {
 
-        if(cart != null){
+        if(cart != null && !cart.isEmpty()){
             String[] values = cart.split("\\|");
             List<Long> ids = new ArrayList<>();
 
