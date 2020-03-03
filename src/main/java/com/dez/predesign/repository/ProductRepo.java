@@ -3,6 +3,7 @@ package com.dez.predesign.repository;
 import com.dez.predesign.data.Product;
 import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.data.catalog.Category;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,10 +27,12 @@ public interface ProductRepo extends CrudRepository<Product,Long>, JpaRepository
     @Query(value = "SELECT p FROM Product  p WHERE p.category IN :categories")
     Page<Product> findC(Pageable pageable, @Param("categories") Iterable<Category> names);
 
-    @Query(
-            value = "select p FROM Product p where p.id = :ids")
+    @Query(value = "select p FROM Product p where p.id = :ids")
     Product findOneProduct(@Param("ids") Long ids);
 
     @Query(value ="SELECT p.id from Product p")
     List<Long> findAllId();
+
+    @Query(value = "SELECT p FROM Product p WHERE p.id IN :ids")
+    Iterable<Product> findAllProductsByIds( List<Long> ids);
 }

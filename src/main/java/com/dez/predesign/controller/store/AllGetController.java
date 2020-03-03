@@ -28,11 +28,6 @@ public class AllGetController {
         return "/aboutus";
     }
 
-    @GetMapping("/cart")
-    public String cart(){
-        return "/cart";
-    }
-
     @GetMapping("/compare-products")
     public String compareProducts(){
         return "/compare-products";

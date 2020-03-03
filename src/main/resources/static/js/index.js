@@ -3,28 +3,18 @@ var cart = {}; //моя корзина
 $('document').ready(function(){
     checkCart();
 });
-function presF() {
-    cart[656] = 777;
-    localStorage.setItem('cart', JSON.stringify(cart));
-    $.ajax({
-        type : "POST",
-        url : "/filter",
-        data : {
-            cart : JSON.parse(localStorage.getItem("cart"))
 
-        }, // parameters
-        success : function() {
-            alert('Load was performed.');
-        }
-    });
-
-}
 function addToCart(productId) {
 
     if (cart[productId] == undefined ) {
         cart[productId] = 1;
         localStorage.setItem('cart', JSON.stringify(cart));
 
+            var str = "cart=";
+        for (var key in cart){
+            str += key + '-' + cart[key] + '|';
+        }
+        document.cookie = str;
 
         var elem = document.getElementsByClassName("product_cart");
         for (var i = 0; i < elem.length; i++){
@@ -61,7 +51,9 @@ function removeFromCart() {
     }
 
     cart = {};
-    localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.removeItem('cart');
+    document.cookie = "cart= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+
     document.getElementById("scroll-cart").style.display = "none";
 }
 
@@ -88,6 +80,4 @@ function checkCart(){
             }
         }
     }
-
-
 }

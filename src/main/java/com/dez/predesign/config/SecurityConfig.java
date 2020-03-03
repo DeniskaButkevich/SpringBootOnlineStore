@@ -40,26 +40,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new CustomLogoutSuccessHandler();
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http
                 .authorizeRequests()
-                .antMatchers("/admins/**")
-                .access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/**")
-                .access("permitAll()")
+                    .antMatchers("/admins/**")
+                    .access("hasRole('ROLE_ADMIN')")
+                    .antMatchers("/**")
+                    .access("permitAll()")
                 .and()
-                .rememberMe()
+                    .rememberMe()
                 .and()
-                .formLogin()
-                .loginPage("/admin")
-                .successHandler(new MyAuthenticationSuccessHandler())
+                    .formLogin()
+                    .loginPage("/admin")
+                    .successHandler(new MyAuthenticationSuccessHandler())
                 .and()
-                .logout().logoutSuccessHandler(new CustomLogoutSuccessHandler())
+                    .logout().logoutSuccessHandler(new CustomLogoutSuccessHandler())
                 .and()
-                .exceptionHandling().accessDeniedPage("/403");
+                    .exceptionHandling().accessDeniedPage("/403");
     }
 
 //    @Autowired
@@ -72,7 +70,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .passwordEncoder(NoOpPasswordEncoder.getInstance())
 //                .usersByUsernameQuery("select username, password, active from usr where username=?")
 //                .authoritiesByUsernameQuery("select u.username, ur.roles from usr u inner join user_role ur on u.id = ur.user_id where u.username=?");
-
         auth.userDetailsService(userService)
                 .passwordEncoder(passwordEncoder);
     }
