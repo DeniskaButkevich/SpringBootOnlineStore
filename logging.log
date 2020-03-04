@@ -1676,3 +1676,7 @@ java.lang.NumberFormatException: For input string: ""
 2020-03-04 02:21:01.629  INFO 15488 --- [restartedMain] com.dez.predesign.PredesignApplication   : Started PredesignApplication in 9.184 seconds (JVM running for 11.202)
 2020-03-04 02:21:04.598  INFO 15488 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2020-03-04 02:42:16.531  WARN 15488 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=49s805ms564µs200ns).
+2020-03-04 03:02:00.298  INFO 15488 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-03-04 03:02:00.298  INFO 15488 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-03-04 03:02:00.298  INFO 15488 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-03-04 03:02:00.314  INFO 15488 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

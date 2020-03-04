@@ -87,7 +87,9 @@
                                         </tr>
                                     </th:block>
                                     </tbody>
+
                                 </table>
+                                <div class="md-margin2x"></div><!-- Space -->
 
                             </div><!-- End .col-md-12 -->
 
@@ -180,7 +182,7 @@
 
                             </div><!-- End .col-md-8 -->
 
-                            <div class="col-md-4 col-sm-12 col-xs-12">
+                            <div class="col-md-4 col-sm-12 col-xs-12" style="text-align: center;">
 
                                 <table class="table total-table">
                                     <tbody>
@@ -190,7 +192,7 @@
                                     </tr>
                                     <tr>
                                         <td class="total-table-title">Shipping:</td>
-                                        <td>$6.00</td>
+                                        <td>$0.00</td>
                                     </tr>
                                     <tr>
                                         <td class="total-table-title">TAX (0%):</td>
@@ -200,13 +202,12 @@
                                     <tfoot>
                                     <tr>
                                         <td>Total:</td>
-                                        <td>$440.50</td>
+                                        <td th:id="total_price"></td>
                                     </tr>
                                     </tfoot>
                                 </table>
                                 <div class="md-margin"></div><!-- End .space -->
-                                <a href="#" class="btn btn-custom-2">CONTINUE SHOPPING</a>
-                                <a href="#" class="btn btn-custom">CHECKOUT</a>
+                                <a href="/checkout" class="btn btn-custom-2">CONTINUE SHOPPING</a>
                             </div><!-- End .col-md-4 -->
                         </div><!-- End .row -->
 

@@ -13,11 +13,6 @@ import java.util.Map;
 @Controller
 public class AllGetController {
 
-    @GetMapping("/checkout")
-    public String checkout(){
-        return "/checkout";
-    }
-
     @GetMapping("/contact")
     public String contact(){
         return "/contact";

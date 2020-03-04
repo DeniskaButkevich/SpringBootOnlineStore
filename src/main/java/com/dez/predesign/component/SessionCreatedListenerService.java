@@ -27,23 +27,23 @@ public class SessionCreatedListenerService implements ApplicationListener<Applic
 
     @Override
     public void onApplicationEvent(ApplicationEvent applicationEvent) {
-//        if(applicationEvent instanceof ServletRequestHandledEvent)
+////        if(applicationEvent instanceof ServletRequestHandledEvent)
+////            logger.debug(applicationEvent.toString());
+//        if (applicationEvent instanceof HttpSessionCreatedEvent) { //If event is a session created event
+//
+//        } else if (applicationEvent instanceof HttpSessionDestroyedEvent) { //If event is a session destroy event
+//            // handler.expireCart();
+//            logger.debug("" + (Long) httpSession.getAttribute("userId"));
+//            logger.debug(" Session is destory  :"); //log data
+//
+//        } else if (applicationEvent instanceof AuthenticationSuccessEvent) { //If event is a session destroy event
+//            logger.debug("  athentication is success  :"); //log data
 //            logger.debug(applicationEvent.toString());
-        if (applicationEvent instanceof HttpSessionCreatedEvent) { //If event is a session created event
-
-        } else if (applicationEvent instanceof HttpSessionDestroyedEvent) { //If event is a session destroy event
-            // handler.expireCart();
-            logger.debug("" + (Long) httpSession.getAttribute("userId"));
-            logger.debug(" Session is destory  :"); //log data
-
-        } else if (applicationEvent instanceof AuthenticationSuccessEvent) { //If event is a session destroy event
-            logger.debug("  athentication is success  :"); //log data
-            logger.debug(applicationEvent.toString());
-        } else if (applicationEvent instanceof LogoutSuccessEvent) { //If event is a session destroy event
-            logger.debug("  athentication is logout  :"); //log data
-
-        }else{
-           // logger.debug(applicationEvent.toString());
-        }
+//        } else if (applicationEvent instanceof LogoutSuccessEvent) { //If event is a session destroy event
+//            logger.debug("  athentication is logout  :"); //log data
+//
+//        }else{
+//           // logger.debug(applicationEvent.toString());
+//        }
     }
 }

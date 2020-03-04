@@ -2,20 +2,15 @@ var cart = {}; //моя корзина
 
 $('document').ready(function(){
     checkCart();
+    totalPrice();
 });
 
 function addToCart(productId) {
 
     if (cart[productId] == undefined ) {
         cart[productId] = 1;
-        localStorage.setItem('cart', JSON.stringify(cart));
 
-        var str = "cart=";
-        for (var key in cart){
-            str += key + '-' + cart[key] + '|';
-        }
-        str += ';path=/';
-        document.cookie = str;
+        saveCart();
 
         var elem = document.getElementsByClassName("product_cart");
         for (var i = 0; i < elem.length; i++){
@@ -95,13 +90,18 @@ function counterChange(id, flag) {
         if (count == 1)
             return;
         count--;
+        cart[id]--;
+        saveCart();
     }else {
         count++;
+        cart[id]++;
+        saveCart();
     }
     document.getElementById('count-' + id)
         .setAttribute("value",count);
 
     att_price.innerText = price * count;
+    totalPrice()
 }
 
 function deleteProduct(id) {
@@ -113,14 +113,7 @@ function deleteProduct(id) {
         elem.item(i).textContent = "In the cart: " + Object.keys(cart).length.toString();
     }
 
-    var str = "cart=";
-    for (var key in cart){
-        str += key + '-' + cart[key] + '|';
-    }
-    str += ';path=/"';
-    document.cookie = str;
-
-    localStorage.setItem('cart', JSON.stringify(cart));
+    saveCart();
 
     document.getElementById('tr_product_id_' + id).remove();
 
@@ -130,5 +123,33 @@ function deleteProduct(id) {
 
         document.getElementById('empty_cart').style.display = 'block';
     }
+    totalPrice()
 }
 
+function totalPrice() {
+
+    var final_price = 0;
+
+    for(var key in cart){
+        var att_price = document.getElementById('price-' + key);
+        var att_count = document.getElementById('count-' + key);
+
+        var count = att_count.getAttribute("value");
+        var price = att_price.getAttribute("value");
+
+        final_price += price * count;
+    }
+
+    document.getElementById('total_price').innerText = '$' + final_price;
+}
+
+function saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    var str = "cart=";
+    for (var key in cart){
+        str += key + '-' + cart[key] + '|';
+    }
+    str += ';path=/';
+    document.cookie = str;
+}
