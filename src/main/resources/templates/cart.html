@@ -68,8 +68,7 @@
                                             </td>
                                             <td>
                                                 <div class="custom-quantity-input">
-                                                    <input type="text" name="quantity" th:id="'count-' + *{id}"
-                                                           value="1">
+                                                    <input disabled type="text" name="quantity" th:id="'count-' + *{id}" value="1">
                                                     <a th:onclick="'counterChange(' + *{id} + ', 1);'"
                                                        class="quantity-btn quantity-input-up"><i
                                                             class="fa fa-angle-up"></i></a>

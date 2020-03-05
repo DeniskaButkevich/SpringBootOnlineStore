@@ -62,4 +62,9 @@ public class AllGetController {
     public String singlePortfolioVideo(){
         return "/single-portfolio-video";
     }
+
+    @GetMapping("/orderSuccessful")
+    public String orderSuccessful(){
+        return "/orderSuccessful";
+    }
 }

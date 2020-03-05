@@ -128,19 +128,26 @@ function deleteProduct(id) {
 
 function totalPrice() {
 
-    var final_price = 0;
+    if (localStorage.getItem('cart') != null) {
+        var final_price = 0;
 
-    for(var key in cart){
-        var att_price = document.getElementById('price-' + key);
-        var att_count = document.getElementById('count-' + key);
+        for(var key in cart){
+            var att_price = document.getElementById('price-' + key);
+            var att_count = document.getElementById('count-' + key);
+            if(att_price == null || att_count == null)
+                return;
+            var count = cart[key];
+            var price = att_price.getAttribute("value");
 
-        var count = att_count.getAttribute("value");
-        var price = att_price.getAttribute("value");
+            final_price += price * count;
 
-        final_price += price * count;
+            document.getElementById('count-' + key)
+                .setAttribute("value",count);
+
+            att_price.innerText = price * count;
+        }
+        document.getElementById('total_price').innerText = '$' + final_price;
     }
-
-    document.getElementById('total_price').innerText = '$' + final_price;
 }
 
 function saveCart() {

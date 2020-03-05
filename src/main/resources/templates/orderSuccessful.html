@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html> <!--<![endif]-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="parts/head.html :: head"></head>
+<body>
+<script>
+    $('document').ready(function(){
+        removeFromCart();
+    });
+</script>
+<div id="wrapper">
+    <header th:insert="parts/header.html :: header"></header>
+    <!-- End #header -->
+    <section id="content">
+        <div id="breadcrumb-container">
+            <div class="container">
+                <ul class="breadcrumb">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active">Order Successful</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <div class="row">
+            <h1 style="text-align: center">The order has been sent</h1><br><br><br>
+        </div>
+    </div>
+
+    <footer th:insert="parts/footer.html :: footer"></footer><!-- End #footer -->
+</div>
+</body>
+</html>
