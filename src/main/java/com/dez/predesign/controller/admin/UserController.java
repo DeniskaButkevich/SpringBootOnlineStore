@@ -51,6 +51,14 @@ public class UserController {
         return "admins/userList";
     }
 
+    @GetMapping("/admins/user/{id}")
+    public String oneUser(@PathVariable String id, Model model){
+        model.addAttribute("user", userRepo.findById(Integer.parseInt(id)).get());
+        final String[] freeze = {"admin", "1"};
+        model.addAttribute("freeze", freeze);
+        return "admins/userOne";
+    }
+
     @GetMapping("/admins/users/edit/{id}")
     public String userEdit(@PathVariable String id,Model model){
 

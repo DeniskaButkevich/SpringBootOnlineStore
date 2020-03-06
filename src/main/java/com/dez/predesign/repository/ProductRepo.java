@@ -1,5 +1,6 @@
 package com.dez.predesign.repository;
 
+import com.dez.predesign.data.Order;
 import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.data.catalog.Category;

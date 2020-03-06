@@ -1,5 +1,6 @@
 package com.dez.predesign.controller.admin;
 
+import com.dez.predesign.data.Order;
 import com.dez.predesign.util.ControllerUtils;
 import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.data.User;
@@ -22,10 +23,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class ProductController {
@@ -49,6 +53,9 @@ public class ProductController {
 
     @Autowired
     ImageRepo imageRepo;
+
+    @Autowired
+    OrderRepo orderRepo;
 
     @ModelAttribute(name = "brands")
     public Iterable<Brand> brands() {
@@ -74,9 +81,9 @@ public class ProductController {
     private String uploadPath;
 
     @GetMapping("/admins/product")
-    public String productShow( @RequestParam(required = false, defaultValue = "") Brand filter,
-                                Model model,
-                                @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable) {
+    public String productShow(@RequestParam(required = false, defaultValue = "") Brand filter,
+                              @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable,
+                              Model model) {
         Page<Product> page;
 
         if (filter != null && !filter.getName().isEmpty())
@@ -92,6 +99,20 @@ public class ProductController {
         model.addAttribute("filter", filter);
 
         return "admins/productList";
+    }
+
+    @GetMapping("/admins/products_order")
+    public String productForOrder(@RequestParam(required = false, defaultValue = "") Order filter,
+                              HttpServletRequest request,
+                              Model model) {
+
+        Set<Product> products = filter.getProducts();
+        model.addAttribute("products", products);
+        String url = pageService.getAbsolutePath(request);
+
+        model.addAttribute("url", url);
+
+        return "admins/productForOrder";
     }
 
     @PostMapping("/admins/product")

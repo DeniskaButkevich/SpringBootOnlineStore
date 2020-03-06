@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:include="admins/parts/head.html :: head">
+
+</head>
+<body style="background-color: #eee">
+
+<row>
+    <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
+</row>
+
+<div class="container mt-5">
+    <div class="row" >
+        <a th:href="${url}" class="btn btn-primary" role="button" style="color: white">Back</a>
+    </div>
+    <div class="card-columns">
+        <th:block th:each="product : ${products}">
+            <div class="card my-3 " th:object="${product}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="'Id: ' + *{id}">Card title</h5>
+                    <h5 class="card-title" th:text="'name: ' + *{name}">Card title</h5>
+                    <p class="card-text" th:text="'description: ' + *{description}"></p>
+                    <p class="card-text" th:text="'price: ' + *{price}"></p>
+                    <p class="card-text" th:text="'sale: ' + *{sale}"></p>
+                    <p class="card-text" th:text="'brand: ' + *{brand.getName()}"></p>
+                    <th:block th:if="*{color != null}">
+                        <label th:class="label-color" th:for="*{color != null ? color.getRgb() : ''}">
+                            <span th:attrappend="style=*{color != null ? 'background-color: rgb(' + color.getRgb() + ');' : ''}"></span>
+                        </label>
+                    </th:block>
+                    <p class="card-text" th:text="'newProduct: ' + *{newProduct}"></p>
+                </div>
+                <div class="card-footer ">
+                    <small class="text-muted" th:if="*{category != null}"
+                           th:text="*{'Category: ' + category.name + ' -> ' + category.ancestor.name + ';'}"></small>
+                    <small class="text-muted" th:if="*{filename != null}" th:text="${'Image 1: Yes;'}"></small>
+                    <small class="text-muted" th:unless="*{filename != null}" th:text="${'Image 1: No;'}"></small>
+                    <small class="text-muted" th:if="*{hoverFilename != null}" th:text="${'Image 2: Yes;'}"></small>
+                    <small class="text-muted" th:unless="*{hoverFilename != null}" th:text="${'Image 2: No;'}"></small>
+                    <div class="text-right">
+                        <a th:href="@{/admins/product/images/{path}(path=*{id})}">images</a>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="admins/parts/head.html :: head">
+
+</head>
+<body style="background-color: #eee">
+
+<row>
+    <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
+</row>
+
+<div class="container mt-5">
+    <div class="card-group">
+    <div class="list-group" th:object="${user}">
+        <div class="card" style="text-align: center">
+            <a href="#" class="list-group-item list-group-item-action active"
+               th:text="*{'ID: ' + id}">
+            </a>
+            <a href="#" class="list-group-item list-group-item-action "
+               th:text="*{'Username: ' + username}"></a>
+            <a href="#" class="list-group-item list-group-item-action "
+               th:text="*{'FirstName: ' + firstName}"></a>
+            <a href="#" class="list-group-item list-group-item-action "
+               th:text="*{'LastName: ' + lastName}"></a>
+            <a href="#" class="list-group-item list-group-item-action "
+               th:text="*{'Email : ' + email}"> </a>
+            <a href="#" class="list-group-item list-group-item-action "
+               th:text="*{'PostCode: ' + postCode}"></a>
+            <a href="#" class="list-group-item list-group-item-action "
+               th:text="*{'Adress: ' + address}"></a>
+            <a href="#" class="list-group-item list-group-item-action "
+               th:text="*{'PhoneNumber: ' + phoneNumber}"></a>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
