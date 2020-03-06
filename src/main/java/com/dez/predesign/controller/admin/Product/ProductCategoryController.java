@@ -38,7 +38,6 @@ public class ProductCategoryController {
 
     @PostMapping("/level_1")
     public String levelOne(@RequestParam String name, Model model) {
-
         List<Category> categories = categoryRepo.findByLevel(1);
 
         if (categories.stream().anyMatch(s -> s.getName().equals(name))) {
@@ -64,22 +63,18 @@ public class ProductCategoryController {
                 return "/admins/productCategories";
             }
         }
-
         Category levelTwo = new Category(categoryLevelTwo, 2, levelOne);
         categoryRepo.save(levelTwo);
 
         Category oneOgo = new Category(categoryLevelOne, levelTwo, 1);
         categoryRepo.save(oneOgo);
 
-
         return "redirect:/admins/product/categories";
     }
 
     @GetMapping("delete/{id}")
     public String deleteCategory(@PathVariable String id) {
-
         Category category = categoryRepo.findById(Long.parseLong(id)).get();
-
         Category ancestor = categoryRepo.findByDescendant(category);
         Iterable<Category> descendants = categoryRepo.findByAncestor(category);
 
@@ -91,7 +86,6 @@ public class ProductCategoryController {
             categoryRepo.delete(ancestor_);
             categoryRepo.delete(descendant);
         }
-
         categoryRepo.delete(category);
 
         return "redirect:/admins/product/categories";

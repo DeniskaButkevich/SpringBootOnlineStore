@@ -31,9 +31,9 @@ public class ProductBrandController {
 
        if(brand != null) {
            model.addAttribute("nameError", "brand already exist");
+
            return "/admins/productBrands";
        }
-
        brandRepo.save(new Brand(name));
 
        return "redirect:/admins/product/brands";

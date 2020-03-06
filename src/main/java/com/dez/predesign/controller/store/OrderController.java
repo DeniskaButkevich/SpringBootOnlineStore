@@ -33,16 +33,14 @@ public class OrderController {
                            Model model){
 
         if(cart != null && !cart.isEmpty()){
-
             orderService.addProductsModel(cart,model);
             model.addAttribute("user",user);
 
-            if(user.getPayment() != null)
+            if(user.getPayment() != null){
                 model.addAttribute("payment", user.getPayment());
-
+            }
             return "/checkout";
         }
-
         return "/checkout";
     }
 
@@ -56,17 +54,17 @@ public class OrderController {
                                BindingResult paymentBindingResult){
 
         if(bindingResult.getErrorCount() > 2 || paymentBindingResult.hasErrors()){
-            System.out.println(bindingResult.getErrorCount());
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
 
-            if(user.getAddress() == null || user.getAddress().isEmpty())
+            if(user.getAddress() == null || user.getAddress().isEmpty()){
                 errorsMap.put("addressError", "address is required");
-            if(user.getPostCode() == null || user.getPostCode().isEmpty())
+            }
+            if(user.getPostCode() == null || user.getPostCode().isEmpty()){
                 errorsMap.put("postCodeError","postCode is required");
+            }
 
             Map<String, String> errorsMapPayment = ControllerUtils.getErrors(paymentBindingResult);
             model.mergeAttributes(errorsMapPayment);
-
 
             model.mergeAttributes(errorsMap);
             model.addAttribute("payment", payment);
@@ -74,10 +72,11 @@ public class OrderController {
 
             return "/checkout";
         }
-
         Order order = new Order();
         order.setProducts(orderService.getProductByCookie(cart));
         order.setUser(user_auth);
+        order.setCount_price(orderService.setCountPrice(cart));
+        order.setTotal_price(orderService.setTotalPrice(cart));
         orderRepo.save(order);
 
         return "redirect:/orderSuccessful";

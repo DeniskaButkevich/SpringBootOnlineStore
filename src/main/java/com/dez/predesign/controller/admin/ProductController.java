@@ -23,7 +23,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -86,11 +85,11 @@ public class ProductController {
                               Model model) {
         Page<Product> page;
 
-        if (filter != null && !filter.getName().isEmpty())
+        if (filter != null && !filter.getName().isEmpty()){
             page = productRepo.findByBrand(pageable, filter);
-        else
+        }else{
             page = productRepo.findAll(pageable);
-
+        }
         List<Integer> listpages = pageService.listPages(page);
 
         model.addAttribute("listpages", listpages);
@@ -103,8 +102,8 @@ public class ProductController {
 
     @GetMapping("/admins/products_order")
     public String productForOrder(@RequestParam(required = false, defaultValue = "") Order filter,
-                              HttpServletRequest request,
-                              Model model) {
+                                  HttpServletRequest request,
+                                  Model model){
 
         Set<Product> products = filter.getProducts();
         model.addAttribute("products", products);
@@ -120,15 +119,13 @@ public class ProductController {
                              @Valid Product product,
                              BindingResult bindingResult,
                              Model model,
-                             @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable
-    ) throws IOException {
+                             @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable) throws IOException {
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
 
             model.mergeAttributes(errorsMap);
             model.addAttribute("product", product);
-
         } else {
             model.addAttribute("product", null);
             product.setNewProduct(true);
@@ -138,7 +135,6 @@ public class ProductController {
         List<Integer> listpages = pageService.listPages(page);
 
         model.addAttribute("listpages", listpages);
-
         model.addAttribute("page", page);
 
         return "admins/productList";
@@ -146,35 +142,24 @@ public class ProductController {
 
     @GetMapping("/product/delete")
     public String productRemove(@RequestParam String id) {
-
         Product product = productRepo.findById(Long.parseLong(id)).get();
 
         Iterable<Image> images= imageRepo.findByProduct(product);
-        for (Image image: images)
+        for (Image image: images){
             imageRepo.delete(image);
-
+        }
         productRepo.delete(
                 productRepo.findById(
                         Long.parseLong(id)).get()
         );
-
         return "redirect:/admins/product";
     }
 
     @PostMapping("/product/edit/{id}")
-    public String productEdit(@PathVariable String id, Product product){
-
-        Product item = productRepo.findById( Long.parseLong(id)).get();
-
-        item.setName(product.getName());
-        item.setBrand(product.getBrand());
-        item.setColor(product.getColor());
-        item.setDescription(product.getDescription());
-        item.setNewProduct(product.isNewProduct());
-        item.setPrice(product.getPrice());
-        item.setSale(product.getSale());
-
-        productRepo.save(item);
+    public String productEdit(@PathVariable String id, Product productGet){
+        Product productSet = productRepo.findById( Long.parseLong(id)).get();
+        productService.setProduct(productGet, productSet);
+        productRepo.save(productSet);
 
         return "redirect:/admins/product";
     }

@@ -39,7 +39,6 @@ public class CategoryController {
     @Autowired
     PageService pageService;
 
-
     @GetMapping("/category")
     public String show(Model model,
                        @RequestParam Map<String, String> allRequestParams,

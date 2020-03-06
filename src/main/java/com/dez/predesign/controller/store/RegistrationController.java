@@ -47,12 +47,14 @@ public class RegistrationController {
             hasErrors = true;
         }
 
-        if(hasErrors)
+        if(hasErrors){
             return "register-account";
-
+        }
         boolean added = userService.RegistUser(user,errors,confirmPassword);
-        if(added)
+
+        if(added){
             model.addAttribute("message", "An email was sent to your email to activate the user");
+        }
         return "successfully";
     }
 
@@ -60,11 +62,11 @@ public class RegistrationController {
     public String activate(Model model, @PathVariable String code) {
         boolean isActivated = userService.activateUser(code);
 
-        if (isActivated)
+        if (isActivated){
             model.addAttribute("message", "User successfully activated");
-        else
+        } else{
             model.addAttribute("message", "Activation code is not found!");
-
+        }
         return "successfully";
     }
 }

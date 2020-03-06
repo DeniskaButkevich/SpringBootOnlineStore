@@ -38,9 +38,6 @@ public class ForAll {
             User customUser = (User) authentication.getPrincipal();
             userId = customUser.getId();
         }
-
         return userId;
     }
-
-
 }

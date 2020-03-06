@@ -50,18 +50,16 @@ public class ProductImagesController {
                             @RequestParam("imageHover") MultipartFile hover,
                             @RequestParam("imageSecondary") MultipartFile[] secondary) throws IOException {
 
-
-        if (general != null && !general.getOriginalFilename().isEmpty())
+        if (general != null && !general.getOriginalFilename().isEmpty()){
             UploadImage.uploadImage(id, general, uploadPath, productRepo, imageRepo, "general");
-
-        if (hover != null && !hover.getOriginalFilename().isEmpty())
+        }
+        if (hover != null && !hover.getOriginalFilename().isEmpty()){
             UploadImage.uploadImage(id, hover, uploadPath, productRepo, imageRepo, "hover");
-
+        }
         for (MultipartFile sec : secondary) {
             if (sec != null && !sec.getOriginalFilename().isEmpty())
                 UploadImage.uploadImage(id, sec, uploadPath + "secondary\\", productRepo, imageRepo, "sec");
         }
-
         return "redirect:/admins/product/images/{id}";
     }
 

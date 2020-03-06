@@ -25,8 +25,7 @@ public class IndexController {
     BrandRepo brandRepo;
 
     @GetMapping(value = {"/index","/",""})
-    public String show(Model model,
-                       @PageableDefault(size = 6,direction = Sort.Direction.DESC, sort = {"id"})Pageable pageable){
+    public String show(Model model, @PageableDefault(size = 6,direction = Sort.Direction.DESC, sort = {"id"})Pageable pageable){
 
         HashMap<String,Page<Product>> mapProducts;
         mapProducts = new HashMap<>();

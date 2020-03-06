@@ -21,6 +21,5 @@ public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler im
             throws IOException, ServletException {
 
         super.onLogoutSuccess(request, response, authentication);
-
     }
 }

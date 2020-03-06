@@ -8,13 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -92,9 +90,9 @@ public class UserController {
 
         if(userService.save(id,form,user,model,errors)) {
             return "redirect:/admins/users";
-        }
-        else
+        } else{
             return "/admins/userEdit";
+        }
     }
 
     @PostMapping("/admins/users/passwordChange/{id}")
@@ -102,12 +100,11 @@ public class UserController {
                                      @PathVariable String id,
                                      @RequestParam String password,
                                      Model model) {
-        if(userService.passwordChange(id,password,confirmPassword,model)) {
-
+        if(userService.passwordChange(id,password,confirmPassword,model)){
            return "redirect:/admins/users";
-       }
-       else
-           return "/admins/passwordChange";
+        } else{
+            return "/admins/passwordChange";
+        }
     }
 
     @PostMapping("/admins/users/add")
@@ -116,10 +113,10 @@ public class UserController {
                           Model model,
                           @RequestParam String confirmPassword){
 
-        if(userService.addUser(user,errors,model,confirmPassword))
-
+        if(userService.addUser(user,errors,model,confirmPassword)){
             return "redirect:/admins/users";
-        else
+        } else{
             return "/admins/userAdd";
+        }
     }
 }

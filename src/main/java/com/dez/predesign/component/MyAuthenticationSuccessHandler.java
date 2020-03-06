@@ -16,34 +16,33 @@ import java.io.IOException;
 import java.util.Collection;
 
 @Component
-public class MyAuthenticationSuccessHandler
-        implements AuthenticationSuccessHandler{
-
+public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler{
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
-                                        HttpServletResponse response, Authentication authentication)
-            throws IOException {
+                                        HttpServletResponse response,
+                                        Authentication authentication) throws IOException {
 
         handle(request, response, authentication);
         clearAuthenticationAttributes(request);
     }
 
     protected void handle(HttpServletRequest request,
-                          HttpServletResponse response, Authentication authentication)
-            throws IOException {
+                          HttpServletResponse response,
+                          Authentication authentication) throws IOException {
+
         String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {
             return;
         }
-
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
     protected String determineTargetUrl(Authentication authentication) {
+
         boolean isUser = false;
         boolean isAdmin = false;
         Collection<? extends GrantedAuthority> authorities
@@ -57,7 +56,6 @@ public class MyAuthenticationSuccessHandler
                 break;
             }
         }
-
         if (isUser) {
             return "/";
         } else if (isAdmin) {

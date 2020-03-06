@@ -48,11 +48,11 @@ public class MessageController  {
                                 @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable) {
         Page<Message> page;
 
-        if (filter != null && !filter.isEmpty())
+        if (filter != null && !filter.isEmpty()){
             page = messageRepo.findByTag(filter, pageable);
-        else
+        } else{
             page = messageRepo.findAll(pageable);
-
+        }
         List<Integer> listpages = pageService.listPages(page);
 
         model.addAttribute("listpages", listpages);
@@ -69,9 +69,7 @@ public class MessageController  {
                              BindingResult bindingResult,
                              Model model,
                              @RequestParam("file") MultipartFile file,
-                             @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable
-    ) throws IOException {
-
+                             @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable) throws IOException {
         message.setAuthor(user);
 
         if (bindingResult.hasErrors()) {
@@ -79,7 +77,6 @@ public class MessageController  {
 
             model.mergeAttributes(errorsMap);
             model.addAttribute("message", message);
-
         } else {
             if (file != null && !file.getOriginalFilename().isEmpty()) {
                 File uploadDir = new File(uploadPath);
@@ -87,16 +84,13 @@ public class MessageController  {
                 if (!uploadDir.exists()) {
                     uploadDir.mkdir();
                 }
-
                 String uuidFile = UUID.randomUUID().toString();
                 String resultFilename = uuidFile + file.getOriginalFilename();
-
 
                 file.transferTo(new File(uploadPath + resultFilename));
 
                 message.setFilename(resultFilename);
             }
-
             model.addAttribute("message", null);
             messageRepo.save(message);
         }
@@ -104,7 +98,6 @@ public class MessageController  {
         List<Integer> listpages = pageService.listPages(page);
 
         model.addAttribute("listpages", listpages);
-
         model.addAttribute("page", page);
 
         return "admins/message";
@@ -116,7 +109,6 @@ public class MessageController  {
         if(message.getFilename() != null && !message.getFilename().isEmpty()){
             Files.delete(Paths.get(uploadPath + message.getFilename()));
         }
-
         messageRepo.delete(message);
 
         return "redirect:/admins/message";
@@ -124,12 +116,10 @@ public class MessageController  {
 
     @PostMapping("/message/edit/{id}")
     public String messageEdit(@PathVariable String id, Message message){
-
         Message mes = messageRepo.findById(Long.parseLong(id)).get();
 
         mes.setName(message.getName());
         mes.setText(message.getText());
-
         messageRepo.save(mes);
 
         return "redirect:/admins/message";

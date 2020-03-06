@@ -1,5 +1,6 @@
 package com.dez.predesign.service;
 
+import com.dez.predesign.data.CountAndPrice;
 import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class OrderService {
         Double total_price = 0D;
 
         String[] values = cart.split("\\|");
-        for (String str :values) {
+        for (String str : values) {
             String[] param = str.split("-");
 
             Product product = productRepo.findOneProduct(Long.parseLong(param[0]));
@@ -34,7 +35,6 @@ public class OrderService {
             products.put(product, count_and_price);
         }
 
-
         model.addAttribute("products", products);
         model.addAttribute("total_price", total_price);
 
@@ -45,12 +45,45 @@ public class OrderService {
         Set<Product> products = new HashSet<>();
         String[] values = cart.split("\\|");
 
-        for (String str :values) {
+        for (String str : values) {
             String[] param = str.split("-");
             Product product = productRepo.findOneProduct(Long.parseLong(param[0]));
             products.add(product);
 
         }
         return products;
+    }
+
+    public Map<Product, CountAndPrice> setCountPrice(String cart) {
+        Map<Product, CountAndPrice> countAndPrice = new HashMap<>();
+        Double total_price = 0D;
+
+        String[] values = cart.split("\\|");
+        for (String str : values) {
+            String[] param = str.split("-");
+
+            Product product = productRepo.findOneProduct(Long.parseLong(param[0]));
+            Double quantity_price = Double.parseDouble(param[1]) * product.getPrice();
+            total_price += quantity_price;
+
+            CountAndPrice count_and_price = new CountAndPrice();
+            count_and_price.setCount(Integer.parseInt(param[1]));
+            count_and_price.setPrice(quantity_price);
+
+            countAndPrice.put(product, count_and_price);
+        }
+        return countAndPrice;
+    }
+
+    public Double setTotalPrice(String cart) {
+        Double total_price = 0D;
+        String[] values = cart.split("\\|");
+        for (String str : values) {
+            String[] param = str.split("-");
+            Product product = productRepo.findOneProduct(Long.parseLong(param[0]));
+            total_price += Double.parseDouble(param[1]) * product.getPrice();
+            ;
+        }
+        return total_price;
     }
 }
