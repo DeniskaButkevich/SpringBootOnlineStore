@@ -1,6 +1,6 @@
 package com.dez.predesign.util;
 
-import com.dez.predesign.data.Product;
+import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.data.catalog.Image;
 import com.dez.predesign.repository.ImageRepo;
 import com.dez.predesign.repository.ProductRepo;

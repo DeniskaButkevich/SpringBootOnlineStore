@@ -1,5 +1,6 @@
-package com.dez.predesign.data;
+package com.dez.predesign.data.catalog;
 
+import com.dez.predesign.data.Order;
 import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.data.catalog.Category;
 import com.dez.predesign.data.catalog.Color;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -49,6 +51,14 @@ public class Product {
     @ManyToOne(targetEntity= Category.class, fetch = FetchType.LAZY)
     private Category category;
 
+    @Min(value = 0, message = "sale should be more than 0")
+    @Max(value = 100, message = "sale should be less than 100")
+    private Integer sale;
+    private boolean newProduct;
+
+    @ManyToMany(targetEntity = Order.class, fetch = FetchType.LAZY)
+    private Set<Order> orders;
+
     @Override
     public String toString() {
         return "Product{" +
@@ -56,9 +66,4 @@ public class Product {
                 ", name='" + name + '\'' +
                 '}';
     }
-
-    @Min(value = 0, message = "sale should be more than 0")
-    @Max(value = 100, message = "sale should be less than 100")
-    private Integer sale;
-    private boolean newProduct;
 }

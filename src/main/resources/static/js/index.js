@@ -160,3 +160,14 @@ function saveCart() {
     str += ';path=/';
     document.cookie = str;
 }
+
+
+// for checkout pahe
+function collapsePanel(id_close,id_open) {
+    document.getElementById(id_close).click();
+    document.getElementById(id_open).click();
+    setTimeout(function(){
+
+    }, 5000);
+
+}

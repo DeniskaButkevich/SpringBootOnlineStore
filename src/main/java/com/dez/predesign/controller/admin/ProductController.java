@@ -1,7 +1,7 @@
 package com.dez.predesign.controller.admin;
 
 import com.dez.predesign.util.ControllerUtils;
-import com.dez.predesign.data.Product;
+import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.data.User;
 import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.data.catalog.Category;

@@ -28,28 +28,30 @@ public class User implements UserDetails {
     private String username;
     private String firstName;
     private String lastName;
-
     @Email(message = "Incorrect email")
     @NotBlank(message="Email is required")
     private String email;
-
     @NotBlank(message="Password is required")
     private String password;
-
-    private String postCode;
-    private String address;
-
     @NotBlank(message="Phone number is required")
     private String phoneNumber;
-
-    private String activationCode;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    private String activationCode;
     private boolean active;
 
+    private String postCode;
+    private String address;
+
+    @OneToMany(targetEntity = Order.class, mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Order> orders;
+
+    @OneToOne
+    private Payment payment;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -74,5 +76,14 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isActive();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

@@ -1,10 +1,8 @@
 package com.dez.predesign.data.catalog;
 
-import com.dez.predesign.data.Product;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name="Images")

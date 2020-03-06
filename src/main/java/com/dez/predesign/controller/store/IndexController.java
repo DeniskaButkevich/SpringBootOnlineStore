@@ -1,9 +1,8 @@
 package com.dez.predesign.controller.store;
 
-import com.dez.predesign.data.Product;
+import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.repository.BrandRepo;
-import com.dez.predesign.repository.CategoryRepo;
 import com.dez.predesign.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

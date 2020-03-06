@@ -32,91 +32,18 @@
                                 pharetra.</p>
                         </header>
                         <div class="xs-margin"></div><!-- space -->
-                        <form action="/orderSuccessful" id="checkout-form" method="post">
+                        <form action="/orderSuccessful" id="checkout-form" method="post" th:object="${user}">
                             <div class="panel-group custom-accordion" id="checkout">
-                                <div class="panel">
-                                    <div class="accordion-header">
-                                        <div class="accordion-title">1 Step: <span>Checkout Option</span></div>
-                                        <!-- End .accordion-title -->
-                                        <a class="accordion-btn opened" data-toggle="collapse"
-                                           data-target="#checkout-option"></a>
-                                    </div><!-- End .accordion-header -->
-
-                                    <div id="checkout-option" class="collapse in">
-                                        <div class="panel-body">
-                                            <div class="row">
-
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <h2 class="checkout-title">New Customer</h2>
-                                                    <p>Register with us for future convenience:</p>
-                                                    <div class="xs-margin"></div>
-                                                    <div class="input-group custom-checkbox sm-margin">
-                                                        <input type="checkbox"> <span class="checbox-container">
-											 	<i class="fa fa-check"></i>
-											 </span>
-                                                        Checkout as Guest
-
-                                                    </div><!-- End .input-group -->
-                                                    <div class="input-group custom-checkbox sm-margin">
-                                                        <input type="checkbox"> <span class="checbox-container">
-											 	<i class="fa fa-check"></i>
-											 </span>
-                                                        Register
-
-                                                    </div><!-- End .input-group -->
-                                                    <p>By creating an account with our store, you will be able to move
-                                                        through the checkout process faster, store multiple shipping
-                                                        addresses, view and track your orders in your account and
-                                                        more.</p>
-                                                    <div class="md-margin"></div>
-
-                                                </div><!-- End .col-md-6 -->
-
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <h2 class="checkout-title">Registered Customers</h2>
-                                                    <p>If you have an account with us, please log in.</p>
-                                                    <div class="xs-margin"></div>
-
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span
-                                                                class="input-icon input-icon-email"></span><span
-                                                                class="input-text">Email&#42;</span></span>
-                                                        <input type="text" class="form-control input-lg"
-                                                               placeholder="Your Email">
-                                                    </div><!-- End .input-group -->
-                                                    <div class="input-group xs-margin">
-                                                        <span class="input-group-addon"><span
-                                                                class="input-icon input-icon-password"></span><span
-                                                                class="input-text">Password&#42;</span></span>
-                                                        <input type="text" class="form-control input-lg"
-                                                               placeholder="Your Password">
-                                                    </div><!-- End .input-group -->
-                                                    <span class="help-block text-right"><a href="#">Forgot your password?</a></span>
-                                                    <div class="input-group custom-checkbox sm-margin top-10px">
-                                                        <input type="checkbox"> <span class="checbox-container">
-											 	<i class="fa fa-check"></i>
-											 </span>
-                                                        Remember my password
-
-                                                    </div><!-- End .input-group -->
-                                                </div><!-- End .col-md-6 -->
-
-                                            </div><!-- End.row -->
-
-                                            <a href="#" class="btn btn-custom-2">CONTINUE</a>
-                                        </div><!-- End .panel-body -->
-                                    </div><!-- End .panel-collapse -->
-
-                                </div><!-- End .panel -->
 
                                 <div class="panel">
                                     <div class="accordion-header">
-                                        <div class="accordion-title">2 Step: <span>Billing Information</span></div>
+                                        <div class="accordion-title">1 Step: <span>Billing Information</span></div>
                                         <!-- End .accordion-title -->
-                                        <a class="accordion-btn" data-toggle="collapse" data-target="#billing"></a>
+                                        <a class="accordion-btn" data-toggle="collapse" data-target="#billing"
+                                           id="billing_id"></a>
                                     </div><!-- End .accordion-header -->
 
-                                    <div id="billing" class="collapse">
+                                    <div id="billing" class="collapse in">
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -127,57 +54,40 @@
                                                                 class="input-icon input-icon-user"></span><span
                                                                 class="input-text">First Name&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
-                                                               placeholder="Your First Name">
+                                                               placeholder="Your First Name" th:name="firstName"
+                                                               th:field="*{firstName}">
                                                     </div><!-- End .input-group -->
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span
                                                                 class="input-icon input-icon-user"></span><span
                                                                 class="input-text">Last Name&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
-                                                               placeholder="Your Last Lame">
+                                                               placeholder="Your Last Name" th:name="lastName"
+                                                               th:field="*{lastName}">
                                                     </div><!-- End .input-group -->
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span
                                                                 class="input-icon input-icon-email"></span><span
                                                                 class="input-text">Email&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
-                                                               placeholder="Your Email">
+                                                               placeholder="Your Email" th:name="email"
+                                                               th:field="*{email}"
+                                                               th:attrappend="class=${emailError != null} ? ' is-invalid' + ''">
+                                                        <span class="validationError text-danger"
+                                                              th:if="${emailError != null}" th:errors="*{email}"></span>
                                                     </div><!-- End .input-group -->
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span
                                                                 class="input-icon input-icon-phone"></span><span
                                                                 class="input-text">Telephone&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
-                                                               placeholder="Your Telephone">
-                                                    </div><!-- End .input-group -->
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span
-                                                                class="input-icon input-icon-fax"></span><span
-                                                                class="input-text">Fax</span></span>
-                                                        <input type="text" class="form-control input-lg"
-                                                               placeholder="Your Fax">
-                                                    </div><!-- End .input-group -->
-                                                    <div class="input-group xlg-margin">
-                                                        <span class="input-group-addon"><span
-                                                                class="input-icon input-icon-company"></span><span
-                                                                class="input-text">Company&#42;</span></span>
-                                                        <input type="text" class="form-control input-lg"
-                                                               placeholder="Your Company">
-                                                    </div><!-- End .input-group -->
-
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span
-                                                                class="input-icon input-icon-password"></span><span
-                                                                class="input-text">Password&#42;</span></span>
-                                                        <input type="password" class="form-control input-lg"
-                                                               placeholder="Your Password">
-                                                    </div><!-- End .input-group -->
-                                                    <div class="input-group xlg-margin">
-                                                        <span class="input-group-addon"><span
-                                                                class="input-icon input-icon-password"></span><span
-                                                                class="input-text">Password&#42;</span></span>
-                                                        <input type="password" class="form-control input-lg"
-                                                               placeholder="Your Password">
+                                                               placeholder="Your Telephone"
+                                                               th:attrappend="class=${phoneNumberError != null} ? ' is-invalid' + ''"
+                                                               th:name="phoneNumber"
+                                                               th:field="*{phoneNumber}">
+                                                        <span class="validationError text-danger"
+                                                              th:if="${#fields.hasErrors('phoneNumber')}"
+                                                              th:errors="*{phoneNumber}"></span>
                                                     </div><!-- End .input-group -->
 
                                                     <div class="input-group custom-checkbox sm-margin">
@@ -188,13 +98,6 @@
 
                                                     </div><!-- End .input-group -->
 
-                                                    <div class="input-group custom-checkbox sm-margin">
-                                                        <input type="checkbox"> <span class="checbox-container">
-											 	<i class="fa fa-check"></i>
-											 </span>
-                                                        My delivery and billing addresses are the same.
-
-                                                    </div><!-- End .input-group -->
 
                                                 </div><!-- End .col-md-6 -->
 
@@ -206,66 +109,102 @@
                                                                 class="input-icon input-icon-address"></span><span
                                                                 class="input-text">Address 1&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
-                                                               placeholder="Your Address">
+                                                               placeholder="Your Address"
+                                                               th:name="address"
+                                                               th:field="*{address}"
+                                                               th:attrappend="class=${addressError != null} ? ' is-invalid' + ''">
+                                                        <span class="validationError text-danger"
+                                                              th:if="${addressError != null}"
+                                                              th:text="${addressError}"></span>
                                                     </div><!-- End .input-group -->
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span
-                                                                class="input-icon input-icon-address"></span><span
-                                                                class="input-text">Address 2&#42;</span></span>
-                                                        <input type="text" class="form-control input-lg"
-                                                               placeholder="Your Address">
-                                                    </div><!-- End .input-group -->
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span
-                                                                class="input-icon input-icon-city"></span><span
-                                                                class="input-text">City&#42;</span></span>
-                                                        <input type="text" class="form-control input-lg"
-                                                               placeholder="Your City">
-                                                    </div><!-- End .input-group -->
+
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span
                                                                 class="input-icon input-icon-postcode"></span><span
                                                                 class="input-text">Post Code&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
-                                                               placeholder="Your Post Code">
+                                                               placeholder="Your Post Code" th:name="postCode"
+                                                               th:field="*{postCode}"
+                                                               th:attrappend="class=${postCodeError != null} ? ' is-invalid' + ''">
+                                                        <span th:if="${postCodeError != null}"
+                                                              class="validationError text-danger"
+                                                              th:text="${postCodeError}"></span>
                                                     </div><!-- End .input-group -->
-<!--                                                    <div class="input-group">-->
-<!--                                                        <span class="input-group-addon"><span-->
-<!--                                                                class="input-icon input-icon-country"></span><span-->
-<!--                                                                class="input-text">Country*</span></span>-->
-<!--                                                        <div class="large-selectbox clearfix">-->
-<!--                                                            <select id="country" name="country" class="selectbox">-->
-<!--                                                                <option value="United Kingdom">United Kingdom</option>-->
-<!--                                                                <option value="Brazil">Brazil</option>-->
-<!--                                                                <option value="France">France</option>-->
-<!--                                                                <option value="Italy">Italy</option>-->
-<!--                                                                <option value="Spain">Spain</option>-->
-<!--                                                            </select>-->
-<!--                                                        </div>&lt;!&ndash; End .large-selectbox&ndash;&gt;-->
-<!--                                                    </div>&lt;!&ndash; End .input-group &ndash;&gt;-->
 
-<!--                                                    <div class="input-group">-->
-<!--                                                        <span class="input-group-addon"><span-->
-<!--                                                                class="input-icon input-icon-region"></span><span-->
-<!--                                                                class="input-text">Region / State&#42;</span></span>-->
-<!--                                                        <div class="large-selectbox clearfix">-->
-<!--                                                            <select id="state" name="state" class="selectbox">-->
-<!--                                                                <option value="California">California</option>-->
-<!--                                                                <option value="Texas">Texas</option>-->
-<!--                                                                <option value="NewYork">NewYork</option>-->
-<!--                                                                <option value="Narnia">Narnia</option>-->
-<!--                                                                <option value="Jumanji">Jumanji</option>-->
-<!--                                                            </select>-->
-<!--                                                        </div>&lt;!&ndash; End .large-selectbox&ndash;&gt;-->
-<!--                                                    </div>&lt;!&ndash; End .input-group &ndash;&gt;-->
                                                     <div class="input-group custom-checkbox md-margin">
-                                                        <input type="checkbox"> <span class="checbox-container">
-											 	<i class="fa fa-check"></i>
-											 </span>
-                                                        I have reed and agree to the <a href="#">Privacy Policy</a>.
-
+                                                        <input type="checkbox"><span class="checbox-container">
+                                                        <i class="fa fa-check"></i></span>I have reed and agree to the
+                                                        <a href="#">Privacy Policy</a>.
                                                     </div><!-- End .input-group -->
-                                                    <a href="#" class="btn btn-custom-2">CONTINUE</a>
+                                                    <a class="btn btn-custom-2"
+                                                       onclick="collapsePanel('billing_id','payment-method_id')">CONTINUE</a>
+                                                </div><!-- End .col-md-6 -->
+                                            </div><!-- End .row -->
+                                        </div><!-- End .panel-body -->
+                                    </div><!-- End .panel-collapse -->
+                                </div><!-- End .panel -->
+
+                                <div class="panel">
+                                    <div class="accordion-header">
+                                        <div class="accordion-title">2 Step: <span>Payment Method</span></div>
+                                        <!-- End .accordion-title -->
+                                        <a class="accordion-btn" data-toggle="collapse"
+                                           data-target="#payment-method" id="payment-method_id"></a>
+                                    </div><!-- End .accordion-header -->
+
+                                    <div id="payment-method" class="collapse">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                                    <h2 class="checkout-title">Your credit card data</h2>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span
+                                                                class="input-icon input-icon-user"></span><span
+                                                                class="input-text">Number&#42;</span></span>
+                                                        <input type="text" class="form-control input-lg"
+                                                               placeholder="Your credit card number"
+                                                               th:attrappend="class=${ccNumberError != null} ? ' is-invalid' + ''"
+                                                               th:name="ccNumber"
+                                                               th:text="${payment != null} ? ${payment.ccNumber} : ''">
+                                                        <span class="validationError text-danger"
+                                                              th:if="${ccNumberError != null}"
+                                                              th:value="${ccNumberError}"></span>
+                                                    </div><!-- End .input-group -->
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span
+                                                                class="input-icon input-icon-user"></span><span
+                                                                class="input-text">Expiration&#42;</span></span>
+                                                        <input type="text" class="form-control input-lg"
+                                                               placeholder="Your credit card expiration"
+                                                               th:attrappend="class=${ccExpirationError != null} ? ' is-invalid' + ''"
+                                                               th:name="ccExpiration"
+                                                               th:value="${payment != null} ? ${payment.ccExpiration} : ''">
+                                                        <span class="validationError text-danger"
+                                                              th:if="${ccExpirationError  != null}"
+                                                              th:text="${ccExpirationError}"></span>
+                                                    </div><!-- End .input-group -->
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span
+                                                                class="input-icon input-icon-user"></span><span
+                                                                class="input-text">CVV&#42;</span></span>
+                                                        <input type="text" class="form-control input-lg"
+                                                               placeholder="Your credit card CVV"
+                                                               th:attrappend="class=${ccCVVError != null} ? ' is-invalid' + ''"
+                                                               th:name="ccCVV"
+                                                               th:value="${payment != null} ? ${payment.ccCVV} : ''">
+                                                        <span class="validationError text-danger"
+                                                              th:if="${ccCVVError != null}"
+                                                              th:text="${ccCVVError}"></span>
+                                                    </div><!-- End .input-group -->
+
+
+                                                </div><!-- End .col-md-6 -->
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                                    <a class="btn btn-custom-2"
+                                                       onclick="collapsePanel('payment-method_id','confirm_id')">CONTINUE</a>
                                                 </div><!-- End .col-md-6 -->
 
                                             </div><!-- End .row -->
@@ -276,62 +215,13 @@
 
                                 <div class="panel">
                                     <div class="accordion-header">
-                                        <div class="accordion-title">3 Step: <span>Delivery Details</span></div>
-                                        <!-- End .accordion-title -->
-                                        <a class="accordion-btn" data-toggle="collapse"
-                                           data-target="#delivery-details"></a>
-                                    </div><!-- End .accordion-header -->
-
-                                    <div id="delivery-details" class="collapse">
-                                        <div class="panel-body">
-                                            <p>Details about delivery</p>
-                                        </div><!-- End .panel-body -->
-                                    </div><!-- End .panel-collapse -->
-
-                                </div><!-- End .panel -->
-
-
-                                <div class="panel">
-                                    <div class="accordion-header">
-                                        <div class="accordion-title">4 Step: <span>Delivery Method</span></div>
-                                        <!-- End .accordion-title -->
-                                        <a class="accordion-btn" data-toggle="collapse"
-                                           data-target="#delivery-method"></a>
-                                    </div><!-- End .accordion-header -->
-
-                                    <div id="delivery-method" class="collapse">
-                                        <div class="panel-body">
-                                            <p>Choose your delivery method.</p>
-                                        </div><!-- End .panel-body -->
-                                    </div><!-- End .panel-collapse -->
-
-                                </div><!-- End .panel -->
-
-                                <div class="panel">
-                                    <div class="accordion-header">
-                                        <div class="accordion-title">5 Step: <span>Payment Method</span></div>
-                                        <!-- End .accordion-title -->
-                                        <a class="accordion-btn" data-toggle="collapse"
-                                           data-target="#payment-method"></a>
-                                    </div><!-- End .accordion-header -->
-
-                                    <div id="payment-method" class="collapse">
-                                        <div class="panel-body">
-                                            <p>Choose your payment method.</p>
-                                        </div><!-- End .panel-body -->
-                                    </div><!-- End .panel-collapse -->
-
-                                </div><!-- End .panel -->
-
-                                <div class="panel">
-                                    <div class="accordion-header">
-                                        <div class="accordion-title">6 Step: <span>Confirm Order</span></div>
+                                        <div class="accordion-title">3 Step: <span>Confirm Order</span></div>
                                         <!-- End .accordion-title -->
                                         <a class="accordion-btn opened" data-toggle="collapse"
-                                           data-target="#confirm"></a>
+                                           data-target="#confirm" id="confirm_id"></a>
                                     </div><!-- End .accordion-header -->
 
-                                    <div id="confirm" class="collapse in">
+                                    <div id="confirm" class="collapse">
                                         <div class="panel-body">
 
                                             <div class="table-responsive">
@@ -375,7 +265,7 @@
                                                             </td>
                                                             <td class="item-total-col">
                                                                 <span class="item-price-special"
-																th:text="${product.getValue().get(1) }"></span>
+                                                                      th:text="${product.getValue().get(1) }"></span>
                                                             </td>
                                                         </tr>
                                                     </th:block>
@@ -429,7 +319,7 @@
                         <h2>Oops(</h2>
                         <h3>To place an order, add something to the cart</h3>
                     </div><!-- End .no-content-comment -->
-                </div><!-- End .col-md-12 -->PRODUCT NAME
+                </div><!-- End .col-md-12 -->
             </div><!-- End .row -->
         </div><!-- End .container -->
         <div class="md-margin2x"></div><!-- Space -->
@@ -437,19 +327,8 @@
 
     <footer th:insert="parts/footer.html :: footer"></footer><!-- End #footer -->
 </div><!-- End #wrapper -->
-<a href="#" id="scroll-top" title="Scroll to Top"><i class="fa fa-angle-up"></i></a><!-- End #scroll-top -->
-<!-- END -->
-<script src="js/bootstrap.min.js"></script>
-<script src="js/smoothscroll.js"></script>
-<script src="js/jquery.debouncedresize.js"></script>
-<script src="js/retina.min.js"></script>
-<script src="js/jquery.placeholder.js"></script>
-<script src="js/jquery.hoverIntent.min.js"></script>
-<script src="js/twitter/jquery.tweet.min.js"></script>
-<script src="js/jquery.flexslider-min.js"></script>
-<script src="js/jquery.selectbox.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
+
+<th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer -->
 
 </body>
 </html>
