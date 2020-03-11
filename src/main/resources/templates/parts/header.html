@@ -63,9 +63,9 @@
 
                             <div class="header-text-container pull-right">
                                 <p class="header-text">Welcome to Predesign!</p> <span sec:authorize="isAuthenticated()"
-                                                                                     sec:authentication="name"></span>
+                                                                                       sec:authentication="name"></span>
                                 <th:block sec:authorize="isAuthenticated()">
-                                    <form th:action="@{/logout}" method="post" style="display: inline" >
+                                    <form th:action="@{/logout}" method="post" style="display: inline">
                                         <span class="header-link"><button type="submit"
                                                                           style="border: none; height: 36px; color: #7bae23;    background: #f5f5f5;">logout</button>&nbsp;or&nbsp <a
                                                 href="/registration">create an account</a></span>
@@ -88,8 +88,8 @@
                         <h1 class="logo clearfix">
                             <span>Responsive eCommerce Template</span>
                             <a href="/index" title="Predesign"><img src="/images/logo.png"
-                                                                                         alt="Predesign Commerce Template"
-                                                                                         width="238" height="76"></a>
+                                                                    alt="Predesign Commerce Template"
+                                                                    width="238" height="76"></a>
                         </h1>
                     </div><!-- End .col-md-5 -->
                     <div class="col-md-7 col-sm-7 col-xs-12 header-inner-right">
@@ -135,59 +135,17 @@
                                                    class="mega-menu-title">[[${caterotyLevelOne.name}]]</a>
                                                 <ul class="mega-menu-list clearfix"
                                                     th:each="caterotyLevelTwo : ${categoriesLevelTwo}">
-
                                                     <li th:if="${caterotyLevelTwo.ancestor.id == caterotyLevelOne.id}">
                                                         <a th:href="${'/category?category=' + caterotyLevelTwo.id + '&'}">[[${caterotyLevelTwo.name}]]</a>
                                                     </li>
                                                 </ul>
                                             </div>
-                                    </li>
-
-                                    <li>
-                                        <a href="#">PAGES</a>
-                                        <ul>
-                                            <li><a href="/product">Product</a></li>
-                                            <li><a href="/cart">Cart</a></li>
-                                            <li><a href="/category">Category</a>
-                                                <ul>
-                                                    <li><a href="/category-list">Category list</a></li>
-                                                    <li><a href="/category">Category Banner 1</a></li>
-                                                    <li><a href="/category-banner-2">Category Banner 2</a></li>
-                                                    <li><a href="/category-banner-3">Category Banner 3</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="blog">Blog</a>
-                                                <ul>
-                                                    <li><a href="/blog">Right Sidebar</a></li>
-                                                    <li><a href="/blog-sidebar-left">Left Sidebar</a></li>
-                                                    <li><a href="/blog-sidebar-both">Both Sidebar</a></li>
-                                                    <li><a href="/single">Blog Post</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="/checkout">Checkout</a></li>
-                                            <li><a href="/aboutus">About Us</a></li>
-                                            <li><a href="/registration">Register Account</a></li>
-                                            <li><a href="/compare-products">Compare Products</a></li>
-                                            <li><a href="/login">Login</a></li>
-                                            <li><a href="/404">404 Page</a></li>
-                                        </ul>
+                                        </div>
                                     </li>
                                     <li><a href="#">Portfolio</a>
                                         <ul>
-                                            <li><a href="#">Classic</a>
-                                                <ul>
-                                                    <li><a href="/portfolio-2">Two Columns</a></li>
-                                                    <li><a href="/portfolio-3">Three Columns</a></li>
-                                                    <li><a href="/portfolio-4">Four Columns</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="#">Masonry</a>
-                                                <ul>
-                                                    <li><a href="/portfolio-masonry-2">Two Columns</a></li>
-                                                    <li><a href="/portfolio-masonry-3">Three Columns</a></li>
-                                                    <li><a href="/portfolio-masonry-4">Four Columns</a></li>
-                                                </ul>
-                                            </li>
+                                            <li><a href="/portfolio-2">Classic</a></li>
+                                            <li><a href="/portfolio-masonry-2">Masonry</a></li>
                                             <li><a href="#">Portfolio Posts</a>
                                                 <ul>
                                                     <li><a href="/single-portfolio">Image Post</a></li>
@@ -197,8 +155,8 @@
                                             </li>
                                         </ul>
                                     </li>
-
                                     <li><a href="/contact">Contact Us</a></li>
+                                    <li><a href="/aboutus">About Us</a></li>
                                 </ul>
 
                             </nav>
@@ -209,7 +167,8 @@
                                         <button type="button" class="btn btn-custom dropdown-toggle"
                                                 data-toggle="dropdown">
                                             <span class="cart-menu-icon"></span>
-                                            <i th:class="product_cart"></i> item(s) <span class="drop-price">- $0.00</span>
+                                            <i th:class="product_cart"></i> item(s) <span
+                                                class="drop-price">- $0.00</span>
                                         </button>
 
                                         <div class="dropdown-menu dropdown-cart-menu pull-right clearfix" role="menu">
@@ -221,13 +180,13 @@
                                                     <a href="#" title="Edit item" class="edit-item"><i
                                                             class="fa fa-pencil"></i></a>
                                                     <figure>
-                                                        <a href="product.html"><img
+                                                        <a href="product"><img
                                                                 src="/images/products/thumbnails/item12.jpg"
                                                                 alt="phone 4"></a>
                                                     </figure>
                                                     <div class="dropdown-cart-details">
                                                         <p class="item-name">
-                                                            <a href="product.html">Cam Optia AF Webcam </a>
+                                                            <a href="product">Cam Optia AF Webcam </a>
                                                         </p>
                                                         <p>
                                                             1x
@@ -241,13 +200,13 @@
                                                     <a href="#" title="Edit item" class="edit-item"><i
                                                             class="fa fa-pencil"></i></a>
                                                     <figure>
-                                                        <a href="product.html"><img
+                                                        <a href="product"><img
                                                                 src="/images/products/thumbnails/item13.jpg"
                                                                 alt="phone 2"></a>
                                                     </figure>
                                                     <div class="dropdown-cart-details">
                                                         <p class="item-name">
-                                                            <a href="product.html">Iphone Case Cover Original</a>
+                                                            <a href="product">Iphone Case Cover Original</a>
                                                         </p>
                                                         <p>
                                                             1x
@@ -264,8 +223,8 @@
                                                         class="sub-price">.99</span></li>
                                             </ul><!-- .dropdown-cart-total -->
                                             <div class="dropdown-cart-action">
-                                                <p><a href="cart.html" class="btn btn-custom-2 btn-block">Cart</a></p>
-                                                <p><a href="checkout.html" class="btn btn-custom btn-block">Checkout</a>
+                                                <p><a href="cart" class="btn btn-custom-2 btn-block">Cart</a></p>
+                                                <p><a href="checkout" class="btn btn-custom btn-block">Checkout</a>
                                                 </p>
                                             </div><!-- End .dropdown-cart-action -->
 

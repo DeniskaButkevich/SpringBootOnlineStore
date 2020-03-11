@@ -155,20 +155,8 @@
 
 		<footer th:insert="parts/footer.html :: footer"></footer><!-- End #footer -->
     </div><!-- End #wrapper -->
-        <a href="#" id="scroll-top" title="Scroll to Top"><i class="fa fa-angle-up"></i></a><!-- End #scroll-top -->
-    <!-- END -->
-	<script src="js/bootstrap.min.js"></script>
-    <script src="js/smoothscroll.js"></script>
-	<script src="js/jquery.debouncedresize.js"></script>
-    <script src="js/retina.min.js"></script>
-    <script src="js/jquery.placeholder.js"></script>
-    <script src="js/jquery.hoverIntent.min.js"></script>
-	<script src="js/twitter/jquery.tweet.min.js"></script>
-	<script src="js/jquery.flexslider-min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-	<script src="js/jflickrfeed.min.js"></script>
-	<script src="js/jquery.prettyPhoto.js"></script>
-	<script src="js/main.js"></script>
 
-    </body>
+	<th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer -->
+
+	</body>
 </html>

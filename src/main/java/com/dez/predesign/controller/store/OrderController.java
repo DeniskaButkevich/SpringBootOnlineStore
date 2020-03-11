@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Map;
 
@@ -51,7 +53,8 @@ public class OrderController {
                                BindingResult bindingResult,
                                Model model,
                                @Valid Payment payment,
-                               BindingResult paymentBindingResult){
+                               BindingResult paymentBindingResult,
+                               HttpServletResponse response){
 
         if(bindingResult.getErrorCount() > 2 || paymentBindingResult.hasErrors()){
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
@@ -78,6 +81,12 @@ public class OrderController {
         order.setCount_price(orderService.setCountPrice(cart));
         order.setTotal_price(orderService.setTotalPrice(cart));
         orderRepo.save(order);
+
+        Cookie cookie = new Cookie("cart", null); // Not necessary, but saves bandwidth.
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(0); // Don't set to -1 or it will become a session cookie!
+        response.addCookie(cookie);
 
         return "redirect:/orderSuccessful";
     }

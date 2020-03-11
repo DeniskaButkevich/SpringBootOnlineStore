@@ -55,8 +55,8 @@ function removeFromCart() {
 
 function checkCart(){
     //проверяю наличие корзины в localStorage;
-    if (localStorage.getItem('cart') != null
-        && localStorage.getItem('cart').length != 2) {
+
+    if(document.cookie.includes('cart=')){
         cart = JSON.parse (localStorage.getItem('cart'));
 
         var elem = document.getElementsByClassName("product_cart");
@@ -128,7 +128,7 @@ function deleteProduct(id) {
 
 function totalPrice() {
 
-    if (localStorage.getItem('cart') != null) {
+    if (document.cookie.includes('cart=')) {
         var final_price = 0;
 
         for(var key in cart){
@@ -146,7 +146,9 @@ function totalPrice() {
 
             att_price.innerText = price * count;
         }
-        document.getElementById('total_price').innerText = '$' + final_price;
+        if(document.getElementById('total_price') != null){
+            document.getElementById('total_price').innerText = '$' + final_price;
+        }
     }
 }
 
