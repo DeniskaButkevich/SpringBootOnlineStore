@@ -97,6 +97,12 @@
 			<version>20190722</version>
 		</dependency>
 
+		<!-- db migration-->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -31,14 +31,21 @@ public class IndexController {
         mapProducts = new HashMap<>();
 
         Page<Product> products = null;
+
         products = productRepo.findAll(pageable);
-        mapProducts.put("productsAll",products);
+        if(products.getContent().size() > 0){
+            mapProducts.put("productsAll",products);
+        }
 
         Page<Product> productsOnSale = productRepo.findBySaleNotNull(pageable);
-        mapProducts.put("productsOnSale",productsOnSale);
+        if(productsOnSale.getContent().size() > 0){
+            mapProducts.put("productsOnSale",productsOnSale);
+        }
 
         Page<Product> newProducts = productRepo.findByNewProductNotNullAndImageListNotNull(pageable);
-        mapProducts.put("newProducts",newProducts);
+        if(newProducts.getContent().size() > 0){
+            mapProducts.put("newProducts",newProducts);
+        }
 
         Iterable<Brand> brands = brandRepo.findAll();
         model.addAttribute("brands",brands);

@@ -110,12 +110,13 @@ public class CategoryController {
         model.addAttribute("setParam", setParam);
 
         List<Long> lds = productRepo.findAllId();
+        if(lds.size() > 0){
+            Random rand = new Random();
+            Long randomElement = lds.get(rand.nextInt(lds.size()));
 
-        Random rand = new Random();
-        Long randomElement = lds.get(rand.nextInt(lds.size()));
-
-        Product productForTop = productRepo.findOneProduct(randomElement);
-        model.addAttribute("productForTop", productForTop);
+            Product productForTop = productRepo.findOneProduct(randomElement);
+            model.addAttribute("productForTop", productForTop);
+        }
         return "/category";
     }
 }

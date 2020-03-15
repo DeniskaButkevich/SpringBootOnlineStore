@@ -17,25 +17,27 @@
     <section id="content">
         <div id="category-header">
             <div class="row">
-                <div class="container" th:object="${productForTop}">
-                    <div class="col-2">
-                        <div class="category-image">
+                <th:block th:if="${productForTop != null}">
+                    <div class="container" th:object="${productForTop}">
+                        <div class="col-2">
+                            <div class="category-image">
 
-                            <img th:src="*{'/img/catalog/' + filename}" alt="Phone"
-                                 class="img-responsive">
-                        </div><!-- End .category-image -->
+                                <img th:src="*{'/img/catalog/' + filename}" alt="Phone"
+                                     class="img-responsive">
+                            </div><!-- End .category-image -->
 
-                    </div><!-- End .col-2 -->
+                        </div><!-- End .col-2 -->
 
-                    <div class="col-2 last">
-                        <div class="category-title">
-                            <h2 th:text="*{name}"></h2>
-                            <p th:text="*{description}"></p>
-                            <a th:href="*{'/product/' + id}" class="btn btn-custom">LEARN
-                                MORE</a>
-                        </div><!-- End .category-title -->
-                    </div><!-- End .col-2 -->
-                </div><!-- End .container -->
+                        <div class="col-2 last">
+                            <div class="category-title">
+                                <h2 th:text="*{name}"></h2>
+                                <p th:text="*{description}"></p>
+                                <a th:href="*{'/product/' + id}" class="btn btn-custom">LEARN
+                                    MORE</a>
+                            </div><!-- End .category-title -->
+                        </div><!-- End .col-2 -->
+                    </div><!-- End .container -->
+                </th:block>
             </div><!-- End .row -->
         </div><!-- End #category-header -->
         <div id="category-breadcrumb">
