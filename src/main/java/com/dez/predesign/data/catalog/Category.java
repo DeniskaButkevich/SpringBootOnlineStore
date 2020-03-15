@@ -3,13 +3,13 @@ package com.dez.predesign.data.catalog;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Null;
 import java.util.List;
 
 @Entity
 @Data
 @Table( name="categories")
 public class Category {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

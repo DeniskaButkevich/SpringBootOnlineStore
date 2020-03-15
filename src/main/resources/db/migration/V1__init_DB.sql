@@ -8,7 +8,7 @@ create table categories (
     level int4,
     name varchar(255),
     ancestor_id int8,
-    descendant_id int8 not null,
+    descendant_id int8,
     primary key (id)
 );
 create table colors (

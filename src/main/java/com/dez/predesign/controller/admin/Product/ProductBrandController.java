@@ -29,11 +29,13 @@ public class ProductBrandController {
 
        Iterable<Brand> brand = brandRepo.findByName(name);
 
-       if(brand != null) {
-           model.addAttribute("nameError", "brand already exist");
+        for (Brand b: brand) {
+            if(b.getName().equals(name)){
+                model.addAttribute("nameError", "brand already exist");
 
-           return "/admins/productBrands";
-       }
+                return "/admins/productBrands";
+            }
+        }
        brandRepo.save(new Brand(name));
 
        return "redirect:/admins/product/brands";
