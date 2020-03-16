@@ -56,6 +56,6 @@ public class IndexController {
         }
 
         model.addAttribute("mapProducts",mapProducts);
-        return "/index";
+        return "index";
     }
 }

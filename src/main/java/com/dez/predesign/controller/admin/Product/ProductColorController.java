@@ -21,7 +21,7 @@ public class ProductColorController {
 
     @GetMapping
     public String showColors(Model model){
-        return "/admins/productColors";
+        return "admins/productColors";
     }
 
     @PostMapping("delete")
@@ -45,13 +45,13 @@ public class ProductColorController {
             model.addAttribute("bError", "b  must be between 0 - 255");
 
         if(model.containsAttribute("rError") || model.containsAttribute("gError") || model.containsAttribute("bError")) {
-            return "/admins/productColors";
+            return "admins/productColors";
         }
         Color color = new Color(r + ", " + g + ", " + b);
 
         if(colorRepo.findByRgb(color.getRgb()) != null) {
             model.addAttribute("colorError", "color already exist");
-            return "/admins/productColors";
+            return "admins/productColors";
         }
         colorRepo.save(color);
 

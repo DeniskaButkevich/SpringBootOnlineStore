@@ -24,18 +24,18 @@ public class LoginController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if(authentication.getAuthorities().toString().contains("ROLE_ADMIN"))
-            return "/admins/indexAdmin";
+            return "admins/indexAdmin";
 
-        return "/admin";
+        return "admin";
     }
 
     @PostMapping("/admin")
     public String adminLogin(){
-        return "/admins/indexAdmin";
+        return "admins/indexAdmin";
     }
 
     @PostMapping("/logout")
     public String logoutAdmin(){
-        return ("/admin");
+        return "admin";
     }
 }

@@ -33,7 +33,7 @@ public class ProductCategoryController {
 
     @GetMapping
     public String showCategories(Model model) {
-        return "/admins/productCategories";
+        return "admins/productCategories";
     }
 
     @PostMapping("/level_1")
@@ -42,7 +42,7 @@ public class ProductCategoryController {
 
         if (categories.stream().anyMatch(s -> s.getName().equals(name))) {
             model.addAttribute("errorCategory", "Name already exist");
-            return "/admins/productCategories";
+            return "admins/productCategories";
         }
         categoryRepo.save(new Category(name, 1));
 
@@ -60,7 +60,7 @@ public class ProductCategoryController {
         if (categories.stream().anyMatch(s -> s.getName().equals(categoryLevelTwo))) {
             if (categories.stream().anyMatch(s -> s.getAncestor().getId() == levelOne.getId())) {
                 model.addAttribute("categoryLevelTwoError", "Name already exist");
-                return "/admins/productCategories";
+                return "admins/productCategories";
             }
         }
         Category levelTwo = new Category(categoryLevelTwo, 2, levelOne);

@@ -30,8 +30,8 @@ public class CartController {
             }
             Iterable<Product> products = productRepo.findAllProductsByIds(ids);
             model.addAttribute("products", products);
-            return "/cart";
+            return "cart";
         }
-        return "/cart";
+        return "cart";
     }
 }

@@ -44,7 +44,7 @@ public class OrdersController {
 
         model.addAttribute("url", "/admins/orders");
         model.addAttribute("page", page);
-        return "/admins/orderList";
+        return "admins/orderList";
     }
 
     @GetMapping("order/delete/{id}")

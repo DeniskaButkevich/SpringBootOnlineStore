@@ -117,6 +117,6 @@ public class CategoryController {
             Product productForTop = productRepo.findOneProduct(randomElement);
             model.addAttribute("productForTop", productForTop);
         }
-        return "/category";
+        return "category";
     }
 }

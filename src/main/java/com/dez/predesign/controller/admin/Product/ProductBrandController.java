@@ -21,7 +21,7 @@ public class ProductBrandController {
 
     @GetMapping
     public String showBrands(Model model){
-        return "/admins/productBrands";
+        return "admins/productBrands";
     }
 
     @PostMapping("add")
@@ -33,7 +33,7 @@ public class ProductBrandController {
             if(b.getName().equals(name)){
                 model.addAttribute("nameError", "brand already exist");
 
-                return "/admins/productBrands";
+                return "admins/productBrands";
             }
         }
        brandRepo.save(new Brand(name));

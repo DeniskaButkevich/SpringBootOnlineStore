@@ -41,9 +41,9 @@ public class OrderController {
             if(user.getPayment() != null){
                 model.addAttribute("payment", user.getPayment());
             }
-            return "/checkout";
+            return "checkout";
         }
-        return "/checkout";
+        return "checkout";
     }
 
     @PostMapping("/orderSuccessful")
@@ -73,7 +73,7 @@ public class OrderController {
             model.addAttribute("payment", payment);
             orderService.addProductsModel(cart,model);
 
-            return "/checkout";
+            return "checkout";
         }
         Order order = new Order();
         order.setProducts(orderService.getProductByCookie(cart));

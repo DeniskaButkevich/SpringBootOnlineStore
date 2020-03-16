@@ -41,7 +41,7 @@ public class ProductImagesController {
         model.addAttribute("images", images);
         model.addAttribute("product", product);
 
-        return "/admins/productImages";
+        return "admins/productImages";
     }
 
     @PostMapping("/admins/product/images/{id}")

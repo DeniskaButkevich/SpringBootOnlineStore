@@ -91,7 +91,7 @@ public class UserController {
         if(userService.save(id,form,user,model,errors)) {
             return "redirect:/admins/users";
         } else{
-            return "/admins/userEdit";
+            return "admins/userEdit";
         }
     }
 
@@ -103,7 +103,7 @@ public class UserController {
         if(userService.passwordChange(id,password,confirmPassword,model)){
            return "redirect:/admins/users";
         } else{
-            return "/admins/passwordChange";
+            return "admins/passwordChange";
         }
     }
 
@@ -116,7 +116,7 @@ public class UserController {
         if(userService.addUser(user,errors,model,confirmPassword)){
             return "redirect:/admins/users";
         } else{
-            return "/admins/userAdd";
+            return "admins/userAdd";
         }
     }
 }
