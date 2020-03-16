@@ -1,12 +1,22 @@
 package com.dez.predesign.controller.admin;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.internal.StaticCredentialsProvider;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.dez.predesign.data.Message;
 import com.dez.predesign.data.User;
 import com.dez.predesign.repository.MessageRepo;
 import com.dez.predesign.service.PageService;
 import com.dez.predesign.util.ControllerUtils;
+import com.dez.predesign.util.UploadImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -41,6 +51,15 @@ public class MessageController  {
 
     @Value("${upload.path}")
     private String uploadPath;
+
+    @Value("${AWS_ACCESS_KEY_ID}")
+    private String AWS_ACCESS_KEY_ID;
+
+    @Value("${AWS_SECRET_ACCESS_KEY}")
+    public String AWS_SECRET_ACCESS_KEY;
+
+    @Value("${S3_BUCKET_NAME}")
+    private String S3_BUCKET_NAME;
 
     @GetMapping("/admins/message")
     public String messagesShow( @RequestParam(required = false, defaultValue = "") String filter,
@@ -79,17 +98,8 @@ public class MessageController  {
             model.addAttribute("message", message);
         } else {
             if (file != null && !file.getOriginalFilename().isEmpty()) {
-                File uploadDir = new File(uploadPath);
-
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdir();
-                }
-                String uuidFile = UUID.randomUUID().toString();
-                String resultFilename = uuidFile + file.getOriginalFilename();
-
-                file.transferTo(new File(uploadPath + resultFilename));
-
-                message.setFilename(resultFilename);
+                String resultFilenameTest = UploadImage.putObjectAmazonS3(file, S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY);
+                message.setFilename(resultFilenameTest);
             }
             model.addAttribute("message", null);
             messageRepo.save(message);
@@ -107,7 +117,7 @@ public class MessageController  {
     public String messageRemove(@RequestParam String id) throws IOException {
         Message message =  messageRepo.findById(Long.parseLong(id)).get();
         if(message.getFilename() != null && !message.getFilename().isEmpty()){
-            Files.delete(Paths.get(uploadPath + message.getFilename()));
+            UploadImage.deleteObjectAmazonS3(message.getFilename(), S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY);
         }
         messageRepo.delete(message);
 

@@ -15,10 +15,13 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${upload.path}")
     private String uploadPath;
 
+    @Value("${upload.path.amazons3}")
+    private String uploadPathAmazonS3;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/img/**")
-                .addResourceLocations("file:" + uploadPath);
+                .addResourceLocations(uploadPathAmazonS3);
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
     }
