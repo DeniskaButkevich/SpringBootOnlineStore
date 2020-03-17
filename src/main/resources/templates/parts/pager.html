@@ -63,9 +63,9 @@
             <div class="item-image-wrapper">
                 <figure class="item-image-container">
                     <a th:href="${'product/' + product.id}">
-                        <img th:src="'img/catalog/' + ${product.filename}"
+                        <img th:src="'img/' + ${product.filename}"
                              alt="item1" class="item-image">
-                        <img th:src="'img/catalog/' + ${product.hoverFilename}"
+                        <img th:src="'img/' + ${product.hoverFilename}"
                              alt="item1  Hover" class="item-image-hover"></a>
                 </figure>
                 <div class="item-price-container">
@@ -121,8 +121,8 @@
         <div class="item-image-container">
             <figure>
                 <a th:href="${'product/' + product.id}">
-                    <img th:src="'img/catalog/' + ${product.filename}" alt="item1" class="item-image">
-                    <img th:src="'img/catalog/' + ${product.hoverFilename}" alt="item1  Hover" class="item-image-hover">
+                    <img th:src="'img/' + ${product.filename}" alt="item1" class="item-image">
+                    <img th:src="'img/' + ${product.hoverFilename}" alt="item1  Hover" class="item-image-hover">
                 </a>
             </figure>
             <div class="item-price-container">

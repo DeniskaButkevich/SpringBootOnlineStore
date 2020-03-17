@@ -30,8 +30,14 @@ public class ProductImagesController {
     @Autowired
     ImageRepo imageRepo;
 
-    @Value("${upload.path.catalog}")
-    private String uploadPath;
+    @Value("${AWS_ACCESS_KEY_ID}")
+    private String AWS_ACCESS_KEY_ID;
+
+    @Value("${AWS_SECRET_ACCESS_KEY}")
+    public String AWS_SECRET_ACCESS_KEY;
+
+    @Value("${S3_BUCKET_NAME}")
+    private String S3_BUCKET_NAME;
 
     @GetMapping("/admins/product/images/{id}")
     public String imagesShow(@PathVariable String id, Model model) {
@@ -51,14 +57,14 @@ public class ProductImagesController {
                             @RequestParam("imageSecondary") MultipartFile[] secondary) throws IOException {
 
         if (general != null && !general.getOriginalFilename().isEmpty()){
-            UploadImage.uploadImage(id, general, uploadPath, productRepo, imageRepo, "general");
+            UploadImage.uploadImage(id, general, productRepo, imageRepo, "general", AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, S3_BUCKET_NAME);
         }
         if (hover != null && !hover.getOriginalFilename().isEmpty()){
-            UploadImage.uploadImage(id, hover, uploadPath, productRepo, imageRepo, "hover");
+            UploadImage.uploadImage(id, hover, productRepo, imageRepo, "hover", AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, S3_BUCKET_NAME);
         }
         for (MultipartFile sec : secondary) {
             if (sec != null && !sec.getOriginalFilename().isEmpty())
-                UploadImage.uploadImage(id, sec, uploadPath + "secondary\\", productRepo, imageRepo, "sec");
+                UploadImage.uploadImage(id, sec, productRepo, imageRepo, "sec", AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, S3_BUCKET_NAME);
         }
         return "redirect:/admins/product/images/{id}";
     }
@@ -70,16 +76,16 @@ public class ProductImagesController {
         Product product = productRepo.findById(Long.parseLong(id)).get();
 
         if (filetype.equals("general")) {
-            Files.delete(Paths.get(uploadPath + product.getFilename()));
+            UploadImage.deleteObjectAmazonS3(product.getFilename(), S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY);
             product.setFilename(null);
             productRepo.save(product);
 
         } else if (filetype.equals("hover")) {
-            Files.delete(Paths.get(uploadPath + product.getHoverFilename()));
+            UploadImage.deleteObjectAmazonS3(product.getHoverFilename(), S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY);
             product.setHoverFilename(null);
             productRepo.save(product);
         } else {
-            Files.delete(Paths.get(uploadPath + "secondary\\" + filetype));
+            UploadImage.deleteObjectAmazonS3(filetype, S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY);
             imageRepo.delete(imageRepo.findByName(filetype));
         }
         return "redirect:/admins/product/images/{id}";

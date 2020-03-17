@@ -11,6 +11,7 @@ import com.dez.predesign.data.catalog.Image;
 import com.dez.predesign.repository.*;
 import com.dez.predesign.service.PageService;
 import com.dez.predesign.service.ProductService;
+import com.dez.predesign.util.UploadImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -55,6 +56,15 @@ public class ProductController {
 
     @Autowired
     OrderRepo orderRepo;
+
+    @Value("${AWS_ACCESS_KEY_ID}")
+    private String AWS_ACCESS_KEY_ID;
+
+    @Value("${AWS_SECRET_ACCESS_KEY}")
+    public String AWS_SECRET_ACCESS_KEY;
+
+    @Value("${S3_BUCKET_NAME}")
+    private String S3_BUCKET_NAME;
 
     @ModelAttribute(name = "brands")
     public Iterable<Brand> brands() {
@@ -147,6 +157,7 @@ public class ProductController {
         Iterable<Image> images= imageRepo.findByProduct(product);
         for (Image image: images){
             imageRepo.delete(image);
+            UploadImage.deleteObjectAmazonS3(image.getName(), S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY);
         }
         productRepo.delete(
                 productRepo.findById(

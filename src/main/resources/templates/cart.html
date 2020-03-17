@@ -51,7 +51,7 @@
                                         <tr th:object="${product}" th:id="'tr_product_id_' + ${product.id}">
                                             <td class="item-name-col">
                                                 <figure>
-                                                    <a href="#"><img th:src="*{'/img/catalog/' + filename}"
+                                                    <a href="#"><img th:src="*{'/img/' + filename}"
                                                                      th:alt="*{name}"></a>
                                                 </figure>
                                                 <header class="item-name"><a

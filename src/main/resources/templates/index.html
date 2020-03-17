@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="tp-caption lfl ltl" data-x="center" data-y="bottom" data-hoffset="-230"
                                      data-speed="2000" data-start="500" data-endspeed="800">
-                                    <img th:src="'/img/catalog/' + *{filename}" alt="Slide 1_1">
+                                    <img th:src="'/img/' + *{filename}" alt="Slide 1_1">
                                 </div>
                             </li>
                         </th:block>
@@ -74,12 +74,12 @@
 
                                 <div class="tp-caption lfl ltl" data-x="center" data-y="center" data-hoffset="-204"
                                      data-speed="1750" data-start="400" data-endspeed="800">
-                                    <img th:src="*{'/img/catalog/' + hoverFilename}" alt="Slide 2_2">
+                                    <img th:src="*{'/img/' + hoverFilename}" alt="Slide 2_2">
                                 </div>
 
                                 <div class="tp-caption lfr ltr" data-x="380" data-y="50" data-speed="1800" data-start="250"
                                      data-endspeed="800">
-                                    <img th:src="*{'/img/catalog/' + filename}">
+                                    <img th:src="*{'/img/' + filename}">
                                 </div>
 
                             </li>
@@ -96,24 +96,24 @@
                                 <div class="tp-caption sfr str" data-x="24" data-y="bottom" data-speed="900"
                                      data-start="500"
                                      data-endspeed="300">
-                                    <img th:src="*{'/img/catalog/' + filename}" alt="Slide 3_1">
+                                    <img th:src="*{'/img/' + filename}" alt="Slide 3_1">
                                 </div>
 
                                 <div class="tp-caption sfl stl" data-x="788" data-y="95" data-speed="1000" data-start="1200"
                                      data-endspeed="540">
-                                    <img th:src="*{'/img/catalog/secondary/' + getImageList().get(0).name}"
+                                    <img th:src="*{'/img/' + getImageList().get(0).name}"
                                          alt="Slide 3_3">
                                 </div>
 
                                 <div class="tp-caption sfl stl" data-x="700" data-y="260" data-speed="800" data-start="800"
                                      data-endspeed="420">
-                                    <img th:src="*{'/img/catalog/secondary/' + getImageList().get(1).name}"
+                                    <img th:src="*{'/img/' + getImageList().get(1).name}"
                                          alt="Slide 3_2">
                                 </div>
 
                                 <div class="tp-caption sfl stl" data-x="613" data-y="325" data-speed="600" data-start="400"
                                      data-endspeed="300">
-                                    <img th:src="*{'/img/catalog/secondary/' + getImageList().get(2).name}"
+                                    <img th:src="*{'/img/' + getImageList().get(2).name}"
                                          alt="Slide 3_4">
                                 </div>
 
@@ -169,10 +169,10 @@
                                                     <div class="item-image-wrapper">
                                                         <figure class="item-image-container">
                                                             <a th:href="'/product/' + ${product.id}">
-                                                                <img th:src="'/img/catalog/' + ${product.filename != null ? product.filename : ''}"
+                                                                <img th:src="'/img/' + ${product.filename != null ? product.filename : ''}"
                                                                      alt="item1"
                                                                      class="item-image">
-                                                                <img th:src="'/img/catalog/' + ${product.hoverFilename != null ? product.hoverFilename : ''}"
+                                                                <img th:src="'/img/' + ${product.hoverFilename != null ? product.hoverFilename : ''}"
                                                                      alt="item1  Hover"
                                                                      class="item-image-hover">
                                                             </a>
@@ -238,10 +238,10 @@
                                                     <div class="item-image-wrapper">
                                                         <figure class="item-image-container">
                                                             <a th:href="'/product/' + ${product.id}">
-                                                                <img th:src="'/img/catalog/' + ${product.filename != null ? product.filename : ''}"
+                                                                <img th:src="'/img/' + ${product.filename != null ? product.filename : ''}"
                                                                      alt="item1"
                                                                      class="item-image">
-                                                                <img th:src="'/img/catalog/' + ${product.hoverFilename != null ? product.hoverFilename : ''}"
+                                                                <img th:src="'/img/' + ${product.hoverFilename != null ? product.hoverFilename : ''}"
                                                                      alt="item1  Hover"
                                                                      class="item-image-hover">
                                                             </a>
@@ -346,9 +346,9 @@
                                                 <div class="item-image-wrapper">
                                                     <figure class="item-image-container">
                                                         <a th:href="'/product/' +${product.id}">
-                                                            <img th:src="'/img/catalog/' + ${product.filename}" alt="item1"
+                                                            <img th:src="'/img/' + ${product.filename}" alt="item1"
                                                                  class="item-image">
-                                                            <img th:src="'/img/catalog/' + ${product.hoverFilename}"
+                                                            <img th:src="'/img/' + ${product.hoverFilename}"
                                                                  alt="item1  Hover"
                                                                  class="item-image-hover">
                                                         </a>

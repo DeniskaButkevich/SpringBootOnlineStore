@@ -22,28 +22,33 @@ import java.util.UUID;
 
 public class UploadImage {
 
-    public static void uploadImage(String id, MultipartFile file, String uploadPath, ProductRepo productRepo, ImageRepo imageRepo, String flag) throws IOException {
+    public static void uploadImage(
+            String id,
+            MultipartFile file,
+            ProductRepo productRepo,
+            ImageRepo imageRepo,
+            String flag,
+            String aws_access_key_id,
+            String aws_secret_access_key,
+            String s3_bucket_name) throws IOException {
+
+        String resultFilename = putObjectAmazonS3(file, s3_bucket_name, aws_access_key_id, aws_secret_access_key);
 
         Product product = productRepo.findById(Long.parseLong(id)).get();
-        File uploadDir = new File(uploadPath);
-
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
-
-        String uuidFile = UUID.randomUUID().toString();
-        String resultFilename = uuidFile + file.getOriginalFilename();
-
-        file.transferTo(new File(uploadPath + resultFilename));
-
-        if (flag.equals("general"))
+        if (flag.equals("general")){
             product.setFilename(resultFilename);
-        if (flag.equals("hover"))
+            productRepo.save(product);
+            return;
+        }
+        if (flag.equals("hover")){
             product.setHoverFilename(resultFilename);
-        if (flag.equals("sec"))
+            productRepo.save(product);
+            return;
+        }
+        if (flag.equals("sec")){
             imageRepo.save(new Image(product, resultFilename));
-
-        productRepo.save(product);
+            return;
+        }
     }
 
     public static File convert(MultipartFile file) throws IOException {
@@ -75,6 +80,8 @@ public class UploadImage {
         connection.putObject(
                 new PutObjectRequest(S3_BUCKET_NAME, resultFilename, convert(file))
                         .withCannedAcl(CannedAccessControlList.PublicRead));
+
+        connection.shutdown();
 
         return resultFilename;
     }

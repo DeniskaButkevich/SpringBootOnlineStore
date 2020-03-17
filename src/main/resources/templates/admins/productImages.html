@@ -26,7 +26,7 @@
         </div>
         <br>
         <th:block th:if="${product.filename != null}">
-            <img th:src="'/img/catalog/' + ${product.filename}" class="img-thumbnail">
+            <img th:src="'/img/' + ${product.filename}" class="img-thumbnail">
             <a th:href="@{/admins/product/images/{path}/delete/{filetype}/(path=${product.id},filetype='general')}">delete</a>
         </th:block>
         <br>
@@ -40,7 +40,7 @@
             </div>
         </div>
         <th:block th:if="${product.hoverFilename != null}">
-            <img th:src="'/img/catalog/' + ${product.hoverFilename}" class="img-thumbnail">
+            <img th:src="'/img/' + ${product.hoverFilename}" class="img-thumbnail">
             <a th:href="@{/admins/product/images/{path}/delete/{filetype}/(path=${product.id},filetype='hover')}">delete</a>
         </th:block>
 
@@ -54,7 +54,7 @@
         </div>
         <th:block th:if="${images != null}">
             <th:block th:each="img : ${images}">
-                <img th:src="'/img/catalog/secondary/' + ${img.name}" class="img-thumbnail">
+                <img th:src="'/img/' + ${img.name}" class="img-thumbnail">
                 <a th:href="@{/admins/product/images/{path}/delete/{filetype}/(path=${product.id},filetype=${img.name})}">delete</a>
             </th:block>
         </th:block>

@@ -49,9 +49,6 @@ public class MessageController  {
     @Autowired
     PageService pageService;
 
-    @Value("${upload.path}")
-    private String uploadPath;
-
     @Value("${AWS_ACCESS_KEY_ID}")
     private String AWS_ACCESS_KEY_ID;
 
