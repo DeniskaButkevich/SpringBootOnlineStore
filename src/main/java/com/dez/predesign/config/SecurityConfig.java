@@ -1,7 +1,7 @@
 package com.dez.predesign.config;
 
 import com.dez.predesign.component.CustomLogoutSuccessHandler;
-import com.dez.predesign.component.MyAuthenticationSuccessHandler;
+import com.dez.predesign.component.CustomAuthenticationSuccessHandler;
 import com.dez.predesign.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -27,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler(){
-        return new MyAuthenticationSuccessHandler();
+        return new CustomAuthenticationSuccessHandler();
     }
 
     @Bean
@@ -48,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .formLogin()
                     .loginPage("/admin")
-                    .successHandler(new MyAuthenticationSuccessHandler())
+                    .successHandler(new CustomAuthenticationSuccessHandler())
                 .and()
                     .logout().logoutSuccessHandler(new CustomLogoutSuccessHandler())
                 .and()

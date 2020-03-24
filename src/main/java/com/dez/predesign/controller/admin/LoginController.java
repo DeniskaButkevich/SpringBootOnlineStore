@@ -15,27 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginController {
 
     @GetMapping("/admin")
-    public String adminLoginGet(@AuthenticationPrincipal User user,
-                                HttpServletRequest httpServletRequest,
-                                Model model){
+    public String adminLoginGet(HttpServletRequest request){
 
-        model.addAttribute("hasSession", httpServletRequest.getSession(false) != null);
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if(authentication.getAuthorities().toString().contains("ROLE_ADMIN"))
-            return "admins/indexAdmin";
-
-        return "admin";
-    }
-
-    @PostMapping("/admin")
-    public String adminLogin(){
-        return "admins/indexAdmin";
-    }
-
-    @PostMapping("/logout")
-    public String logoutAdmin(){
+        String referrer = request.getHeader("Referer");
+        request.getSession().setAttribute("url_prior_login", referrer);
         return "admin";
     }
 }

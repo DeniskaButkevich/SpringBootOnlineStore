@@ -6,15 +6,12 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Pattern;
 
 @Entity
 @Data
 public class Payment {
-
     @Id
     private Long id;
 

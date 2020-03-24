@@ -1,6 +1,9 @@
 package com.dez.predesign.component;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -19,6 +22,9 @@ public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler im
             HttpServletResponse response,
             Authentication authentication)
             throws IOException, ServletException {
+
+        response.sendRedirect(request.getHeader("Referer"));
+        response.setStatus(HttpStatus.OK.value());
 
         super.onLogoutSuccess(request, response, authentication);
     }

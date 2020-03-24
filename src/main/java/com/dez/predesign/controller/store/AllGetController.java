@@ -33,11 +33,6 @@ public class AllGetController {
         return "blog";
     }
 
-    @GetMapping("/portfolio-2")
-    public String portfolioTwo(){
-        return "portfolio-2";
-    }
-
     @GetMapping("/portfolio-masonry-2")
     public String portfolioMasonryTwo(){
         return "portfolio-masonry-2";
@@ -56,11 +51,6 @@ public class AllGetController {
     @GetMapping("/single-portfolio-gallery")
     public String singlePortfolioGallery(){
         return "single-portfolio-gallery";
-    }
-
-    @GetMapping("/single-portfolio-video")
-    public String singlePortfolioVideo(){
-        return "single-portfolio-video";
     }
 
     @GetMapping("/orderSuccessful")
