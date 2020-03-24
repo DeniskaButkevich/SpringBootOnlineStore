@@ -170,3 +170,15 @@ alter table if exists user_role
 alter table if exists usr
     add constraint FK_usr_payment_id
         foreign key (payment_id) references payment;
+
+create table slider_element (
+    id int4 not null,
+    filename varchar(255),
+    number int4,
+    product_id int8,
+    primary key (id)
+    );
+
+alter table if exists slider_element
+    add constraint FK_slider_element_product_id
+        foreign key (product_id) references product;

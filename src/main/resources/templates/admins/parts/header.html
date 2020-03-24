@@ -11,34 +11,27 @@
 
                 <div class="collapse navbar-collapse" id="navbarColor02">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
+                        <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'indexAdmin') ? ' active': ''}">
                             <a class="nav-link" href="/admins/indexAdmin">Home</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'product') ? ' active': ''}">
                             <a class="nav-link" href="/admins/product">Product</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'message') ? ' active': ''}">
                             <a class="nav-link" href="/admins/message">Message</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'users') ? ' active': ''}">
                             <a class="nav-link" href="/admins/users">Users</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'orders') ? ' active': ''}">
                             <a class="nav-link" href="/admins/orders">Orders</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Store</a>
-                        </li>
-                        <li class="nav-item">
-                            <form th:action="@{/logout}" method="post">
-                                <button class="btn btn-primary" type="submit">Sign Out</button>
-                                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-                            </form>
+                        <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'slider') ? ' active': ''}">
+                            <a class="nav-link" href="/admins/slider">Slider</a>
                         </li>
                     </ul>
-                    <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                    <form th:action="@{/logout}" method="post">
+                        <button class="btn btn-primary" type="submit">Sign Out</button>
                         <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                     </form>
                 </div>

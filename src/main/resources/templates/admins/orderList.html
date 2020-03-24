@@ -2,13 +2,13 @@
 <html lang="en">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:include="admins/parts/head.html :: head">
+<head th:include="admins/parts/head.html :: head(title='Orders')">
 
 </head>
 <body style="background-color: #eee">
 
 <row>
-    <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
+    <nav th:include="admins/parts/header.html :: header(url_active='orders')" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
 </row>
 
 <div class="container mt-5">

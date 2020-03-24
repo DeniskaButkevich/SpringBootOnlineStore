@@ -91,12 +91,15 @@ public class ProductController {
 
     @GetMapping("/admins/product")
     public String productShow(@RequestParam(required = false, defaultValue = "") Brand filter,
+                              @RequestParam(required = false, defaultValue = "") String id,
                               @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable,
                               Model model) {
         Page<Product> page;
 
         if (filter != null && !filter.getName().isEmpty()){
             page = productRepo.findByBrand(pageable, filter);
+        }else if(id != null && !id.isEmpty()){
+            page = productRepo.findById(pageable, Long.parseLong(id));
         }else{
             page = productRepo.findAll(pageable);
         }

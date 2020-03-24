@@ -4,13 +4,13 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head th:include="admins/parts/head.html :: head">
+<head th:include="admins/parts/head.html :: head(title='Users')">
 
 </head>
 <body style="background-color: #eee">
 
 <row>
-    <nav th:include="admins/parts/header.html :: header" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
+    <nav th:include="admins/parts/header.html :: header(url_active='users')" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
 </row>
 
 <div class="container mt-5">

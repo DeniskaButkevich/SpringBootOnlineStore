@@ -14,6 +14,7 @@ import java.util.List;
 
 public interface ProductRepo extends CrudRepository<Product,Long>, JpaRepository<Product,Long> {
     Page<Product> findByBrand(Pageable pageable,Brand brand);
+    Page<Product> findById(Pageable pageable,Long brand);
     Page<Product> findBySaleNotNull(Pageable pageable);
     Page<Product> findByNewProductNotNullAndImageListNotNull(Pageable pageable);
 
