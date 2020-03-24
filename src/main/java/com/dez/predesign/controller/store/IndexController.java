@@ -1,9 +1,11 @@
 package com.dez.predesign.controller.store;
 
+import com.dez.predesign.data.SliderElement;
 import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.repository.BrandRepo;
 import com.dez.predesign.repository.ProductRepo;
+import com.dez.predesign.repository.SliderElementRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,9 @@ public class IndexController {
     @Autowired
     BrandRepo brandRepo;
 
+    @Autowired
+    SliderElementRepo sliderElementRepo;
+
     @GetMapping(value = {"/index","/",""})
     public String show(Model model, @PageableDefault(size = 6,direction = Sort.Direction.DESC, sort = {"id"})Pageable pageable){
 
@@ -42,11 +47,6 @@ public class IndexController {
             mapProducts.put("productsOnSale",productsOnSale);
         }
 
-        Page<Product> newProducts = productRepo.findByNewProductNotNullAndImageListNotNull(pageable);
-        if(newProducts.getContent().size() > 0){
-            mapProducts.put("newProducts",newProducts);
-        }
-
         Iterable<Brand> brands = brandRepo.findAll();
         model.addAttribute("brands",brands);
 
@@ -54,8 +54,12 @@ public class IndexController {
             products = productRepo.findByBrand(pageable, brand);
             mapProducts.put(brand.getName(),products);
         }
-
         model.addAttribute("mapProducts",mapProducts);
+
+        Page<SliderElement> sliderElements = sliderElementRepo.findAll(pageable);
+
+        model.addAttribute("sliderElements",sliderElements);
+
         return "index";
     }
 }
