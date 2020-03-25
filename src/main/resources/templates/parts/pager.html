@@ -63,17 +63,17 @@
             <div class="item-image-wrapper">
                 <figure class="item-image-container">
                     <a th:href="${'product/' + product.id}">
-                        <img th:src="'img/' + ${product.filename}"
-                             alt="item1" class="item-image">
-                        <img th:src="'img/' + ${product.hoverFilename}"
-                             alt="item1  Hover" class="item-image-hover"></a>
+                        <img th:if="${product.filename != null}" th:src="'img/' + ${product.filename}" alt="item1" class="item-image">
+                        <img th:unless="${product.filename != null}" src="/images/products/item2.jpg" alt="item1" class="item-image">
+                        <img th:if="${product.hoverFilename != null}" th:src="'img/' + ${product.hoverFilename}" alt="item1  Hover" class="item-image-hover"></a>
+                        <img th:unless="${product.hoverFilename != null}" src="/images/products/item2-hover.jpg" alt="item1  Hover" class="item-image-hover"></a>
                 </figure>
                 <div class="item-price-container">
                 <th:block th:if="${product.sale != null}">
                                                             <span class="old-price"
                                                                   th:text="${product.price != null ? product.price : ''}"></span>
                     <span class="item-price"
-                          th:text="${  product.price != null ? product.price - product.price * product.sale / 100: ''}"></span>
+                          th:text="${product.price != null ? product.price - product.price * product.sale / 100: ''}"></span>
                 </th:block>
                 <th:block th:unless="${product.sale != null}">
                                                             <span class="item-price"
@@ -121,8 +121,11 @@
         <div class="item-image-container">
             <figure>
                 <a th:href="${'product/' + product.id}">
-                    <img th:src="'img/' + ${product.filename}" alt="item1" class="item-image">
-                    <img th:src="'img/' + ${product.hoverFilename}" alt="item1  Hover" class="item-image-hover">
+                    <img th:if="${product.filename != null}" th:src="'img/' + ${product.filename}" th:alt="${product.filename}" class="item-image">
+                    <img th:unless="${product.filename != null}" src="/images/products/item1.jpg" alt="item1" class="item-image">
+
+                    <img th:if="${product.hoverFilename != null}" th:src="'img/' + ${product.hoverFilename}" th:alt="${product.hoverFilename}" class="item-image-hover">
+                    <img th:unless="${product.hoverFilename != null}" src="/images/products/item1-hover.jpg" alt="item1  Hover" class="item-image-hover">
                 </a>
             </figure>
             <div class="item-price-container">
@@ -141,7 +144,7 @@
             <span class="discount-rect" th:if="${product.sale != null}">[[${product.sale + '%'}]]</span>
         </div><!-- End .item-image -->
         <div class="item-meta-container">
-            <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a>
+            <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a></h3>
             <div class="ratings-container">
                 <div class="ratings">
                     <div class="ratings-result" data-result="70" style="width: 65.8px;"></div>
@@ -152,9 +155,18 @@
             </div><!-- End .rating-container -->
                 <p>[[${product.description}]]</p>
                 <div class="item-action" style="text-align: left;">
-                <a href="#" class="item-add-btn">
-                    <span class="icon-cart-text">Add to Cart</span>
-                </a>
+                    <th:block th:if="${authorizedUserId < 0}">
+                        <a data-toggle="modal" data-target="#exampleModal"  class="item-add-btn">
+                            <span class="icon-cart-text">Add to Cart</span>
+                        </a>
+                    </th:block>
+
+                    <th:block th:unless="${authorizedUserId < 0}">
+                        <a th:onclick="'addToCart(' +${product.id} +')'"  class="item-add-btn">
+                                                            <span class="icon-cart-text"
+                                                                  th:attrappend="class=${' ' + product.id}">Add to Cart</span>
+                        </a>
+                    </th:block>
                 <div class="item-action-inner">
                     <a href="#" class="icon-button icon-like">Favourite</a>
                     <a href="#" class="icon-button icon-compare">Checkout</a>
@@ -162,4 +174,127 @@
             </div><!-- End .item-action -->
         </div><!-- End .item-meta-container -->
     </div>
+</th:block>
+
+<th:block th:fragment="also_purchased(product)">
+    <div class="item item-hover" th:object="${product}">
+        <div class="item-image-wrapper">
+            <figure class="item-image-container">
+                <a th:href="'/product/' + *{id}">
+
+                    <img th:if="*{filename != null}" th:src="'/img/' + *{filename}" th:alt="*{filename}" class="item-image">
+                    <img th:unless="*{filename != null}" src="/images/products/item8.jpg" alt="item" class="item-image">
+
+                    <img th:if="*{hoverFilename != null}" th:src="'/img/' + *{hoverFilename}" th:alt="*{hoverFilename}" class="item-image-hover">
+                    <img th:unless="*{hoverFilename != null}" src="/images/products/item8-hover.jpg" alt="item1  Hover" class="item-image-hover">
+                </a>
+            </figure>
+            <div class="item-price-container">
+                <th:block th:if="*{sale != null}">
+                                                            <span class="old-price"
+                                                                  th:text="*{price != null ? price : ''}"></span>
+                    <span class="item-price"
+                          th:text="*{price != null ? price - price * sale / 100: ''}"></span>
+                </th:block>
+                <th:block th:unless="*{sale != null}">
+                                                            <span class="item-price"
+                                                                  th:text="*{price != null ? price : ''}"></span>
+                </th:block>
+            </div><!-- End .item-price-container -->
+            <span th:if="*{newProduct}" class="new-rect">New</span>
+        </div><!-- End .item-image-wrapper -->
+        <div class="item-meta-container">
+            <div class="ratings-container">
+                <div class="ratings">
+                    <div class="ratings-result" data-result="99"></div>
+                </div><!-- End .ratings -->
+                <span class="ratings-amount">4 Reviews</span>
+            </div><!-- End .rating-container -->
+            <h3 class="item-name"><a th:href="'/product/' + *{id}" th:text="*{name}"></a></h3>
+            <div class="item-action">
+                <th:block th:if="${authorizedUserId < 0}">
+                    <button data-toggle="modal" data-target="#exampleModal"
+                            class="item-add-btn">
+                        <span class="icon-cart-text">Add to Cart</span>
+                    </button>
+                </th:block>
+
+                <th:block th:unless="${authorizedUserId < 0}">
+                    <button th:onclick="'addToCart(' +*{id} +')'"
+                            class="item-add-btn">
+                                                            <span class="icon-cart-text"
+                                                                  th:attrappend="class=*{' ' + id}">Add to Cart</span>
+                    </button>
+                </th:block>
+                <div class="item-action-inner">
+                    <a href="#" class="icon-button icon-like">Favourite</a>
+                    <a href="#" class="icon-button icon-compare">Checkout</a>
+                </div><!-- End .item-action-inner -->
+            </div><!-- End .item-action -->
+        </div><!-- End .item-meta-container -->
+    </div><!-- End .item -->
+</th:block>
+
+<th:block th:fragment="index_our_products(product)">
+    <div class="col-md-4 col-sm-6 col-xs-12" th:object="${product}">
+        <div class="item item-hover">
+            <div class="item-image-wrapper">
+                <figure class="item-image-container">
+                    <a th:href="'/product/' + *{id}">
+                        <img th:if="*{filename != null}" th:src="'/img/' + *{filename}" th:alt="*{filename}" class="item-image">
+                        <img th:unless="*{filename != null}" src="/images/products/item5.jpg" alt="item" class="item-image">
+
+                        <img th:if="*{hoverFilename != null}" th:src="'/img/' + *{hoverFilename}" th:alt="*{hoverFilename}" class="item-image-hover">
+                        <img th:unless="*{hoverFilename != null}" src="/images/products/item5-hover.jpg" alt="item  Hover" class="item-image-hover">
+                    </a>
+                </figure>
+                <div class="item-price-container">
+                    <th:block th:if="*{sale != null}">
+                                                            <span class="old-price"
+                                                                  th:text="*{price != null ? price : ''}"></span>
+                        <span class="item-price"
+                              th:text="*{price != null ? price - price * sale / 100: ''}"></span>
+                    </th:block>
+                    <th:block th:unless="*{sale != null}">
+                                                            <span class="item-price"
+                                                                  th:text="*{price != null ? price : ''}"></span>
+                    </th:block>
+                </div><!-- End .item-price-container -->
+            </div><!-- End .item-image-wrapper -->
+            <div class="item-meta-container">
+                <div class="ratings-container">
+                    <div class="ratings">
+                        <div class="ratings-result" data-result="80"></div>
+                    </div><!-- End .ratings -->
+                    <span class="ratings-amount">
+                                                        5 Reviews
+                                                    </span>
+                </div><!-- End .rating-container -->
+                <h3 class="item-name"><a th:href="'/product/' + *{id}" th:text="*{name}"></a>
+                </h3>
+                <div class="item-action">
+
+                    <th:block th:if="${authorizedUserId < 0}">
+                        <button data-toggle="modal" data-target="#exampleModal"
+                                class="item-add-btn">
+                            <span class="icon-cart-text">Add to Cart</span>
+                        </button>
+                    </th:block>
+
+                    <th:block th:unless="${authorizedUserId < 0}">
+                        <button th:onclick="'addToCart(' +*{id} +')'"
+                                class="item-add-btn">
+                                                            <span class="icon-cart-text"
+                                                                  th:attrappend="class=*{' ' + id}">Add to Cart</span>
+                        </button>
+                    </th:block>
+
+                    <div class="item-action-inner">
+                        <a href="#" class="icon-button icon-like">Favourite</a>
+                        <a href="#" class="icon-button icon-compare">Checkout</a>
+                    </div><!-- End .item-action-inner -->
+                </div><!-- End .item-action -->
+            </div><!-- End .item-meta-container -->
+        </div><!-- End .item -->
+    </div><!-- End .col-md-4 -->
 </th:block>

@@ -167,68 +167,7 @@
                                 <div class="tab-pane active" th:id="'All'">
                                     <th:block th:if="${mapProducts.get('productsAll') != null}">
                                         <th:block th:each="product : ${mapProducts.get('productsAll').getContent()}">
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="item item-hover">
-                                                    <div class="item-image-wrapper">
-                                                        <figure class="item-image-container">
-                                                            <a th:href="'/product/' + ${product.id}">
-                                                                <img th:src="'/img/' + ${product.filename != null ? product.filename : ''}"
-                                                                     alt="item1"
-                                                                     class="item-image">
-                                                                <img th:src="'/img/' + ${product.hoverFilename != null ? product.hoverFilename : ''}"
-                                                                     alt="item1  Hover"
-                                                                     class="item-image-hover">
-                                                            </a>
-                                                        </figure>
-                                                        <div class="item-price-container">
-                                                            <th:block th:if="${product.sale != null}">
-                                                            <span class="old-price"
-                                                                  th:text="${product.price != null ? product.price : ''}"></span>
-                                                                <span class="item-price"
-                                                                      th:text="${product.price != null ? product.price - product.price * product.sale / 100: ''}"></span>
-                                                            </th:block>
-                                                            <th:block th:unless="${product.sale != null}">
-                                                            <span class="item-price"
-                                                                  th:text="${product.price != null ? product.price : ''}"></span>
-                                                            </th:block>
-                                                        </div><!-- End .item-price-container -->
-                                                    </div><!-- End .item-image-wrapper -->
-                                                    <div class="item-meta-container">
-                                                        <div class="ratings-container">
-                                                            <div class="ratings">
-                                                                <div class="ratings-result" data-result="80"></div>
-                                                            </div><!-- End .ratings -->
-                                                            <span class="ratings-amount">
-                                                        5 Reviews
-                                                    </span>
-                                                        </div><!-- End .rating-container -->
-                                                        <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a>
-                                                        </h3>
-                                                        <div class="item-action">
-
-                                                            <th:block th:if="${authorizedUserId < 0}">
-                                                                <button data-toggle="modal" data-target="#exampleModal"
-                                                                        class="item-add-btn">
-                                                                    <span class="icon-cart-text">Add to Cart</span>
-                                                                </button>
-                                                            </th:block>
-
-                                                            <th:block th:unless="${authorizedUserId < 0}">
-                                                                <button th:onclick="'addToCart(' +${product.id} +')'"
-                                                                        class="item-add-btn">
-                                                            <span class="icon-cart-text"
-                                                                  th:attrappend="class=${' ' + product.id}">Add to Cart</span>
-                                                                </button>
-                                                            </th:block>
-
-                                                            <div class="item-action-inner">
-                                                                <a href="#" class="icon-button icon-like">Favourite</a>
-                                                                <a href="#" class="icon-button icon-compare">Checkout</a>
-                                                            </div><!-- End .item-action-inner -->
-                                                        </div><!-- End .item-action -->
-                                                    </div><!-- End .item-meta-container -->
-                                                </div><!-- End .item -->
-                                            </div><!-- End .col-md-4 -->
+                                            <div th:include="/parts/pager.html :: index_our_products(${product})"></div>
                                         </th:block>
                                     </th:block>
                                 </div><!-- End .tab-pane -->
@@ -236,69 +175,7 @@
                                 <th:block th:each="brand : ${brands}">
                                     <div class="tab-pane" th:id="${brand.name}">
                                         <th:block th:each="product : ${mapProducts.get(brand.name).getContent()}">
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="item item-hover">
-                                                    <div class="item-image-wrapper">
-                                                        <figure class="item-image-container">
-                                                            <a th:href="'/product/' + ${product.id}">
-                                                                <img th:src="'/img/' + ${product.filename != null ? product.filename : ''}"
-                                                                     alt="item1"
-                                                                     class="item-image">
-                                                                <img th:src="'/img/' + ${product.hoverFilename != null ? product.hoverFilename : ''}"
-                                                                     alt="item1  Hover"
-                                                                     class="item-image-hover">
-                                                            </a>
-                                                        </figure>
-                                                        <div class="item-price-container">
-                                                            <th:block th:if="${product.sale != null}">
-                                                            <span class="old-price"
-                                                                  th:text="${product.price != null ? product.price : ''}"></span>
-                                                                <span class="item-price"
-                                                                      th:text="${product.price != null ? product.price - product.price * product.sale / 100: ''}"></span>
-                                                            </th:block>
-                                                            <th:block th:unless="${product.sale != null}">
-                                                            <span class="item-price"
-                                                                  th:text="${product.price != null ? product.price : ''}"></span>
-                                                            </th:block>
-                                                        </div><!-- End .item-price-container -->
-                                                    </div><!-- End .item-image-wrapper -->
-                                                    <div class="item-meta-container">
-                                                        <div class="ratings-container">
-                                                            <div class="ratings">
-                                                                <div class="ratings-result" data-result="80"></div>
-                                                            </div><!-- End .ratings -->
-                                                            <span class="ratings-amount">
-                                                        5 Reviews
-                                                    </span>
-                                                        </div><!-- End .rating-container -->
-                                                        <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a>
-                                                        </h3>
-                                                        <div class="item-action">
-
-                                                            <th:block th:if="${authorizedUserId < 0}">
-                                                                <button data-toggle="modal" data-target="#exampleModal"
-                                                                        class="item-add-btn">
-                                                                    <span class="icon-cart-text">Add to Cart</span>
-                                                                </button>
-                                                            </th:block>
-
-                                                            <th:block th:unless="${authorizedUserId < 0}">
-                                                                <button th:onclick="'addToCart(' +${product.id} +')'"
-                                                                        class="item-add-btn">
-                                                            <span class="icon-cart-text"
-                                                                  th:attrappend="class=${' ' + product.id}">Add to Cart</span>
-                                                                </button>
-                                                            </th:block>
-
-                                                            <div class="item-action-inner">
-                                                                <a href="#" class="icon-button icon-like">Favourite</a>
-                                                                <a href="#"
-                                                                   class="icon-button icon-compare">Checkout</a>
-                                                            </div><!-- End .item-action-inner -->
-                                                        </div><!-- End .item-action -->
-                                                    </div><!-- End .item-meta-container -->
-                                                </div><!-- End .item -->
-                                            </div><!-- End .col-md-4 -->
+                                            <div th:include="/parts/pager.html :: index_our_products(${product})"></div>
                                         </th:block>
                                     </div><!-- End .tab-pane -->
                                 </th:block>
@@ -345,65 +222,7 @@
                                 <div class="hot-items-slider owl-carousel">
                                     <th:block th:if="${mapProducts.get('productsOnSale') != null}">
                                         <th:block th:each="product : ${mapProducts.get('productsOnSale').getContent()}">
-                                            <div class="item item-hover">
-                                                <div class="item-image-wrapper">
-                                                    <figure class="item-image-container">
-                                                        <a th:href="'/product/' +${product.id}">
-                                                            <img th:src="'/img/' + ${product.filename}" alt="item1"
-                                                                 class="item-image">
-                                                            <img th:src="'/img/' + ${product.hoverFilename}"
-                                                                 alt="item1  Hover"
-                                                                 class="item-image-hover">
-                                                        </a>
-                                                    </figure>
-                                                    <div class="item-price-container">
-                                                        <th:block th:if="${product.sale != null}">
-                                                            <span class="old-price"
-                                                                  th:text="${product.price != null ? product.price : ''}"></span>
-                                                            <span class="item-price"
-                                                                  th:text="${product.price != null ? product.price - product.price * product.sale / 100: ''}"></span>
-                                                        </th:block>
-                                                        <th:block th:unless="${product.sale != null}">
-                                                            <span class="item-price"
-                                                                  th:text="${product.price != null ? product.price : ''}"></span>
-                                                        </th:block>
-                                                    </div><!-- End .item-price-container -->
-                                                </div><!-- End .item-image-wrapper -->
-                                                <div class="item-meta-container">
-                                                    <div class="ratings-container">
-                                                        <div class="ratings">
-                                                            <div class="ratings-result" data-result="80"></div>
-                                                        </div><!-- End .ratings -->
-                                                        <span class="ratings-amount">
-                                                    5 Reviews
-                                                </span>
-                                                    </div><!-- End .rating-container -->
-                                                    <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a>
-                                                    </h3>
-                                                    <div class="item-action">
-
-                                                        <th:block th:if="${authorizedUserId < 0}">
-                                                            <button data-toggle="modal" data-target="#exampleModal"
-                                                                    class="item-add-btn">
-                                                                <span class="icon-cart-text">Add to Cart</span>
-                                                            </button>
-                                                        </th:block>
-
-                                                        <th:block th:unless="${authorizedUserId < 0}">
-                                                            <button th:onclick="'addToCart(' +${product.id} +')'"
-                                                                    class="item-add-btn">
-                                                            <span class="icon-cart-text"
-                                                                  th:attrappend="class=${' ' + product.id}">Add to Cart</span>
-                                                            </button>
-                                                        </th:block>
-
-                                                        <div class="item-action-inner">
-                                                            <a href="#" class="icon-button icon-like">Favourite</a>
-                                                            <a href="#" class="icon-button icon-compare">Checkout</a>
-                                                        </div><!-- End .item-action-inner -->
-                                                    </div><!-- End .item-action -->
-                                                </div><!-- End .item-meta-container -->
-                                            </div><!-- End .item -->
+                                            <div th:include="/parts/pager.html :: also_purchased(${product})"></div>
                                         </th:block>
                                     </th:block>
                                 </div><!--hot-items-slider -->

@@ -48,7 +48,7 @@ function removeFromCart() {
 
     cart = {};
     localStorage.removeItem('cart');
-    document.cookie = "cart= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "cart= ; expires = Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 
     document.getElementById("scroll-cart").style.display = "none";
 }
