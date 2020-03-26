@@ -6423,8 +6423,18 @@ noUi-target,
 	background-position: 0 0;
 }
 
+.icon-button.icon-like-active {
+	background-position: -71px 0;
+	margin-left:5px;
+}
+
 .icon-button.icon-compare {
 	background-position: -35px 0;
+	margin-left:5px;
+}
+
+.icon-button.icon-compare-active {
+	background-position: -108px 0;
 	margin-left:5px;
 }
 

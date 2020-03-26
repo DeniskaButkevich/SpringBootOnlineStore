@@ -105,13 +105,12 @@
 
 <th:block th:fragment="afterFooter">
     <div id="scroll-compare" class="fix_compare" >
-        <a class="btn btn-custom" th:id="product_compare"></a>
-        <a class="btn btn-custom glyphicon glyphicon-trash"></a>
+        <a href="/compare-products" class="btn btn-custom" id="product_compare" ></a>
+        <a class="btn btn-custom glyphicon glyphicon-trash" th:onclick="'clearCompare()'"></a>
     </div>
     <div id="scroll-cart" class="fix_cart" >
         <a href="/cart" class="btn btn-custom product_cart"></a>
-        <a class="btn btn-custom glyphicon glyphicon-trash"
-           th:onclick="'removeFromCart()'"></a>
+        <a class="btn btn-custom glyphicon glyphicon-trash" th:onclick="'removeFromCart()'"></a>
     </div>
 
     <a href="#" id="scroll-top" title="Scroll to Top"><i class="fa fa-angle-up"></i></a><!-- End #scroll-top -->
