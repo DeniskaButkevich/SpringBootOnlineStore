@@ -1,162 +1,177 @@
 <!DOCTYPE html>
-<!--[if IE 8]> <html class="ie8"> <![endif]-->
-<!--[if IE 9]> <html class="ie9"> <![endif]-->
-<!--[if !IE]><!--> <html> <!--<![endif]-->
+<!--[if IE 8]>
+<html class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html> <!--<![endif]-->
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org">
 
 <head th:insert="parts/head.html :: head"></head>
-    <body>
-    <div id="wrapper">
-		<header th:insert="parts/header.html :: header"></header>
-		<!-- End #header -->
+<body>
+<div id="wrapper">
+    <header th:insert="parts/header.html :: header"></header>
+    <!-- End #header -->
 
-        <section id="content">
-        	<div id="breadcrumb-container">
-        		<div class="container">
-					<ul class="breadcrumb">
-						<li><a href="index.html">Home</a></li>
-						<li class="active">Compare Products</li>
-					</ul>
-        		</div>
-        	</div>
-        	<div class="container">
-        		<div class="row">
-        			<div class="col-md-12">
-						<header class="content-title">
-							<h1 class="title">Compare Products</h1>
-							<p class="title-desc">If after products comparing you find it hard to choose, you can write to our live support.</p>
-						</header>
-        				<div class="xs-margin"></div>
-        				<div class="row">
-        					
-        					<div class="col-md-12 table-responsive">
-								
-        						<table class="table table-striped compare-item-table">
-								<tr>
-									<td class="table-title">PRODUCT NAME</td>
-									<td>
-									<figure>
-										<a href="#"><img src="images/products/compare1.jpg" alt="Lowlands Lace Blouse"></a>
-									</figure>
-									<p class="item-name"><a href="#">Lowlands Lace Blouse</a></p>
-									</td>
-									<td>
-									<figure>
-										<a href="#"><img src="images/products/compare2.jpg" alt="Samsung Galaxy Ace"></a>
-									</figure>
-									<p class="item-name"><a href="#">Samsung Galaxy Ace</a></p>
-									</td>
-									<td>
-									<figure>
-										<a href="#"><img src="images/products/compare3.jpg" alt="Iphone Case Cover"></a>
-									</figure>
-									<p class="item-name"><a href="#">Iphone Case Cover</a></p>
-									</td>
-								</tr>
-								<tr>
-									<td class="table-title">PRICE</td>
-									<td><span class="item-price-special">$130</span></td>
-									<td><span class="item-price-special">$599</span></td>
-									<td><span class="item-price-special">$399</span></td>
-								</tr>
-								<tr class="item-brand-col">
-									<td class="table-title">BRAND</td>
-									<td>SONY</td>
-									<td>SAMSUNG</td>
-									<td>APPLE</td>
-								</tr>
-								<tr>
-									<td class="table-title">AVAILABILITY</td>
-									<td>In Stock</td>
-									<td>Out of Stock</td>
-									<td>In Stock</td>
-								</tr>
-							 	 <tr>
-									<td class="table-title">Rating</td>
-									<td>
-										<div class="ratings-container">
-											<div class="ratings">
-												<div class="ratings-result" data-result="90"></div>
-											</div><!-- End .ratings -->
-											<span class="ratings-amount">
+    <section id="content">
+        <div id="breadcrumb-container">
+            <div class="container">
+                <ul class="breadcrumb">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active">Compare Products</li>
+                </ul>
+            </div>
+        </div>
+
+		<div class="container" th:id="compare-container-empty" style="display: none">
+			<div class="row">
+				<div class="col-md-12">
+
+					<div class="xs-margin"></div><!-- space -->
+
+
+					<div id="empty_cart">
+						<div class="lg-margin"></div><!-- Space -->
+						<div class="container">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="no-content-comment" style="text-align: center;">
+										<h2>Nothing to compare(</h2>
+									</div><!-- End .no-content-comment -->
+								</div><!-- End .col-md-12 -->
+							</div><!-- End .row -->
+						</div><!-- End .container -->
+						<div class="md-margin2x"></div><!-- Space -->
+					</div>
+				</div><!-- End .col-md-12 -->
+			</div><!-- End .row -->
+		</div>
+
+
+		<div class="container" th:id="compare-container">
+            <div class="row">
+                <div class="col-md-12">
+                    <header class="content-title">
+                        <h1 class="title">Compare Products</h1>
+                        <p class="title-desc">If after products comparing you find it hard to choose, you can write to
+                            our live support.</p>
+                    </header>
+                    <div class="xs-margin"></div>
+                    <div class="row">
+
+                        <div class="col-md-12 table-responsive">
+
+                            <table class="table table-striped compare-item-table">
+                                <tr>
+                                    <td class="table-title">PRODUCT NAME</td>
+
+                                    <th:block th:each="product : ${products}">
+                                        <td th:object="${product}" th:class="'compare-td-' + *{id}">
+                                            <figure>
+                                                <a th:if="*{filename != null}" th:href="'/product/' + *{id}"><img
+                                                        th:src="'/img/' + *{filename}" th:alt="*{name}"></a>
+                                                <a th:unless="*{filename != null}" href="#"><img
+                                                        src="/images/products/compare1.jpg" alt="None Img"></a>
+                                            </figure>
+                                            <p class="item-name"><a th:href="'/product/' + *{id}"
+                                                                    th:text="*{name}"></a></p>
+                                        </td>
+                                    </th:block>
+                                </tr>
+                                <tr>
+                                    <td class="table-title">PRICE</td>
+                                    <th:block th:each="product : ${products}">
+                                        <td th:object="${product}" th:class="'compare-td-' + *{id}">
+                                            <span class="item-price-special" th:text="'$' + *{price}"></span>
+                                        </td>
+                                    </th:block>
+                                </tr>
+                                <tr class="item-brand-col">
+                                    <td class="table-title">BRAND</td>
+
+                                    <th:block th:each="product : ${products}">
+                                        <td th:object="${product}" th:class="'compare-td-' + *{id}">
+                                            <span th:text="*{brand.name}"></span>
+                                        </td>
+                                    </th:block>
+                                </tr>
+                                <tr>
+                                    <td class="table-title">AVAILABILITY</td>
+
+                                    <th:block th:each="product : ${products}">
+                                        <td th:object="${product}" th:class="'compare-td-' + *{id}">In Stock</td>
+                                    </th:block>
+                                </tr>
+                                <tr>
+                                    <td class="table-title">Rating</td>
+
+                                    <th:block th:each="product : ${products}">
+                                        <td th:object="${product}" th:class="'compare-td-' + *{id}">
+                                            <div class="ratings-container">
+                                                <div class="ratings">
+                                                    <div class="ratings-result" data-result="90"></div>
+                                                </div><!-- End .ratings -->
+                                                <span class="ratings-amount">
 												3 Reviews
 											</span>
-										</div><!-- End .rating-container -->
-        							</td>
-									<td>
-										<div class="ratings-container">
-											<div class="ratings">
-												<div class="ratings-result" data-result="75"></div>
-											</div><!-- End .ratings -->
-											<span class="ratings-amount">
-												3 Reviews
-											</span>
-										</div><!-- End .rating-container -->
-        							</td>
-									<td>
-										<div class="ratings-container">
-											<div class="ratings">
-												<div class="ratings-result" data-result="54"></div>
-											</div><!-- End .ratings -->
-											<span class="ratings-amount">
-												3 Reviews
-											</span>
-										</div><!-- End .rating-container -->
-        							</td>
-								</tr>
-							 	 <tr>
-									<td class="table-title">Summary</td>
-									<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam velit mi, lacinia sed suscipit quis, dapibus nec odio. Pellentesque eu porttitor eros.</td>
-									<td>Sed ac lacus magna. In pulvinar diam diam, et lobortis massa tincidunt id. Quisque porttitor venenatis dolor sit amet sodales. Aliquam ligula erat.</td>
-									<td>Curabitur convallis et sem at cursus. Fusce fringilla feugiat dictum. Cras non venenatis metus. Aliquam in tortor in justo dignissim hendrerit. </td>
-								</tr>
-							  	<tr>
-									<td class="table-title">Weight</td>
-									<td>1.2 Kg</td>
-									<td>2.1 Kg</td>
-									<td>0.8 Kg</td>
-								</tr>
-							  	<tr>
-									<td class="table-title">Dimensions</td>
-									<td>45 cm x 35 cm  x 68 cm</td>
-									<td>21 cm x 32 cm  x 61 cm</td>
-									<td>33 cm x 22 cm  x 48 cm</td>
-								</tr>
-							  <tr>
-									<td class="table-title"></td>
-									<td>
-										<a href="#" class="btn btn-custom-2">Add to Cart</a>
-										<div class="sm-margin"></div><!-- Space -->
-										<a href="#" class="close-button"></a>
-									</td>
-									<td>
-										<a href="#" class="btn btn-custom-2">Add to Cart</a>
-										<div class="sm-margin"></div><!-- Space -->
-										<a href="#" class="close-button"></a>
-									</td>
-									<td>
-										<a href="#" class="btn btn-custom-2">Add to Cart</a>
-										<div class="sm-margin"></div><!-- Space -->
-										<a href="#" class="close-button"></a>
-									</td>
-								</tr>
-							  </table>
-							<div class="xlg-margin"></div><!-- Space -->
-        					</div><!-- End .col-md-12 -->
-        					
-        				</div><!-- End .row -->
-        				
-        			</div><!-- End .col-md-12 -->
-        		</div><!-- End .row -->
-			</div><!-- End .container -->
-        
-        </section><!-- End #content -->
+                                            </div><!-- End .rating-container -->
+                                        </td>
+                                    </th:block>
+                                </tr>
+                                <tr>
+                                    <td class="table-title">Summary</td>
 
-		<footer th:insert="parts/footer.html :: footer"></footer><!-- End #footer -->
-    </div><!-- End #wrapper -->
+                                    <th:block th:each="product : ${products}">
+                                        <td th:object="${product}" th:class="'compare-td-' + *{id}"
+                                            th:text="*{description}"></td>
+                                    </th:block>
+                                </tr>
+                                <tr>
+                                    <td class="table-title">Weight</td>
 
-	<th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer -->
+                                    <th:block th:each="product : ${products}">
+                                        <td th:object="${product}" th:class="'compare-td-' + *{id}">1.2 Kg</td>
+                                    </th:block>
+                                </tr>
+                                <tr>
+                                    <td class="table-title">Dimensions</td>
 
-	</body>
+                                    <th:block th:each="product : ${products}">
+                                        <td th:object="${product}" th:class="'compare-td-' + *{id}">45 cm x 35 cm x 68
+                                            cm
+                                        </td>
+                                    </th:block>
+                                </tr>
+                                <tr>
+                                    <td class="table-title"></td>
+
+                                    <th:block th:each="product : ${products}">
+                                        <td th:object="${product}" th:class="'compare-td-' + *{id}">
+                                            <a th:onclick="'addToCart(' +*{id} +')'" class="item-add-btn">
+                                                <span class="icon-cart-text" th:attrappend="class=' ' + *{id}">Add to Cart</span>
+                                            </a>
+                                            <div class="sm-margin"></div><!-- Space -->
+                                            <a th:onclick="'deleteElementCompare(' +*{id} +')'" class="close-button"></a>
+                                        </td>
+                                    </th:block>
+                                </tr>
+                            </table>
+                            <div class="xlg-margin"></div><!-- Space -->
+                        </div><!-- End .col-md-12 -->
+
+                    </div><!-- End .row -->
+
+                </div><!-- End .col-md-12 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+
+    </section><!-- End #content -->
+
+    <footer th:insert="parts/footer.html :: footer"></footer><!-- End #footer -->
+</div><!-- End #wrapper -->
+
+<th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer -->
+
+</body>
 </html>

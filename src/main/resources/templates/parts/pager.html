@@ -179,8 +179,12 @@
                     </a>
                 </th:block>
                 <div class="item-action-inner">
-                    <a href="#" class="icon-button icon-like">Favourite</a>
-                    <a href="#" class="icon-button icon-compare">Checkout</a>
+                    <a class="icon-button icon-like"
+                       th:id="'like-' + ${product.id}"
+                       th:onclick="'addToWishlist(' +${product.id} +')'">Favourite</a>
+                    <a class="icon-button icon-compare"
+                       th:id="'compare-' + ${product.id}"
+                       th:onclick="'addToCompare(' +${product.id} +')'">Checkout</a>
                 </div><!-- End .item-action-inner -->
             </div><!-- End .item-action -->
         </div><!-- End .item-meta-container -->
@@ -241,8 +245,12 @@
                     </button>
                 </th:block>
                 <div class="item-action-inner">
-                    <a href="#" class="icon-button icon-like">Favourite</a>
-                    <a href="#" class="icon-button icon-compare">Checkout</a>
+                    <a class="icon-button icon-like"
+                       th:id="'like-' + ${product.id}"
+                       th:onclick="'addToWishlist(' +${product.id} +')'">Favourite</a>
+                    <a class="icon-button icon-compare"
+                       th:id="'compare-' + ${product.id}"
+                       th:onclick="'addToCompare(' +${product.id} +')'">Checkout</a>
                 </div><!-- End .item-action-inner -->
             </div><!-- End .item-action -->
         </div><!-- End .item-meta-container -->
@@ -308,8 +316,12 @@
                     </th:block>
 
                     <div class="item-action-inner">
-                        <a href="#" class="icon-button icon-like">Favourite</a>
-                        <a href="#" class="icon-button icon-compare">Checkout</a>
+                        <a class="icon-button icon-like"
+                           th:id="'like-' + ${product.id}"
+                           th:onclick="'addToWishlist(' +${product.id} +')'">Favourite</a>
+                        <a class="icon-button icon-compare"
+                           th:id="'compare-' + ${product.id}"
+                           th:onclick="'addToCompare(' +${product.id} +')'">Checkout</a>
                     </div><!-- End .item-action-inner -->
                 </div><!-- End .item-action -->
             </div><!-- End .item-meta-container -->

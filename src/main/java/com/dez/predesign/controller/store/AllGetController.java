@@ -23,11 +23,6 @@ public class AllGetController {
         return "aboutus";
     }
 
-    @GetMapping("/compare-products")
-    public String compareProducts(){
-        return "compare-products";
-    }
-
     @GetMapping("/blog")
     public String blog(){
         return "blog";
