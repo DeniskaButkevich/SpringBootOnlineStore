@@ -167,7 +167,7 @@
                                 <div class="tab-pane active" th:id="'All'">
                                     <th:block th:if="${mapProducts.get('productsAll') != null}">
                                         <th:block th:each="product : ${mapProducts.get('productsAll').getContent()}">
-                                            <div th:include="/parts/pager.html :: index_our_products(${product})"></div>
+                                            <div th:include="parts/pager.html :: index_our_products(${product})"></div>
                                         </th:block>
                                     </th:block>
                                 </div><!-- End .tab-pane -->
@@ -175,7 +175,7 @@
                                 <th:block th:each="brand : ${brands}">
                                     <div class="tab-pane" th:id="${brand.name}">
                                         <th:block th:each="product : ${mapProducts.get(brand.name).getContent()}">
-                                            <div th:include="/parts/pager.html :: index_our_products(${product})"></div>
+                                            <div th:include="parts/pager.html :: index_our_products(${product})"></div>
                                         </th:block>
                                     </div><!-- End .tab-pane -->
                                 </th:block>
@@ -222,7 +222,7 @@
                                 <div class="hot-items-slider owl-carousel">
                                     <th:block th:if="${mapProducts.get('productsOnSale') != null}">
                                         <th:block th:each="product : ${mapProducts.get('productsOnSale').getContent()}">
-                                            <div th:include="/parts/pager.html :: also_purchased(${product})"></div>
+                                            <div th:include="parts/pager.html :: also_purchased(${product})"></div>
                                         </th:block>
                                     </th:block>
                                 </div><!--hot-items-slider -->

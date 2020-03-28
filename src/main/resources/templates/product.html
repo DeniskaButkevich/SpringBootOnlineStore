@@ -247,7 +247,7 @@
                         </div><!-- End .carousel-controllers -->
                         <div class="purchased-items-slider owl-carousel">
                             <th:block th:each="product : ${also_purchased_products}">
-                                <div th:include="/parts/pager.html :: also_purchased(${product})"></div>
+                                <div th:include="parts/pager.html :: also_purchased(${product})"></div>
                             </th:block>
                         </div><!--purchased-items-slider -->
                     </div><!-- End .purchased-items-container -->

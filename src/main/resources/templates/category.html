@@ -84,7 +84,7 @@
                                     </div><!-- End .view-box -->
                                 </div><!-- End .toolbox-filter -->
 
-                                <div th:include="/parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></div>
+                                <div th:include="parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></div>
 
                             </div><!-- End .category-toolbar -->
                             <div class="md-margin"></div><!-- .space -->
@@ -92,18 +92,18 @@
                                 <th:block th:if="${#strings.contains(param.show,'tile')}">
                                     <div class="category-item-container category-list-container"
                                          th:each="product : ${page}">
-                                        <div th:include="/parts/pager.html :: itemTile(${product})"></div>
+                                        <div th:include="parts/pager.html :: itemTile(${product})"></div>
                                     </div><!-- End .category-item-container -->
                                 </th:block>
                                 <th:block th:unless="${#strings.contains(param.show,'tile')}">
                                     <div class="category-item-container" th:each="product : ${page}">
-                                        <div th:include="/parts/pager.html :: itemList(${product})"></div>
+                                        <div th:include="parts/pager.html :: itemList(${product})"></div>
                                     </div><!-- End .category-item-container -->
                                 </th:block>
                             </th:block>
                             <th:block th:unless="${param.show!=null}">
                                 <div class="category-item-container" th:each="product : ${page}">
-                                    <div th:include="/parts/pager.html :: itemTile(product)(${product})"></div>
+                                    <div th:include="parts/pager.html :: itemTile(product)(${product})"></div>
                                 </div><!-- End .category-item-container -->
                             </th:block>
                             <th:block th:if="${page.getNumberOfElements() == 0}">
@@ -111,7 +111,7 @@
                             </th:block>
                             <div class="row"></div>
 
-                            <div th:include="/parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></div>
+                            <div th:include="parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></div>
 
                         </div><!-- End .col-md-9 -->
 

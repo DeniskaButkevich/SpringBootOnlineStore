@@ -9,6 +9,9 @@ $('document').ready(function () {
     if (window.location.pathname == '/cart') {
         totalPrice();
     }
+    if (window.location.pathname == '/compare-products') {
+        checkEmptyCompare();
+    }
 });
 
 function addToCart(productId) {
@@ -146,6 +149,17 @@ function deleteElementCompare(productId) {
             var elem = document.getElementById('product_compare');
             elem.textContent = "In the compare: " + compare.length.toString();
         }
+}
+
+function checkEmptyCompare(){
+    if (compare.length < 1) {
+        var container =  document.getElementById('compare-container');
+        if(container != null){
+            container.remove()
+            var empty_container = document.getElementById('compare-container-empty');
+            empty_container.style.display = 'block';
+        }
+    }
 }
 
 function counterChange(id, flag) {

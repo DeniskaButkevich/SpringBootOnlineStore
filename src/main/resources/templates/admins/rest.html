@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:include="admins/parts/head.html :: head(title='Rest')">
+
+</head>
+<body style="background-color: #eee">
+
+<row>
+    <nav th:include="admins/parts/header.html :: header(url_active='rest')"
+         class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
+</row>
+
+<div class="container mt-5">
+
+    <form action="/admins/rest" method="post">
+        <div class="form-group form-inline ">
+            <label for="rest">Firstname: </label>
+            <input id="rest" type="text" class="form-control" name="rest" placeholder="Input RestTest"/>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+    </form>
+</div>
+</div>
+</body>
+</html>

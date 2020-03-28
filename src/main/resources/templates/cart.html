@@ -233,7 +233,7 @@
                             </div><!-- End .title-bg -->
                             <p class="title-desc">Note the similar products - after buying for more than $500 you can
                                 get a discount.</p>
-                        </header>
+                        </header>htt
 
                         <div class="carousel-controls">
                             <div id="similiar-items-slider-prev" class="carousel-btn carousel-btn-prev"></div>
@@ -243,7 +243,7 @@
                         </div><!-- End .carousel-controls -->
                         <div class="similiar-items-slider owl-carousel">
                             <th:block th:each="product : ${also_purchased_products}">
-                                <div th:include="/parts/pager.html :: also_purchased(${product})"></div>
+                                <div th:include="parts/pager.html :: also_purchased(${product})"></div>
                             </th:block>
                         </div><!--purchased-items-slider -->
                     </div><!-- End .purchased-items-container -->
