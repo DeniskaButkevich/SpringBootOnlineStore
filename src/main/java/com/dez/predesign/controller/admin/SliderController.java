@@ -1,8 +1,6 @@
 package com.dez.predesign.controller.admin;
 
 import com.dez.predesign.data.SliderElement;
-import com.dez.predesign.data.catalog.Product;
-import com.dez.predesign.repository.ImageRepo;
 import com.dez.predesign.repository.ProductRepo;
 import com.dez.predesign.repository.SliderElementRepo;
 import com.dez.predesign.util.UploadImage;

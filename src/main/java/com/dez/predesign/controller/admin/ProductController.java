@@ -1,16 +1,12 @@
 package com.dez.predesign.controller.admin;
 
 import com.dez.predesign.data.Order;
-import com.dez.predesign.util.ControllerUtils;
-import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.data.User;
-import com.dez.predesign.data.catalog.Brand;
-import com.dez.predesign.data.catalog.Category;
-import com.dez.predesign.data.catalog.Color;
-import com.dez.predesign.data.catalog.Image;
+import com.dez.predesign.data.catalog.*;
 import com.dez.predesign.repository.*;
 import com.dez.predesign.service.PageService;
 import com.dez.predesign.service.ProductService;
+import com.dez.predesign.util.ControllerUtils;
 import com.dez.predesign.util.UploadImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,15 +1,18 @@
 package com.dez.predesign.controller.store;
 
-import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.data.catalog.Category;
+import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.repository.BrandRepo;
 import com.dez.predesign.repository.CategoryRepo;
 import com.dez.predesign.repository.ColorRepo;
 import com.dez.predesign.repository.ProductRepo;
 import com.dez.predesign.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

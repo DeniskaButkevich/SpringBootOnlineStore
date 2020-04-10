@@ -1,7 +1,7 @@
 package com.dez.predesign.controller.admin.Product;
 
-import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.data.catalog.Image;
+import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.repository.ImageRepo;
 import com.dez.predesign.repository.ProductRepo;
 import com.dez.predesign.util.UploadImage;
@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 
 @Controller

@@ -151,6 +151,31 @@ function deleteElementCompare(productId) {
         }
 }
 
+function deleteElementWishlist(productId) {
+
+    var index = wishlist.indexOf(productId);
+    wishlist.splice(index, 1)
+
+    if (wishlist.length < 1) {
+        wishlist = [];
+        document.cookie = "wishlist= ; expires = Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+
+        var container =  document.getElementById('wishlist-container');
+        if(container != null){
+            container.remove()
+            var empty_container = document.getElementById('empty_wishlist');
+            empty_container.style.display = 'block';
+            return;
+        }
+
+    } else {
+
+        var elem = document.getElementById('tr_product_id_' + productId);
+        elem.remove();
+        saveCookie('wishlist=', wishlist);
+    }
+}
+
 function checkEmptyCompare(){
     if (compare.length < 1) {
         var container =  document.getElementById('compare-container');

@@ -1,10 +1,14 @@
 package com.dez.predesign.service;
 
 import com.dez.predesign.data.CountAndPrice;
+import com.dez.predesign.data.Order;
+import com.dez.predesign.data.User;
 import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.repository.ProductRepo;
+import com.dez.predesign.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import java.util.*;
@@ -86,4 +90,10 @@ public class OrderService {
         }
         return total_price;
     }
+
+    @Transactional
+    public Iterable<Order> getOrders(Integer user_id, UserRepo userRepo) {
+        return userRepo.findById(user_id).get().getOrders();
+    }
+
 }

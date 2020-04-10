@@ -1,10 +1,7 @@
 package com.dez.predesign.data.catalog;
 
 import com.dez.predesign.data.Order;
-import com.dez.predesign.data.catalog.Brand;
-import com.dez.predesign.data.catalog.Category;
-import com.dez.predesign.data.catalog.Color;
-import com.dez.predesign.data.catalog.Image;
+import com.dez.predesign.data.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -25,6 +23,19 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return Objects.equals(id, product.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     @NotBlank(message = "Please fill the name")
     @Size(max=30, message = "length should be no more than 30")
@@ -56,7 +67,7 @@ public class Product {
     private Integer sale;
     private boolean newProduct;
 
-    @ManyToMany(targetEntity = Order.class, fetch = FetchType.LAZY)
+    @ManyToMany
     private Set<Order> orders;
 
     @Override

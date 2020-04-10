@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller
-public class CartController {
+public class MyWishlistController {
 
     @Autowired
     ProductRepo productRepo;
@@ -25,21 +22,10 @@ public class CartController {
         return products;
     }
 
-    @GetMapping("/cart")
-    public String cart(Model model, @CookieValue(name = "cart", required = false) String cart) {
-
-        if(cart != null && !cart.isEmpty()){
-            String[] values = cart.split("\\|");
-            List<Long> ids = new ArrayList<>();
-
-            for (String str :values) {
-                String[] id = str.split("-");
-                ids.add(Long.parseLong(id[0]));
-            }
-            Iterable<Product> products = productRepo.findAllProductsByIds(ids);
-            model.addAttribute("products", products);
-            return "cart";
-        }
-        return "cart";
+    @GetMapping("/my-wishlist")
+    public String myWishlist(Model model, @CookieValue(name = "wishlist", required = false) String wishlist){
+        Iterable<Product> products = ProductSelector.getViaCookie(wishlist, productRepo);
+        model.addAttribute("products", products);
+        return "my-wishlist";
     }
 }

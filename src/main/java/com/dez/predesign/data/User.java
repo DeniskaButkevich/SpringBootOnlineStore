@@ -1,5 +1,6 @@
 package com.dez.predesign.data;
 
+import com.dez.predesign.data.catalog.Product;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,11 +48,18 @@ public class User implements UserDetails {
     private String postCode;
     private String address;
 
-    @OneToMany(targetEntity = Order.class, mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Order.class, fetch = FetchType.LAZY)
     private Set<Order> orders;
 
     @OneToOne
     private Payment payment;
+
+    @ManyToMany
+    @JoinTable(name = "user_products",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private Set<Product> products;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

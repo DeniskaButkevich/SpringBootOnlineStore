@@ -12,9 +12,9 @@
                     <div class="col-md-12">
                         <div class="header-top-left">
                             <ul id="top-links" class="clearfix">
-                                <li><a href="#" title="My Wishlist"><span class="top-icon top-icon-pencil"></span><span
+                                <li><a href="/my-wishlist" title="My Wishlist"><span class="top-icon top-icon-pencil"></span><span
                                         class="hide-for-xs">My Wishlist</span></a></li>
-                                <li><a href="#" title="My Account"><span class="top-icon top-icon-user"></span><span
+                                <li><a href="/my-account?menu_item=CaA" title="My Account"><span class="top-icon top-icon-user"></span><span
                                         class="hide-for-xs">My Account</span></a></li>
                                 <li><a href="/cart" title="My Cart"><span
                                         class="top-icon top-icon-cart"></span><span
@@ -28,8 +28,10 @@
 
 
                             <div class="header-text-container pull-right">
-                                <p class="header-text">Welcome to Predesign!</p> <span sec:authorize="isAuthenticated()"
-                                                                                       sec:authentication="name"></span>
+                                <p class="header-text">Welcome to Predesign!</p>
+                                <a href="/my-account">
+                                    <span  sec:authorize="isAuthenticated()" sec:authentication="name"></span>
+                                </a>
                                 <th:block sec:authorize="isAuthenticated()">
                                     <form th:action="@{/logout}" method="post" style="display: inline">
                                         <span class="header-link"><button type="submit"
@@ -107,17 +109,6 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                    </li>
-                                    <li><a href="#">Portfolio</a>
-                                        <ul>
-                                            <li><a href="/portfolio-masonry-2">Masonry</a></li>
-                                            <li><a href="#">Portfolio Posts</a>
-                                                <ul>
-                                                    <li><a href="/single-portfolio">Image Post</a></li>
-                                                    <li><a href="/single-portfolio-gallery">Gallery Post</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
                                     </li>
                                     <li><a href="/contact">Contact Us</a></li>
                                     <li><a href="/aboutus">About Us</a></li>

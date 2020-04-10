@@ -1,7 +1,7 @@
 package com.dez.predesign.config;
 
-import com.dez.predesign.component.CustomLogoutSuccessHandler;
 import com.dez.predesign.component.CustomAuthenticationSuccessHandler;
+import com.dez.predesign.component.CustomLogoutSuccessHandler;
 import com.dez.predesign.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

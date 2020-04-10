@@ -17,7 +17,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(targetEntity= User.class)
+    @ManyToOne(targetEntity= User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -39,5 +39,7 @@ public class Order {
     void placedAt() {
         this.placedAt = new Date();
     }
+
+
 
 }

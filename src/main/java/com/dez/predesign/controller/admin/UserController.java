@@ -12,7 +12,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.UUID;
 
 @Controller
 public class UserController {
@@ -26,23 +28,23 @@ public class UserController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @ModelAttribute(name="users")
+    @ModelAttribute(name = "users")
     public Iterable<User> users() {
         return userRepo.findAll();
     }
 
-    @ModelAttribute(name="roles")
-    public Role[] roles(){
+    @ModelAttribute(name = "roles")
+    public Role[] roles() {
         return Role.values();
     }
 
     @GetMapping("/admins/users/add")
-    public String userAdd(@ModelAttribute User user){
+    public String userAdd(@ModelAttribute User user) {
         return "admins/userAdd";
     }
 
     @GetMapping("/admins/users")
-    public String usersShow(@ModelAttribute User user, Model model){
+    public String usersShow(@ModelAttribute User user, Model model) {
 
         final String[] freeze = {"admin", "1"};
         model.addAttribute("freeze", freeze);
@@ -50,7 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/admins/user/{id}")
-    public String oneUser(@PathVariable String id, Model model){
+    public String oneUser(@PathVariable String id, Model model) {
         model.addAttribute("user", userRepo.findById(Integer.parseInt(id)).get());
         final String[] freeze = {"admin", "1"};
         model.addAttribute("freeze", freeze);
@@ -58,10 +60,10 @@ public class UserController {
     }
 
     @GetMapping("/admins/users/edit/{id}")
-    public String userEdit(@PathVariable String id,Model model){
+    public String userEdit(@PathVariable String id, Model model) {
 
         User usr = userRepo.findById(Integer.parseInt(id)).get();
-        model.addAttribute("user",usr);
+        model.addAttribute("user", usr);
 
         return "admins/userEdit";
     }
@@ -86,11 +88,11 @@ public class UserController {
                            @PathVariable String id,
                            @Valid User user,
                            Errors errors,
-                           Model model){
+                           Model model) {
 
-        if(userService.save(id,form,user,model,errors)) {
+        if (userService.save(id, form, user, model, errors)) {
             return "redirect:/admins/users";
-        } else{
+        } else {
             return "admins/userEdit";
         }
     }
@@ -100,9 +102,9 @@ public class UserController {
                                      @PathVariable String id,
                                      @RequestParam String password,
                                      Model model) {
-        if(userService.passwordChange(id,password,confirmPassword,model)){
-           return "redirect:/admins/users";
-        } else{
+        if (userService.passwordChange(id, password, confirmPassword, model)) {
+            return "redirect:/admins/users";
+        } else {
             return "admins/passwordChange";
         }
     }
@@ -111,12 +113,25 @@ public class UserController {
     public String userAdd(@Valid User user,
                           Errors errors,
                           Model model,
-                          @RequestParam String confirmPassword){
+                          @RequestParam String confirmPassword) {
 
-        if(userService.addUser(user,errors,model,confirmPassword)){
+        if (userService.addUser(user, errors, model, confirmPassword)) {
             return "redirect:/admins/users";
-        } else{
+        } else {
             return "admins/userAdd";
         }
+    }
+
+    @GetMapping("/create")
+    public String createU(){
+        User user = new User();
+        user.setActive(true);
+        user.setUsername("admin");
+        user.setPassword(passwordEncoder.encode("admin"));
+        user.setRoles(Collections.singleton(Role.ROLE_ADMIN));
+
+        userRepo.save(user);
+
+        return "404";
     }
 }

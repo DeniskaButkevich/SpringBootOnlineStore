@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html> <!--<![endif]-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head th:insert="parts/head.html :: head"></head>
+<body>
+<div id="wrapper">
+    <header th:insert="parts/header.html :: header"></header>
+
+    <section id="content">
+        <div id="breadcrumb-container">
+            <div class="container">
+                <ul class="breadcrumb">
+                    <li><a href="index">Home</a></li>
+                    <li class="active">My Account</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-4 col-xs-12 sidebar">
+                    <div >
+                        <div class="list-group">
+
+                            <th:block th:if="${(param.menu_item != null) and (param.menu_item[0] == 'orders')}">
+                                <a href="/my-account?menu_item=orders" class="list-group-item active">Orders history</a>
+                            </th:block>
+                            <th:block th:unless="${(param.menu_item != null) and (param.menu_item[0] == 'orders')}">
+                                <a href="/my-account?menu_item=orders" class="list-group-item">Orders history</a>
+                            </th:block>
+
+                            <th:block th:if="${(param.menu_item != null) and (param.menu_item[0] == 'viewed-products')}">
+                                <a href="/my-account?menu_item=viewed-products" class="list-group-item active">Viewed products</a>
+                            </th:block>
+                            <th:block th:unless="${(param.menu_item != null) and (param.menu_item[0] == 'viewed-products')}">
+                                <a href="/my-account?menu_item=viewed-products" class="list-group-item">Viewed products</a>
+                            </th:block>
+
+                            <th:block th:if="${(param.menu_item != null) and (param.menu_item[0] == 'CaA')}">
+                                <a href="/my-account?menu_item=CaA" class="list-group-item active">Contact and addresses</a>
+                            </th:block>
+                            <th:block th:unless="${(param.menu_item != null) and (param.menu_item[0] == 'CaA')}">
+                                <a href="/my-account?menu_item=CaA" class="list-group-item">Contact and addresses</a>
+                            </th:block>
+
+                            <th:block th:if="${(param.menu_item != null) and (param.menu_item[0] == 'wishlist')}">
+                                <a href="/my-account?menu_item=wishlist" class="list-group-item active">Wishlist</a>
+                            </th:block>
+                            <th:block th:unless="${(param.menu_item != null) and (param.menu_item[0] == 'wishlist')}">
+                                <a href="/my-account?menu_item=wishlist" class="list-group-item">Wishlist</a>
+                            </th:block>
+
+                            <th:block sec:authorize="isAuthenticated()">
+                                <form th:action="@{/logout}" method="post" name="callback">
+                                    <a onclick="document.forms['callback'].submit();" class="list-group-item">Logout</a>
+                                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                                </form>
+                            </th:block>
+                            <th:block sec:authorize="!isAuthenticated()">
+                                    <a th:href="@{/admins/users}"  class="list-group-item">Login</a>
+                            </th:block>
+                        </div><!-- End .list-group -->
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-8 col-xs-12 main-content">
+                    <th:block th:if="${(param.menu_item != null) and (param.menu_item[0] == 'orders')}">
+                        <th:block th:if="${orders != null}">
+                            <th:block th:each=" order : ${orders}">
+                                <p th:text="${order}"></p>
+                            </th:block>
+                        </th:block>
+                        <th:block th:unless="${orders != null}">
+                            <p>order list empty</p>
+                        </th:block>
+                    </th:block>
+
+                    <th:block th:if="${(param.menu_item != null) and (param.menu_item[0] == 'viewed-products')}">
+                        <th:block th:if="${viewedProducts != null}">
+                            <th:block th:each=" product : ${viewedProducts}">
+                                <p th:text="${product}"></p>
+                            </th:block>
+                        </th:block>
+                        <th:block th:unless="${viewedProducts != null}">
+                            <p>viewed products empty</p>
+                        </th:block>
+                    </th:block>
+
+                    <th:block th:if="${(param.menu_item != null) and (param.menu_item[0] == 'CaA')}">
+                        <th:block  th:if="${user != null}">
+                            <p th:text="${user}"></p>
+                        </th:block>
+                        <th:block th:unless="${user != null}">
+                            <p>no user</p>
+                        </th:block>
+                    </th:block>
+
+                    <th:block th:if="${(param.menu_item != null) and (param.menu_item[0] == 'wishlist')}">
+                        <th:block th:if="${wishlist != null}">
+                            <th:block th:each=" product : ${wishlist}">
+                                <p th:text="${product}"></p>
+                            </th:block>
+                        </th:block>
+                        <th:block th:unless="${wishlist != null}">
+                            <p>wishlist empty</p>
+                        </th:block>
+                    </th:block>
+
+                </div>
+            </div>
+        </div>
+    </section><!-- End #content -->
+
+    <footer th:insert="parts/footer.html :: footer"></footer><!-- End #footer -->
+</div><!-- End #wrapper -->
+
+<th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer -->
+
+</body>
+</html>

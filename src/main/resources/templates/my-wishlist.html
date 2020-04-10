@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html> <!--<![endif]-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="parts/head.html :: head"></head>
+<body>
+<div id="wrapper">
+    <header th:insert="parts/header.html :: header"></header>
+
+    <section id="content">
+        <div id="breadcrumb-container">
+            <div class="container">
+                <ul class="breadcrumb">
+                    <li><a href="index">Home</a></li>
+                    <li class="active">My Wishlist</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="container" >
+            <div class="row">
+                <div class="col-md-12">
+                    <header class="content-title">
+                        <h1 class="title">My Wishlist</h1>
+                        <p class="title-desc">Just this week, you can use the free premium delivery.</p>
+                    </header>
+                    <div class="xs-margin"></div><!-- space -->
+
+                    <th:block th:if="${products != null}">
+                        <div class="row" th:class="for_cart" th:id="wishlist-container">
+
+                            <div class="col-md-12 table-responsive">
+
+                                <table class="table cart-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="table-title">Name</th>
+                                        <th class="table-title">Description</th>
+                                        <th class="table-title">Price</th>
+                                        <th class="table-title">Brand</th>
+                                        <th class="table-title">Delete</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <th:block th:each="product : ${products}">
+                                        <tr th:object="${product}" th:id="'tr_product_id_' + ${product.id}">
+                                            <td class="item-name-col">
+                                                <figure>
+                                                    <a th:if="*{filename != null}" th:href="'/product/' + *{id}"><img th:src="*{'/img/' + filename}" th:alt="*{name}"></a>
+                                                    <a th:unless="*{filename != null}"  href="#"><img src="/images/products/compare1.jpg" th:alt="*{name}"></a>
+                                                </figure>
+                                                <header class="item-name"><a
+                                                        th:href="'/product/' + *{id}">[[*{name}]]</a>
+                                                </header>
+                                                <ul>
+                                                    <li>Color: [[*{color.rgb}]]</li>
+                                                    <li>Size: SM</li>
+                                                </ul>
+                                            </td>
+                                            <td class="item-code">[[*{Description}]]</td>
+                                            <td class="item-price-col"><span class="item-price-special"
+                                                                             th:value="*{price}">[[*{price}]]</span>
+                                            </td>
+                                            <td class="item-price-col"><span class="item-price-special"
+                                                                             th:value="*{brand}">[[*{brand.name}]]</span>
+                                            </td>
+
+                                            <td class="item-total-col">
+                                                <a th:onclick="'deleteElementWishlist(' + *{id} + ');'"
+                                                   class="close-button"></a>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                    </tbody>
+
+                                </table>
+                                <div class="md-margin2x"></div><!-- Space -->
+
+                            </div><!-- End .col-md-12 -->
+
+                        </div><!-- End .row -->
+                        <div class="lg-margin"></div><!-- End .space -->
+
+                        <div class="row for_cart">
+
+                        </div><!-- End .row -->
+
+                        <div class="md-margin2x"></div><!-- Space -->
+                    </th:block>
+                    <div th:attrappend="style=${products != null ? 'display: none' : ''}" th:id="empty_wishlist">
+                        <div class="lg-margin"></div><!-- Space -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="no-content-comment" style="text-align: center;">
+                                        <h2>wishlist is empty(</h2>
+                                    </div><!-- End .no-content-comment -->
+                                </div><!-- End .col-md-12 -->
+                            </div><!-- End .row -->
+                        </div><!-- End .container -->
+                        <div class="md-margin2x"></div><!-- Space -->
+                    </div>
+                    <div class="similiar-items-container carousel-wrapper">
+                        <header class="content-title">
+                            <div class="title-bg">
+                                <h2 class="title">Similiar Products</h2>
+                            </div><!-- End .title-bg -->
+                            <p class="title-desc">Note the similar products - after buying for more than $500 you can
+                                get a discount.</p>
+                        </header>
+
+                        <div class="carousel-controls">
+                            <div id="similiar-items-slider-prev" class="carousel-btn carousel-btn-prev"></div>
+                            <!-- End .carousel-prev -->
+                            <div id="similiar-items-slider-next"
+                                 class="carousel-btn carousel-btn-next carousel-space"></div><!-- End .carousel-next -->
+                        </div><!-- End .carousel-controls -->
+                        <div class="similiar-items-slider owl-carousel">
+                            <th:block th:each="product : ${also_purchased_products}">
+                                <div th:include="parts/pager.html :: also_purchased(${product})"></div>
+                            </th:block>
+                        </div><!--purchased-items-slider -->
+                    </div><!-- End .purchased-items-container -->
+
+                </div><!-- End .col-md-12 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+
+
+    </section><!-- End #content -->
+
+    <footer th:insert="parts/footer.html :: footer"></footer><!-- End #footer -->
+</div><!-- End #wrapper -->
+
+<th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer -->
+
+</body>
+</html>

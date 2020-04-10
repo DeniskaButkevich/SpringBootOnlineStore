@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class ProductSelector {
 
-    public static Iterable<Product> getTandomProducts(Integer count, ProductRepo productRepo) {
+    public static Iterable<Product> getRandomProducts(Integer count, ProductRepo productRepo) {
         List<Long> lds = productRepo.findAllId();
         List<Long> random_ids = new ArrayList<>();
 
@@ -20,5 +20,19 @@ public class ProductSelector {
         }
         Iterable<Product> products = productRepo.findAllProductsByIds(random_ids);
         return products;
+    }
+
+
+    public static Iterable<Product> getViaCookie(String cookie, ProductRepo productRepo) {
+        if (cookie != null && !cookie.isEmpty()) {
+            String[] values = cookie.split("\\|");
+            List<Long> ids = new ArrayList<>();
+
+            for (String str : values) {
+                ids.add(Long.parseLong(str));
+            }
+            return productRepo.findAllProductsByIds(ids);
+        }
+        return null;
     }
 }

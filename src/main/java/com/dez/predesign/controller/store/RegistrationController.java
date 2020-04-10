@@ -25,7 +25,7 @@ public class RegistrationController {
     PasswordEncoder passwordEncoder;
 
     @GetMapping("/registration")
-    public String userAdd(@ModelAttribute User user){
+    public String userAdd(@ModelAttribute User user) {
         return "register-account";
     }
 
@@ -33,7 +33,7 @@ public class RegistrationController {
     public String userAdd(@Valid User user,
                           Errors errors,
                           Model model,
-                          @RequestParam String confirmPassword){
+                          @RequestParam String confirmPassword) {
 
         boolean hasErrors = false;
 
@@ -43,16 +43,16 @@ public class RegistrationController {
         } else if (!confirmPassword.equals(user.getPassword())) {
             model.addAttribute("errorConfirm", "passwords are not the same");
             hasErrors = true;
-        }else if (errors.hasErrors()){
+        } else if (errors.hasErrors()) {
             hasErrors = true;
         }
 
-        if(hasErrors){
+        if (hasErrors) {
             return "register-account";
         }
-        boolean added = userService.RegistUser(user,errors,confirmPassword);
+        boolean added = userService.RegistUser(user, errors, confirmPassword);
 
-        if(added){
+        if (added) {
             model.addAttribute("message", "An email was sent to your email to activate the user");
         }
         return "successfully";
@@ -62,9 +62,9 @@ public class RegistrationController {
     public String activate(Model model, @PathVariable String code) {
         boolean isActivated = userService.activateUser(code);
 
-        if (isActivated){
+        if (isActivated) {
             model.addAttribute("message", "User successfully activated");
-        } else{
+        } else {
             model.addAttribute("message", "Activation code is not found!");
         }
         return "successfully";
