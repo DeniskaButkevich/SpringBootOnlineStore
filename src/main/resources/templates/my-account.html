@@ -71,11 +71,42 @@
                     </div>
                 </div>
                 <div class="col-md-9 col-sm-8 col-xs-12 main-content">
+
                     <th:block th:if="${(param.menu_item != null) and (param.menu_item[0] == 'orders')}">
                         <th:block th:if="${orders != null}">
-                            <th:block th:each=" order : ${orders}">
-                                <p th:text="${order}"></p>
-                            </th:block>
+                                <div class="row">
+                                    <div class="col-md-12 table-responsive">
+                                        <table class="table cart-table">
+                                            <thead>
+                                            <tr>
+                                                <th class="table-title">Id</th>
+                                                <th class="table-title">Date</th>
+                                                <th class="table-title">Status</th>
+                                                <th class="table-title">Price</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <th:block th:each="order : ${orders}">
+                                                <tr th:object="${order}">
+                                                    <td class="item-name-col">
+                                                        <header class="item-name" style="text-align: center"><a
+                                                                th:href="'/order/' + *{id}">[[*{id}]]</a>
+                                                        </header>
+                                                    </td>
+                                                    <td class="item-code">[[*{placedAt}]]</td>
+                                                    <td class="item-price-col"><span class="item-price-special"></span>
+                                                    </td>
+                                                    <td class="item-price-col"><span class="item-price-special"
+                                                                                     th:value="*{total_price}">[[*{total_price}]]</span>
+                                                    </td>
+                                                </tr>
+                                            </th:block>
+                                            </tbody>
+
+                                        </table>
+                                        <div class="md-margin2x"></div><!-- Space -->
+                                    </div><!-- End .col-md-12 -->
+                                </div><!-- End .row -->
                         </th:block>
                         <th:block th:unless="${orders != null}">
                             <p>order list empty</p>
@@ -85,7 +116,7 @@
                     <th:block th:if="${(param.menu_item != null) and (param.menu_item[0] == 'viewed-products')}">
                         <th:block th:if="${viewedProducts != null}">
                             <th:block th:each=" product : ${viewedProducts}">
-                                <p th:text="${product}"></p>
+                                <div th:include="parts/pager.html :: itemTile(${product})"></div>
                             </th:block>
                         </th:block>
                         <th:block th:unless="${viewedProducts != null}">
@@ -95,7 +126,40 @@
 
                     <th:block th:if="${(param.menu_item != null) and (param.menu_item[0] == 'CaA')}">
                         <th:block  th:if="${user != null}">
-                            <p th:text="${user}"></p>
+                            <form action="/my-account?menu_item=CaA" method="post">
+                            <h2>Address </h2>
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="input-icon input-icon-address"></span><span class="input-text">Address*</span></span>
+                                <input type="text" class="form-control input-lg" placeholder="Your Address" name="address" id="address" th:value="${user.address}">
+                            </div>
+                            <h2>Contacts</h2>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon"><span class="input-icon input-icon-user"></span><span class="input-text">First Name*</span></span>
+                                <input type="text" class="form-control" name="firstName" th:value="${user.firstName}" placeholder="First Name">
+                            </div>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon"><span class="input-icon input-icon-user"></span><span class="input-text">Last Name*</span></span>
+                                <input type="text" class="form-control" name="lastName" placeholder="Last Name" th:value="${user.lastName}">
+                            </div>
+
+                                <label th:if="${phoneNumberError != null} " class="control-label" style="color: #a94442;" th:text="${phoneNumberError}" ></label>
+                                <div class="input-group" th:attrappend="class=${phoneNumberError != null ? ' has-error my-has-error' : ''}">
+                                <span class="input-group-addon"><span class="input-icon input-icon-phone"></span><span class="input-text">Telephone*</span></span>
+                                <input type="text" class="form-control input-lg" placeholder="Your Telephone" name="phoneNumber" id="phoneNumber"
+                                       th:value="${user.phoneNumber}"
+                                       th:attrappend="style=${phoneNumberError != null ? 'border: 1px solid #a94442;' : ''}">
+                            </div>
+
+                                <label th:if="${emailError != null}" class="control-label" style="color: #a94442;" th:text="${emailError}" ></label>
+                                <div class="input-group" th:attrappend="class=${emailError != null ? ' has-error my-has-error' : ''}">
+                                <span class="input-group-addon"><span class="input-icon input-icon-email"></span><span class="input-text">Email*</span></span>
+                                <input type="text" class="form-control input-lg" placeholder="Your Email" name="email" id="email"
+                                       th:value="${user.email}"
+                                       th:attrappend="style=${emailError != null ? 'border: 1px solid #a94442;' : ''}">
+                            </div>
+                            <input type="submit" value="Update" class="btn btn-custom-2 md-margin">
+                            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                            </form>
                         </th:block>
                         <th:block th:unless="${user != null}">
                             <p>no user</p>
@@ -104,9 +168,65 @@
 
                     <th:block th:if="${(param.menu_item != null) and (param.menu_item[0] == 'wishlist')}">
                         <th:block th:if="${wishlist != null}">
-                            <th:block th:each=" product : ${wishlist}">
-                                <p th:text="${product}"></p>
-                            </th:block>
+                            <div class="row" th:class="for_cart" th:id="wishlist-container">
+
+                                <div class="col-md-12 table-responsive">
+
+                                    <table class="table cart-table">
+                                        <thead>
+                                        <tr>
+                                            <th class="table-title">Name</th>
+                                            <th class="table-title">Description</th>
+                                            <th class="table-title">Price</th>
+                                            <th class="table-title">Brand</th>
+                                            <th class="table-title">Delete</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <th:block th:each="product : ${wishlist}">
+                                            <tr th:object="${product}" th:id="'tr_product_id_' + ${product.id}">
+                                                <td class="item-name-col">
+                                                    <figure>
+                                                        <a th:if="*{filename != null}" th:href="'/product/' + *{id}"><img th:src="*{'/img/' + filename}" th:alt="*{name}"></a>
+                                                        <a th:unless="*{filename != null}"  href="#"><img src="/images/products/compare1.jpg" th:alt="*{name}"></a>
+                                                    </figure>
+                                                    <header class="item-name"><a
+                                                            th:href="'/product/' + *{id}">[[*{name}]]</a>
+                                                    </header>
+                                                    <ul>
+                                                        <li>Color: [[*{color.rgb}]]</li>
+                                                        <li>Size: SM</li>
+                                                    </ul>
+                                                </td>
+                                                <td class="item-code">[[*{Description}]]</td>
+                                                <td class="item-price-col"><span class="item-price-special"
+                                                                                 th:value="*{price}">[[*{price}]]</span>
+                                                </td>
+                                                <td class="item-price-col"><span class="item-price-special"
+                                                                                 th:value="*{brand}">[[*{brand.name}]]</span>
+                                                </td>
+
+                                                <td class="item-total-col">
+                                                    <a th:onclick="'deleteElementWishlist(' + *{id} + ');'"
+                                                       class="close-button"></a>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+
+                                    </table>
+                                    <div class="md-margin2x"></div><!-- Space -->
+
+                                </div><!-- End .col-md-12 -->
+
+                            </div><!-- End .row -->
+                            <div class="lg-margin"></div><!-- End .space -->
+
+                            <div class="row for_cart">
+
+                            </div><!-- End .row -->
+
+                            <div class="md-margin2x"></div><!-- Space -->
                         </th:block>
                         <th:block th:unless="${wishlist != null}">
                             <p>wishlist empty</p>

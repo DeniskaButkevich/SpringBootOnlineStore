@@ -28,56 +28,53 @@
 						<form action="/registration" method="post" id="register-form" th:object="${user}">
         				<div class="row">
 
-							<h5 th:if="${#fields.hasErrors()}">
-								<span>Please correct the problems below and resubmit.</span>
-							</h5>
+							<div th:if="${#fields.hasErrors()}"  class="input-group has-error" style="    margin-bottom: 19px;     margin-left: 15px;">
+								<h4 style="color: #a94442">Please correct the problems below and resubmit.</h4>
+								<br>
+							</div>
+
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									
 									<fieldset>
 									<h2 class="sub-title">YOUR PERSONAL DETAILS</h2>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="input-icon input-icon-fax"></span><span class="input-text">Username</span></span>
-                                            <input type="text" class="form-control input-lg" placeholder="Username" th:name="username"
-												   th:attrappend="class=${#fields.hasErrors('username') || (userExist != null)} ? ' is-invalid' + ''"
-												   th:field="*{username}" name="username">
-											<span class="validationError text-danger"
-												  th:if="${#fields.hasErrors('username')}"
-												  th:errors="*{username}"></span>
-											<span class="validationError text-danger"
-												  th:if="${userExist != null}"
-												  th:text="${userExist}"></span>
+
+										<label th:if="${#fields.hasErrors('username')}" class="control-label" style="color: #a94442;" th:errors="*{username}" ></label>
+										<label th:if="${userExist != null}" class="control-label" style="color: #a94442;" th:text="${userExist}" ></label>
+										<div class="input-group" th:attrappend="class=${(userExist != null) || (#fields.hasErrors('username')) ? ' has-error my-has-error' : ''}">
+											<span class="input-group-addon" ><span class="input-icon input-icon-fax"></span><span class="input-text">Username</span></span>
+											<input type="text" class="form-control input-lg" placeholder="Username" th:field="*{username}" name="username"
+											th:attrappend="style=${(userExist != null) || (#fields.hasErrors('username')) ? 'border: 1px solid #a94442;' : ''}">
                                         </div><!-- End .input-group -->
 									<div class="input-group">
 										<span class="input-group-addon"><span class="input-icon input-icon-user"></span><span class="input-text">First Name&#42;</span></span>
-										<input type="text" class="form-control input-lg" placeholder="Your First Name" th:name="firstName"
+										<input type="text" class="form-control input-lg" placeholder="Your First Name" name="firstName"
 											   th:field="*{firstName}">
 									</div><!-- End .input-group -->
 									<div class="input-group">
 										<span class="input-group-addon"><span class="input-icon input-icon-user"></span><span class="input-text">Last Name&#42;</span></span>
-										<input type="text" class="form-control input-lg" placeholder="Your Last Name" th:name="lastName"
+										<input type="text" class="form-control input-lg" placeholder="Your Last Name" name="lastName"
 											   th:field="*{lastName}">
 									</div><!-- End .input-group -->
 
 									</fieldset>
                                     <fieldset>
                                         <h2 class="sub-title">YOUR PASSWORD</h2>
-                                        <div class="input-group">
+
+										<label th:if="${#fields.hasErrors('password')}" class="control-label" style="color: #a94442;" th:errors="*{password}" ></label>
+										<div class="input-group" th:attrappend="class=${#fields.hasErrors('password') ? ' has-error my-has-error' : ''}">
                                             <span class="input-group-addon"><span class="input-icon input-icon-password"></span><span class="input-text">Password&#42;</span></span>
-                                            <input type="password" class="form-control input-lg" placeholder="Your Password"  th:name="password"
+                                            <input type="password" class="form-control input-lg" placeholder="Your Password"  name="password"
 												   th:field="*{password}"
-												   th:attrappend="class=${#fields.hasErrors('password')} ? ' is-invalid' + ''">
-											<span class="validationError text-danger"
-												  th:if="${#fields.hasErrors('password')}"
-												  th:errors="*{password}"></span>
+												   th:attrappend="style=${#fields.hasErrors('password') ? 'border: 1px solid #a94442;' : ''}">
                                         </div><!-- End .input-group -->
-                                        <div class="input-group">
+
+										<label th:if="${errorConfirm != null}" class="control-label" style="color: #a94442;" th:text="${errorConfirm}" ></label>
+										<div class="input-group" th:attrappend="class=${errorConfirm != null ? ' has-error my-has-error' : ''}">
                                             <span class="input-group-addon"><span class="input-icon input-icon-password"></span><span class="input-text">Password&#42;</span></span>
-                                            <input type="password" class="form-control input-lg" th:name="confirmPassword" placeholder="Your Password"
-												   th:attrappend="class=${errorConfirm != null} ? ' is-invalid' + ''">
-											<span class="validationError text-danger"
-												  th:if="${errorConfirm != null}"
-												  th:text="${errorConfirm}"></span>
+                                            <input type="password" class="form-control input-lg" name="confirmPassword" placeholder="Your Password"
+												   th:attrappend="style=${errorConfirm != null} ? 'border: 1px solid #a94442;' : ''">
                                         </div><!-- End .input-group -->
+
                                     </fieldset>
                                     <input type="submit" value="CREATE MY ACCCOUNT" class="btn btn-custom-2 md-margin">
 								</div><!-- End .col-md-6 -->
@@ -93,22 +90,23 @@
 										<span class="input-group-addon"><span class="input-icon input-icon-postcode"></span><span class="input-text">Post Code&#42;</span></span>
 										<input type="text" class="form-control input-lg" placeholder="Your Post Code" th:name="postCode" th:field="*{postCode}">
 									</div><!-- End .input-group -->
-                                    <div class="input-group">
+
+									<label th:if="${#fields.hasErrors('phoneNumber')}" class="control-label" style="color: #a94442;" th:errors="*{phoneNumber}" ></label>
+									<div class="input-group" th:attrappend="class=${#fields.hasErrors('phoneNumber') ? ' has-error my-has-error' : ''}">
                                         <span class="input-group-addon"><span class="input-icon input-icon-phone"></span><span class="input-text">Telephone&#42;</span></span>
-                                        <input type="text" class="form-control input-lg" placeholder="Your Telephone"
-											   th:attrappend="class=${#fields.hasErrors('phoneNumber')} ? ' is-invalid' + ''" th:name="phoneNumber"
+                                        <input type="text" class="form-control input-lg" placeholder="Your Telephone" name="phoneNumber"
+											   th:attrappend="style=${#fields.hasErrors('phoneNumber') ? 'border: 1px solid #a94442;' : ''}"
 											   th:field="*{phoneNumber}">
-										<span class="validationError text-danger"
-											  th:if="${#fields.hasErrors('phoneNumber')}"
-											  th:errors="*{phoneNumber}"></span>
                                     </div><!-- End .input-group -->
-                                    <div class="input-group">
+
+									<label th:if="${#fields.hasErrors('email')}" class="control-label" style="color: #a94442;" th:errors="*{email}" ></label>
+									<div class="input-group" th:attrappend="class=${#fields.hasErrors('email') ? ' has-error my-has-error' : ''}">
                                         <span class="input-group-addon"><span class="input-icon input-icon-email"></span><span class="input-text">Email&#42;</span></span>
-                                        <input type="text" class="form-control input-lg" placeholder="Your Email"  th:name="email"
-											   th:field="*{email}"
-											   th:attrappend="class=${#fields.hasErrors('email')} ? ' is-invalid' + ''">
-										<span class="validationError text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                                        <input type="text" class="form-control input-lg" placeholder="Your Email"  name="email"
+											   th:attrappend="style=${#fields.hasErrors('email') ? 'border: 1px solid #a94442;' : ''}"
+											   th:field="*{email}">
                                     </div><!-- End .input-group -->
+
 									</fieldset>
                                     <fieldset class="half-margin">
                                         <h2 class="sub-title">NEWSLETTER</h2>

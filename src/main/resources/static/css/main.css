@@ -18,3 +18,7 @@ div.fix_compare {
     border-radius: 14px;
     display: none;
 }
+.my-has-error > .input-group-addon{
+    background-color: #f2f2f2;
+}
+
