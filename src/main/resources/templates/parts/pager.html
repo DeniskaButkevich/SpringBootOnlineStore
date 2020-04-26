@@ -71,9 +71,10 @@
                         <img th:unless="${product.filename != null}" src="/images/products/item2.jpg" alt="item1"
                              class="item-image">
                         <img th:if="${product.hoverFilename != null}" th:src="'img/' + ${product.hoverFilename}"
-                             alt="item1  Hover" class="item-image-hover"></a>
+                             alt="item1  Hover" class="item-image-hover">
                     <img th:unless="${product.hoverFilename != null}" src="/images/products/item2-hover.jpg"
-                         alt="item1  Hover" class="item-image-hover"></a>
+                         alt="item1  Hover" class="item-image-hover">
+                    </a>
                 </figure>
                 <div class="item-price-container">
                     <th:block th:if="${product.sale != null}">

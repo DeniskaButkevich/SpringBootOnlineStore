@@ -2,6 +2,7 @@ package com.dez.predesign.controller.store;
 
 import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.data.catalog.Category;
+import com.dez.predesign.data.catalog.Color;
 import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.repository.BrandRepo;
 import com.dez.predesign.repository.CategoryRepo;
@@ -47,6 +48,11 @@ public class CategoryController {
     public Page<Product> featuredProduct(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 8) Pageable pageable){
         Page<Product> page =productRepo.findAll(pageable);
         return page;
+    }
+
+    @ModelAttribute(name = "colors")
+    public Iterable<Color> colors() {
+        return colorRepo.findAll();
     }
 
     @GetMapping("/category")

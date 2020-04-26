@@ -55,8 +55,8 @@ public class Product {
 
     @ManyToOne(targetEntity= Brand.class)
     private Brand brand;
-    @ManyToOne(targetEntity= Color.class)
-    private Color color;
+    @ManyToMany(targetEntity= Color.class)
+    private Set<Color> color;
 
     @JoinColumn(name = "category_id")
     @ManyToOne(targetEntity= Category.class, fetch = FetchType.LAZY)

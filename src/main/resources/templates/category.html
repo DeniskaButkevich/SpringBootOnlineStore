@@ -182,8 +182,8 @@
                                                     <input type="text" id="price-range-high">
                                                 </div>
                                                 <div id="price-range-btns">
-                                                    <a href="#" class="btn btn-custom-2 btn-sm">Ok</a>
-                                                    <a href="#" class="btn btn-custom-2 btn-sm">Clear</a>
+                                                    <a th:href="${url} + '?price=' + 'none' + '&' + ${setParam}" class="btn btn-custom-2 btn-sm">Ok</a>
+                                                    <a onclick="clearPriceFilter" class="btn btn-custom-2 btn-sm">Clear</a>
                                                 </div>
 
                                             </div><!-- End .panel-body -->
@@ -200,37 +200,11 @@
 
                                         <div id="category-list-4" class="collapse in">
                                             <div class="panel-body">
-                                                <ul class="filter-color-list clearfix">
-                                                    <li><a href="#" data-bgcolor="#fff" class="filter-color-box"></a>
-                                                    </li>
-                                                    <li><a href="#" data-bgcolor="#ffff33" class="filter-color-box"></a>
-                                                    </li>
-                                                    <li><a href="#" data-bgcolor="#ff9900" class="filter-color-box"></a>
-                                                    </li>
-                                                    <li class="last-md"><a href="#" data-bgcolor="#ff9999"
-                                                                           class="filter-color-box"></a></li>
-                                                    <li class="last-lg"><a href="#" data-bgcolor="#99cc33"
-                                                                           class="filter-color-box"></a></li>
-                                                    <li><a href="#" data-bgcolor="#339933" class="filter-color-box"></a>
-                                                    </li>
-                                                    <li><a href="#" data-bgcolor="#ff0000" class="filter-color-box"></a>
-                                                    </li>
-                                                    <li class="last-md"><a href="#" data-bgcolor="#ff3366"
-                                                                           class="filter-color-box"></a></li>
-                                                    <li><a href="#" data-bgcolor="#cc33ff" class="filter-color-box"></a>
-                                                    </li>
-                                                    <li class="last-lg"><a href="#" data-bgcolor="#9966cc"
-                                                                           class="filter-color-box"></a></li>
-                                                    <li><a href="#" data-bgcolor="#99ccff" class="filter-color-box"></a>
-                                                    </li>
-                                                    <li class="last-md"><a href="#" data-bgcolor="#3333cc"
-                                                                           class="filter-color-box"></a></li>
-                                                    <li><a href="#" data-bgcolor="#999999" class="filter-color-box"></a>
-                                                    </li>
-                                                    <li><a href="#" data-bgcolor="#663300" class="filter-color-box"></a>
-                                                    </li>
-                                                    <li class="last-lg"><a href="#" data-bgcolor="#000"
-                                                                           class="filter-color-box"></a></li>
+                                                <ul class="filter-color-list clearfix" style="width: 242px;">
+                                                    <th:block th:each="color, i : ${colors}">
+                                                        <li><a th:href="${url} + '?color=' + ${color.getRgb()} + '&' + ${setParam}"
+                                                               th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}" class="filter-color-box"></a></li>
+                                                    </th:block>
                                                 </ul>
                                             </div><!-- End .panel-body -->
                                         </div><!-- #collapse -->

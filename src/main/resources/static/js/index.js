@@ -401,3 +401,6 @@ function getCookie(cname) {
     return "";
 }
 
+function clearPriceFilter() {
+    
+}

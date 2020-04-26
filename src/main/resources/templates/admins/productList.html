@@ -64,7 +64,7 @@
                 </div>
                 <div class="form-group">
                     <th:block th:each="color : ${colors}">
-                        <input checked type="radio" name="color" th:id="${color.getRgb()}"
+                        <input type="checkbox" name="color" th:id="${color.getRgb()}"
                                th:value="${color.getRgb()}"/>
                         <label th:class="label-color" th:for="${color.getRgb()}">
                             <span th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}"></span>
@@ -114,9 +114,9 @@
                     <p class="card-text" th:text="'price: ' + ${item.price}"></p>
                     <p class="card-text" th:text="'sale: ' + ${item.sale}"></p>
                     <p class="card-text" th:text="'brand: ' + ${item.brand.getName()}"></p>
-                    <th:block th:if="${item.color != null}">
-                        <label th:class="label-color" th:for="${item.color != null ? item.color.getRgb() : ''}">
-                            <span th:attrappend="style=${item.color != null ? 'background-color: rgb(' + item.color.getRgb() + ');' : ''}"></span>
+                    <th:block th:each="color : ${item.color.iterator()}">
+                        <label th:class="label-color" th:for="${color}">
+                            <span th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}"></span>
                         </label>
                     </th:block>
                     <p class="card-text" th:text="'newProduct: ' + ${item.newProduct}"></p>
@@ -193,14 +193,8 @@
                                     </div>
                                     <div class="form-group">
                                         <th:block th:each="color : ${colors}">
-                                            <th:block th:if="${#strings.contains(color.getRgb(),item.color.getRgb())}">
-                                                <input checked type="radio" name="color" th:id="${color.getRgb()}"
-                                                       th:value="${color.getRgb()}"/>
-                                            </th:block>
-                                            <th:block th:unless="${#strings.contains(color.rgb,item.color.getRgb())}">
-                                                <input type="radio" name="color" th:id="${color.getRgb()}"
-                                                       th:value="${color.getRgb()}"/>
-                                            </th:block>
+                                            <input type="checkbox" name="color" th:id="${color.getRgb()}"
+                                                   th:value="${color.getRgb()}"/>
                                             <label th:class="label-color" th:for="${color.getRgb()}">
                                                 <span th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}"></span>
                                             </label>

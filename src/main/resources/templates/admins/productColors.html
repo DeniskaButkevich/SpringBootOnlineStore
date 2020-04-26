@@ -45,7 +45,7 @@
     <form method="post" th:action="@{/admins/product/colors/delete}">
         <div class="form-group">
             <th:block th:if="${colors != null}" th:each="color : ${colors}">
-                <input checked type="radio" name="color" th:id="${color.getRgb()}"
+                <input  type="checkbox" name="color" th:id="${color.getRgb()}"
                        th:value="${color.getRgb()}"/>
                 <label th:class="label-color" th:for="${color.getRgb()}">
                     <span th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}"></span>
