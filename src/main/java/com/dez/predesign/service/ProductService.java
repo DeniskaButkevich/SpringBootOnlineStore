@@ -6,7 +6,9 @@ import com.dez.predesign.repository.UserRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Service
 public class ProductService {
@@ -33,7 +35,11 @@ public class ProductService {
             if (!set.contains(product)) {
                 set.add(product);
                 if (set.size() > 3) {
-                    set.iterator().remove();
+                    Iterator iterator = set.iterator();
+                    if(iterator.hasNext()){
+                        iterator.next();
+                        iterator.remove();
+                    }
                 }
                 userRepo.save(user);
                 return true;

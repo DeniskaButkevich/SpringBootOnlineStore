@@ -8,7 +8,6 @@ import com.dez.predesign.service.PageService;
 import com.dez.predesign.service.ProductService;
 import com.dez.predesign.util.ControllerUtils;
 import com.dez.predesign.util.UploadImage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,29 +28,37 @@ import java.util.Set;
 
 @Controller
 public class ProductController {
-    @Autowired
-    ProductRepo productRepo;
 
-    @Autowired
-    BrandRepo brandRepo;
+    private ProductRepo productRepo;
+    private BrandRepo brandRepo;
+    private ColorRepo colorRepo;
+    private ProductService productService;
+    private PageService pageService;
+    private CategoryRepo categoryRepo;
+    private ImageRepo imageRepo;
+    private OrderRepo orderRepo;
+    private SizeRepo sizeRepo;
 
-    @Autowired
-    ColorRepo colorRepo;
-
-    @Autowired
-    ProductService productService;
-
-    @Autowired
-    PageService pageService;
-
-    @Autowired
-    CategoryRepo categoryRepo;
-
-    @Autowired
-    ImageRepo imageRepo;
-
-    @Autowired
-    OrderRepo orderRepo;
+    public ProductController(
+            ProductRepo productRepo,
+            BrandRepo brandRepo,
+            ColorRepo colorRepo,
+            ProductService productService,
+            PageService pageService,
+            CategoryRepo categoryRepo,
+            ImageRepo imageRepo,
+            OrderRepo orderRepo,
+            SizeRepo sizeRepo){
+        this.sizeRepo = sizeRepo;
+        this.imageRepo = imageRepo;
+        this.brandRepo = brandRepo;
+        this.categoryRepo = categoryRepo;
+        this.orderRepo = orderRepo;
+        this.colorRepo = colorRepo;
+        this.productRepo = productRepo;
+        this.productService = productService;
+        this.pageService = pageService;
+    }
 
     @Value("${AWS_ACCESS_KEY_ID}")
     private String AWS_ACCESS_KEY_ID;
@@ -72,6 +79,11 @@ public class ProductController {
         return colorRepo.findAll();
     }
 
+    @ModelAttribute(name = "sizes")
+    public Iterable<Size> sizes() {
+        return sizeRepo.findAll();
+    }
+
     @ModelAttribute(name = "categoriesLevelOne")
     public List<Category> setCategoriesLevelOne() {
         return categoryRepo.findByLevelAndDescendant(1, null);
@@ -88,7 +100,7 @@ public class ProductController {
     @GetMapping("/admins/product")
     public String productShow(@RequestParam(required = false, defaultValue = "") Brand filter,
                               @RequestParam(required = false, defaultValue = "") String id,
-                              @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable,
+                              @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 5) Pageable pageable,
                               Model model) {
         Page<Product> page;
 
@@ -122,7 +134,6 @@ public class ProductController {
 
         return "admins/productForOrder";
     }
-
     @PostMapping("/admins/product")
     public String productAdd(@AuthenticationPrincipal User user,
                              @Valid Product product,
@@ -146,7 +157,7 @@ public class ProductController {
         model.addAttribute("listpages", listpages);
         model.addAttribute("page", page);
 
-        return "admins/productList";
+        return "redirect:/admins/product";
     }
 
     @GetMapping("/product/delete")

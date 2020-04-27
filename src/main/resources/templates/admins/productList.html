@@ -31,6 +31,7 @@
     </a>
     <a href="/admins/product/categories" class="btn btn-primary" role="button" style="color: white">Categories</a>
     <a href="/admins/product/colors" class="btn btn-primary" role="button" style="color: white">Colors</a>
+    <a href="/admins/product/sizes" class="btn btn-primary" role="button" style="color: white">Sizes</a>
     <a href="/admins/product/brands" class="btn btn-primary" role="button" style="color: white">Brands</a>
 
     <div class="collapse " id="collapseExample" th:attrappend="class=${product != null ? ' show' : ''}">
@@ -68,6 +69,15 @@
                                th:value="${color.getRgb()}"/>
                         <label th:class="label-color" th:for="${color.getRgb()}">
                             <span th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}"></span>
+                        </label>
+                    </th:block>
+                </div>
+                <div class="form-group">
+                    <th:block th:each="size : ${sizes}">
+                        <input type="checkbox" name="sizes" th:id="${size.getSize()}"
+                               th:value="${size.getSize()}"/>
+                        <label th:class="label-size" th:for="${size.getSize()}">
+                            <span th:text="${size.getSize()}"></span>
                         </label>
                     </th:block>
                 </div>
@@ -116,7 +126,12 @@
                     <p class="card-text" th:text="'brand: ' + ${item.brand.getName()}"></p>
                     <th:block th:each="color : ${item.color.iterator()}">
                         <label th:class="label-color" th:for="${color}">
-                            <span th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}"></span>
+                            <span th:attrappend="style=${'background-color: rgb(' + color.rgb + ');'}"></span>
+                        </label>
+                    </th:block>
+                    <th:block th:each="size : ${item.sizes.iterator()}">
+                        <label th:class="label-size" th:for="${size}">
+                            <span th:text="${size.getSize()}"></span>
                         </label>
                     </th:block>
                     <p class="card-text" th:text="'newProduct: ' + ${item.newProduct}"></p>

@@ -38,7 +38,7 @@ public class Product {
     }
 
     @NotBlank(message = "Please fill the name")
-    @Size(max=30, message = "length should be no more than 30")
+    @javax.validation.constraints.Size(max=30, message = "length should be no more than 30")
     private String name;
 
     @NotNull(message = "Please fill the price ")
@@ -57,6 +57,9 @@ public class Product {
     private Brand brand;
     @ManyToMany(targetEntity= Color.class)
     private Set<Color> color;
+
+    @ManyToMany(targetEntity= Size.class)
+    private Set<Size> sizes;
 
     @JoinColumn(name = "category_id")
     @ManyToOne(targetEntity= Category.class, fetch = FetchType.LAZY)

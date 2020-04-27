@@ -97,8 +97,7 @@
                                 <a href="#review" class="rate-this">Add Your Review</a>
                             </div><!-- End .rating-container -->
                             <ul class="product-list">
-                                <li><span>Availability:</span>In Stock</li>
-                                <li><span>Product Code:</span>483512569</li>
+                                <li><span>Product Code:</span>[[${product.id}]]</li>
                                 <li><span>Brand:</span>[[${product.brand.name}]]</li>
                             </ul>
                             <hr>
@@ -124,12 +123,11 @@
                             <div class="product-size-filter-container">
                                 <span>Select Size:</span>
                                 <div class="xs-margin"></div>
+
                                 <ul class="filter-size-list clearfix">
-                                    <li><a href="#">XS</a></li>
-                                    <li><a href="#">S</a></li>
-                                    <li><a href="#">M</a></li>
-                                    <li><a href="#">L</a></li>
-                                    <li><a href="#">XL</a></li>
+                                    <th:block th:each="size : ${product.sizes.iterator()}">
+                                        <li><a href="#" th:text="${size.size}"></a></li>
+                                    </th:block>
                                 </ul>
                             </div><!-- End .product-size-filter-container-->
                             <hr>

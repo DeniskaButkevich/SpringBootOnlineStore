@@ -11,8 +11,7 @@ public class Color {
     @Id
     private String rgb;
 
-    public Color() {
-    }
+    public Color() { }
 
     public Color(String rgb) {
         this.rgb = rgb;
