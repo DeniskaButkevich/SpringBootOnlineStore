@@ -12,6 +12,8 @@ public class Brand {
     @Id
     private String name;
 
+    private String filename;
+
     public Brand(String name) {
         this.name = name;
     }

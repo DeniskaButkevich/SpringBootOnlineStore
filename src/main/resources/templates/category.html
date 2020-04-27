@@ -21,8 +21,10 @@
                     <div class="container" th:object="${productForTop}">
                         <div class="col-2">
                             <div class="category-image">
-                                <img th:if="*{filename != null}" th:src="*{'/img/' + filename}" alt="Phone" class="img-responsive">
-                                <img th:unless="*{filename != null}" src="images/products/category-show.png" alt="Phone" class="img-responsive">
+                                <img th:if="*{filename != null}" th:src="*{'/img/' + filename}" alt="Phone"
+                                     class="img-responsive">
+                                <img th:unless="*{filename != null}" src="images/products/category-show.png" alt="Phone"
+                                     class="img-responsive">
 
                             </div><!-- End .category-image -->
 
@@ -84,7 +86,7 @@
                                     </div><!-- End .view-box -->
                                 </div><!-- End .toolbox-filter -->
 
-                                <div th:include="parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></div>
+                                <th:block th:include="parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></th:block>
 
                             </div><!-- End .category-toolbar -->
                             <div class="md-margin"></div><!-- .space -->
@@ -111,7 +113,7 @@
                             </th:block>
                             <div class="row"></div>
 
-                            <div th:include="parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></div>
+                            <th:block th:include="parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></th:block>
 
                         </div><!-- End .col-md-9 -->
 
@@ -182,8 +184,10 @@
                                                     <input type="text" id="price-range-high">
                                                 </div>
                                                 <div id="price-range-btns">
-                                                    <a th:href="${url} + '?price=' + 'none' + '&' + ${setParam}" class="btn btn-custom-2 btn-sm">Ok</a>
-                                                    <a onclick="clearPriceFilter" class="btn btn-custom-2 btn-sm">Clear</a>
+                                                    <a th:href="${url} + '?price=' + 'none' + '&' + ${setParam}"
+                                                       class="btn btn-custom-2 btn-sm">Ok</a>
+                                                    <a onclick="clearPriceFilter"
+                                                       class="btn btn-custom-2 btn-sm">Clear</a>
                                                 </div>
 
                                             </div><!-- End .panel-body -->
@@ -203,7 +207,8 @@
                                                 <ul class="filter-color-list clearfix" style="width: 242px;">
                                                     <th:block th:each="color, i : ${colors}">
                                                         <li><a th:href="${url} + '?color=' + ${color.getRgb()} + '&' + ${setParam}"
-                                                               th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}" class="filter-color-box"></a></li>
+                                                               th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}"
+                                                               class="filter-color-box"></a></li>
                                                     </th:block>
                                                 </ul>
                                             </div><!-- End .panel-body -->
@@ -223,8 +228,10 @@
 
                                             <div class="featured-product clearfix" th:object="${product}">
                                                 <figure>
-                                                    <img th:if="*{filename != null}" th:src="'/img/' + *{filename}" th:alt="*{filename}">
-                                                    <img th:unless="*{filename != null}" src="/images/products/thumbnails/item6.jpg" alt="none">
+                                                    <img th:if="*{filename != null}" th:src="'/img/' + *{filename}"
+                                                         th:alt="*{filename}">
+                                                    <img th:unless="*{filename != null}"
+                                                         src="/images/products/thumbnails/item6.jpg" alt="none">
                                                 </figure>
                                                 <h5><a th:href="'/product/' + *{id}">[[*{name}]]</a></h5>
                                                 <div class="ratings-container">

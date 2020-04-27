@@ -380,21 +380,12 @@
                         <div class="sm-margin"></div><!-- space -->
                         <div class="row">
                             <div class="brand-slider owl-carousel">
-                                <a href="#"><img src="images/brands/brand-logo.png" alt="Brand Logo 1"></a>
-                                <a href="#"><img src="images/brands/brand-logo.png" alt="Brand Logo 2"></a>
-                                <a href="#"><img src="images/brands/brand-logo.png" alt="Brand Logo 3"></a>
-                                <a href="#"><img src="images/brands/brand-logo.png" alt="Brand Logo 4"></a>
-                                <a href="#"><img src="images/brands/brand-logo.png" alt="Brand Logo 5"></a>
-                                <a href="#"><img src="images/brands/brand-logo.png" alt="Brand Logo 6"></a>
-                                <a href="#"><img src="images/brands/brand-logo.png" alt="Brand Logo 7"></a>
-                                <a href="#"><img src="images/brands/brand-logo.png" alt="Brand Logo 8"></a>
-                                <a href="#"><img src="images/brands/brand-logo.png" alt="Brand Logo 9"></a>
-                                <a href="#"><img src="images/brands/brand-logo.png" alt="Brand Logo 10"></a>
-                                <a href="#"><img src="images/brands/brand-logo.png" alt="Brand Logo 11"></a>
-                                <a href="#"><img src="images/brands/brand-logo.png" alt="Brand Logo 12"></a>
-                                <a href="#"><img src="images/brands/brand-logo.png" alt="Brand Logo 13"></a>
-                                <a href="#"><img src="images/brands/brand-logo.png" alt="Brand Logo 14"></a>
-                                <a href="#"><img src="images/brands/brand-logo.png" alt="Brand Logo 15"></a>
+                                <th:block th:each="brand : ${brands}" th:object="${brand}">
+                                    <a th:href="'/category?brand=' + *{name} + '&'">
+                                        <img th:if="*{filename != null}" th:src="'/img/' + *{filename}" alt="Brand Logo">
+                                        <img th:unless="*{filename != null}" src="images/brands/brand-logo.png" alt="Brand Logo">
+                                    </a>
+                                </th:block>
                             </div><!-- End .brand-slider -->
                         </div><!-- End .row -->
                     </div><!-- End #brand-slider-container -->

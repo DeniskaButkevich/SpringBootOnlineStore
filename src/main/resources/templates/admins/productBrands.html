@@ -18,12 +18,18 @@
 
     <br>
     <h2>Add brand</h2>
-    <form method="post" th:action="@{/admins/product/brands/add}">
+    <form method="post" th:action="@{/admins/product/brands/add}" enctype="multipart/form-data">
         <div class="form-group">
             <input type="text" class="form-control" th:value="${name != null ? name : ''}"
                    name="name" placeholder="name"
                    th:attrappend="class=${nameError != null || nameError != null} ? ' is-invalid' : ''">
             <div class="invalid-feedback" th:if="${nameError != null}">[[${nameError}]]</div>
+        </div>
+        <div class="form-group">
+            <div class="custom-file">
+                <input type="file" name="file" id="customFile">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
         </div>
         <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
         <div class="form-group">
@@ -32,14 +38,39 @@
     </form>
 
     <br>
-    <h2>All color</h2>
-        <div>
-            <th:block th:if="${brands != null}" th:each="brand : ${brands}">
-                <a th:href="@{/admins/product/brands/delete/{path}(path=${brand.name})}">
-                    <p th:text="${brand.name + ' -> delete'}"></p>
-                </a>
-            </th:block>
-        </div>
+    <div class="row">
+        <div class="col-md-12 table-responsive">
+            <table class="table cart-table">
+                <thead>
+                <tr>
+                    <th class="table-title">name</th>
+                    <th class="table-title">image</th>
+                    <th class="table-title">delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="brand : ${brands}">
+                    <tr th:object="${brand}">
+                        <td class="item-name-col">
+                            <header class="item-name" style="text-align: center"><a>[[*{name}]]</a></header>
+                        </td>
+                        <td class="item-code">
+                            <th:block th:if="*{filename != null}">
+                                <img th:src="'/img/' + *{filename}" class="card-img-top">
+                            </th:block>
+                        </td>
+
+                        <td class="item-code">
+                            <a th:href="@{/admins/product/brands/delete/{path}(path=*{name})}">delete</a>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+
+            </table>
+            <div class="md-margin2x"></div><!-- Space -->
+        </div><!-- End .col-md-12 -->
+    </div><!-- End .row -->
 </div>
 </body>
 </html>
