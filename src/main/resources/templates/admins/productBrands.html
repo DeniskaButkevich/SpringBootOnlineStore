@@ -3,74 +3,73 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
 >
-<head th:include="admins/parts/head.html :: head(title='Brands')">
+    <head th:include="parts/head.html :: head(title='Brands')">
 
 </head>
 <body style="background-color: #eee">
 
-<row>
-    <nav th:include="admins/parts/header.html :: header(url_active='product')" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
-</row>
+<div id="wrapper">
+    <header th:insert="admins/parts/header.html :: header_v(url_active='product')"></header>
 
+    <div class="container mt-5">
+        <h1>Brands</h1>
 
-<div class="container mt-5">
-    <h1>Brands</h1>
-
-    <br>
-    <h2>Add brand</h2>
-    <form method="post" th:action="@{/admins/product/brands/add}" enctype="multipart/form-data">
-        <div class="form-group">
-            <input type="text" class="form-control" th:value="${name != null ? name : ''}"
-                   name="name" placeholder="name"
-                   th:attrappend="class=${nameError != null || nameError != null} ? ' is-invalid' : ''">
-            <div class="invalid-feedback" th:if="${nameError != null}">[[${nameError}]]</div>
-        </div>
-        <div class="form-group">
-            <div class="custom-file">
-                <input type="file" name="file" id="customFile">
-                <label class="custom-file-label" for="customFile">Choose file</label>
+        <br>
+        <h2>Add brand</h2>
+        <form method="post" th:action="@{/admins/product/brands/add}" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="text" class="form-control" th:value="${name != null ? name : ''}"
+                       name="name" placeholder="name"
+                       th:attrappend="class=${nameError != null || nameError != null} ? ' is-invalid' : ''">
+                <div class="invalid-feedback" th:if="${nameError != null}">[[${nameError}]]</div>
             </div>
-        </div>
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Add brand</button>
-        </div>
-    </form>
+            <div class="form-group">
+                <div class="custom-file">
+                    <input type="file" name="file" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+            </div>
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Add brand</button>
+            </div>
+        </form>
 
-    <br>
-    <div class="row">
-        <div class="col-md-12 table-responsive">
-            <table class="table cart-table">
-                <thead>
-                <tr>
-                    <th class="table-title">name</th>
-                    <th class="table-title">image</th>
-                    <th class="table-title">delete</th>
-                </tr>
-                </thead>
-                <tbody>
-                <th:block th:each="brand : ${brands}">
-                    <tr th:object="${brand}">
-                        <td class="item-name-col">
-                            <header class="item-name" style="text-align: center"><a>[[*{name}]]</a></header>
-                        </td>
-                        <td class="item-code">
-                            <th:block th:if="*{filename != null}">
-                                <img th:src="'/img/' + *{filename}" class="card-img-top">
-                            </th:block>
-                        </td>
-
-                        <td class="item-code">
-                            <a th:href="@{/admins/product/brands/delete/{path}(path=*{name})}">delete</a>
-                        </td>
+        <br>
+        <div class="row">
+            <div class="col-md-12 table-responsive">
+                <table class="table cart-table">
+                    <thead>
+                    <tr>
+                        <th class="table-title">name</th>
+                        <th class="table-title">image</th>
+                        <th class="table-title">delete</th>
                     </tr>
-                </th:block>
-                </tbody>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="brand : ${brands}">
+                        <tr th:object="${brand}">
+                            <td class="item-name-col">
+                                <header class="item-name" style="text-align: center"><a>[[*{name}]]</a></header>
+                            </td>
+                            <td class="item-code">
+                                <th:block th:if="*{filename != null}">
+                                    <img th:src="'/img/' + *{filename}" class="card-img-top">
+                                </th:block>
+                            </td>
 
-            </table>
-            <div class="md-margin2x"></div><!-- Space -->
-        </div><!-- End .col-md-12 -->
-    </div><!-- End .row -->
-</div>
+                            <td class="item-code">
+                                <a th:href="@{/admins/product/brands/delete/{path}(path=*{name})}">delete</a>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+
+                </table>
+                <div class="md-margin2x"></div><!-- Space -->
+            </div><!-- End .col-md-12 -->
+        </div><!-- End .row -->
+    </div>
+    <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer --></div>
 </body>
 </html>

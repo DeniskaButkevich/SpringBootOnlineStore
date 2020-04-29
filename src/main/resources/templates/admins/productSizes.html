@@ -3,52 +3,51 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
 >
-<head th:include="admins/parts/head.html :: head(title='Sizes')">
+    <head th:include="parts/head.html :: head(title='Sizes')">
 
 </head>
 <body style="background-color: #eee">
 
-<row>
-    <nav th:include="admins/parts/header.html :: header(url_active='product')" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
-</row>
+<div id="wrapper">
+    <header th:insert="admins/parts/header.html :: header_v(url_active='product')"></header>
 
+    <div class="container mt-5">
+        <h1>Sizes</h1>
 
-<div class="container mt-5">
-    <h1>Sizes</h1>
+        <br>
+        <h2>Add size</h2>
+        <form method="post" th:action="@{/admins/product/sizes/add}">
+            <div class="form-group">
+                <input type="text" class="form-control" th:value="${size != null ? size : ''}"
+                       name="size" placeholder="size"
+                       th:attrappend="class=${sizeError != null} ? ' is-invalid' : ''">
+                <div class="invalid-feedback" th:if="${sizeError != null}">[[${sizeError}]]</div>
+            </div>
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Add size</button>
+            </div>
+        </form>
 
-    <br>
-    <h2>Add size</h2>
-    <form method="post" th:action="@{/admins/product/sizes/add}">
-        <div class="form-group">
-            <input type="text" class="form-control" th:value="${size != null ? size : ''}"
-                   name="size" placeholder="size"
-                   th:attrappend="class=${sizeError != null} ? ' is-invalid' : ''">
-            <div class="invalid-feedback" th:if="${sizeError != null}">[[${sizeError}]]</div>
-        </div>
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Add size</button>
-        </div>
-    </form>
+        <br>
+        <h2>Delete size</h2>
+        <form method="post" th:action="@{/admins/product/sizes/delete}">
+            <div class="form-group">
+                <th:block th:if="${sizes != null}" th:each="size : ${sizes}">
+                    <input type="radio" name="color" th:id="${size.getSize()}"
+                           th:value="${size.getSize()}"/>
+                    <label th:class="label-color" th:for="${size.getSize()}">
+                        <span th:text="${size.getSize()}"></span>
+                    </label>
+                </th:block>
+            </div>
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Delete size</button>
+            </div>
+        </form>
 
-    <br>
-    <h2>Delete size</h2>
-    <form method="post" th:action="@{/admins/product/sizes/delete}">
-        <div class="form-group">
-            <th:block th:if="${sizes != null}" th:each="size : ${sizes}">
-                <input  type="radio" name="color" th:id="${size.getSize()}"
-                        th:value="${size.getSize()}"/>
-                <label th:class="label-color" th:for="${size.getSize()}">
-                    <span th:text="${size.getSize()}"></span>
-                </label>
-            </th:block>
-        </div>
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Delete size</button>
-        </div>
-    </form>
-
-</div>
+    </div>
+    <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer --></div>
 </body>
 </html>

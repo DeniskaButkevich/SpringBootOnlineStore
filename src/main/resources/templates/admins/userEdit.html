@@ -1,43 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">>
-<head th:include="admins/parts/head.html :: head(title='Edit user')">
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:include="parts/head.html :: head(title='Edit user')">
 
 </head>
 
 <body style="background-color: #eee">
 
-<div class="modal fade show" style="display: block; padding-right: 17px;" th:id="${user.id}">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+<div id="wrapper">
+    <div class="modal fade show" style="display: block; padding-right: 17px;" th:id="${user.id}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
 
-            <form enctype="multipart/form-data"
-                  th:action="@{/admins/users/edit/{path}(path=${user.id})}"
-                  method="post"
-                  th:object="${user}">
+                <form enctype="multipart/form-data"
+                      th:action="@{/admins/users/edit/{path}(path=${user.id})}"
+                      method="post"
+                      th:object="${user}">
 
-                <div class="modal-header">
-                    <a href="/admins/users">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </a>
-                    <h4 class="modal-title" th:text="'Edit user № ' + *{id}"></h4>
-                </div>
-                <div class="modal-body">
+                    <div class="modal-header">
+                        <a href="/admins/users">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </a>
+                        <h4 class="modal-title" th:text="'Edit user № ' + *{id}"></h4>
+                    </div>
+                    <div class="modal-body">
 
-                    <h5 th:if="${#fields.hasErrors()}">Please correct the problems below and resubmit.</h5>
+                        <h5 th:if="${#fields.hasErrors()}">Please correct the problems below and resubmit.</h5>
 
-                    <div class="form-group form-inline">
-                        <label for="username" style="text-align: center">Username: </label>
-                        <input id="username" type="text" class="form-control fa-align-right"
-                               style="margin-left: auto"
-                               th:value="${user.username != null ? user.username : ''}"
-                               th:attrappend="class=${#fields.hasErrors('email')} ? ' is-invalid' + ''"
-                               name="username" placeholder="Input username"/></div>
+                        <div class="form-group form-inline">
+                            <label for="username" style="text-align: center">Username: </label>
+                            <input id="username" type="text" class="form-control fa-align-right"
+                                   style="margin-left: auto"
+                                   th:value="${user.username != null ? user.username : ''}"
+                                   th:attrappend="class=${#fields.hasErrors('email')} ? ' is-invalid' + ''"
+                                   name="username" placeholder="Input username"/></div>
                         <span class="validationError text-danger"
                               th:if="${#fields.hasErrors('username')}"
                               th:errors="*{username}"></span>
@@ -45,89 +44,89 @@
                               th:if="${userExist != null}"
                               th:text="${userExist}"></span>
 
-                    <div class="form-group form-inline">
-                        <label style="text-align: center">Firstname</label>
-                        <input type="text" class="form-control"
-                               style="margin-left: auto"
-                               th:value="${user.firstName != null ? user.firstName : ''}"
-                               name="firstName" placeholder="Input firstName"/></div>
+                        <div class="form-group form-inline">
+                            <label style="text-align: center">Firstname</label>
+                            <input type="text" class="form-control"
+                                   style="margin-left: auto"
+                                   th:value="${user.firstName != null ? user.firstName : ''}"
+                                   name="firstName" placeholder="Input firstName"/></div>
 
 
-                    <div class="form-group form-inline">
-                        <label style="text-align: center">Lastname</label>
-                        <input type="text" class="form-control"
-                               style="margin-left: auto"
-                               th:value="${user.lastName != null ? user.lastName : ''}"
-                               name="lastName" placeholder="Input lastname"></div>
+                        <div class="form-group form-inline">
+                            <label style="text-align: center">Lastname</label>
+                            <input type="text" class="form-control"
+                                   style="margin-left: auto"
+                                   th:value="${user.lastName != null ? user.lastName : ''}"
+                                   name="lastName" placeholder="Input lastname"></div>
 
-                    <div class="form-group form-inline">
-                        <label style="text-align: center">Post Code</label>
-                        <input type="text" class="form-control"
-                               style="margin-left: auto"
-                               th:value="${user.postCode != null ? user.postCode : ''}"
-                               name="postCode" placeholder="Input Post Code"></div>
+                        <div class="form-group form-inline">
+                            <label style="text-align: center">Post Code</label>
+                            <input type="text" class="form-control"
+                                   style="margin-left: auto"
+                                   th:value="${user.postCode != null ? user.postCode : ''}"
+                                   name="postCode" placeholder="Input Post Code"></div>
 
-                    <div class="form-group form-inline">
-                        <label style="text-align: center">Nymphos</label>
-                        <input type="text" class="form-control"
-                               style="margin-left: auto"
-                               th:value="${user.phoneNumber != null ? user.phoneNumber : ''}"
-                               th:attrappend="class=${#fields.hasErrors('phoneNumber')} ? ' is-invalid' + ''"
-                               name="phoneNumber" placeholder="Input Nymphos"></div>
+                        <div class="form-group form-inline">
+                            <label style="text-align: center">Nymphos</label>
+                            <input type="text" class="form-control"
+                                   style="margin-left: auto"
+                                   th:value="${user.phoneNumber != null ? user.phoneNumber : ''}"
+                                   th:attrappend="class=${#fields.hasErrors('phoneNumber')} ? ' is-invalid' + ''"
+                                   name="phoneNumber" placeholder="Input Nymphos"></div>
                         <span class="validationError text-danger"
                               th:if="${#fields.hasErrors('phoneNumber')}"
                               th:errors="*{phoneNumber}"></span>
-                    <inpu  name="password" th:value="${user.password != null ? user.password : ''}"></inpu>
+                        <inpu name="password" th:value="${user.password != null ? user.password : ''}"></inpu>
 
-                    <div class="form-group form-inline">
-                        <label style="text-align: center">Address</label>
-                        <input  type="text" class="form-control"
-                                style="margin-left: auto"
-                                th:value="${user.address != null ? user.address : ''}"
-                                name="address" placeholder="Input address"></div>
+                        <div class="form-group form-inline">
+                            <label style="text-align: center">Address</label>
+                            <input type="text" class="form-control"
+                                   style="margin-left: auto"
+                                   th:value="${user.address != null ? user.address : ''}"
+                                   name="address" placeholder="Input address"></div>
 
-                    <div class="form-group form-inline">
-                        <label style="text-align: center">Email</label>
-                        <input type="text" class="form-control"
-                               style="margin-left: auto"
-                               th:value="${user.email != null ? user.email : ''}"
-                               th:attrappend="class=${#fields.hasErrors('email')} ? ' is-invalid' + ''"
-                               name="email" placeholder="Input Email"></div>
+                        <div class="form-group form-inline">
+                            <label style="text-align: center">Email</label>
+                            <input type="text" class="form-control"
+                                   style="margin-left: auto"
+                                   th:value="${user.email != null ? user.email : ''}"
+                                   th:attrappend="class=${#fields.hasErrors('email')} ? ' is-invalid' + ''"
+                                   name="email" placeholder="Input Email"></div>
                         <span class="validationError text-danger"
                               th:if="${#fields.hasErrors('email')}"
                               th:errors="*{email}"></span>
 
 
+                        <div class="form-group form-inline">
+                            <label>Roles</label>
+                            <th:block th:each="role : ${roles}">
+                                <th:block th:if="${user.getRoles() != null}">
+                                    <p style="margin-left: auto"><input type="checkbox" th:name="${role}"
+                                                                        th:checked="${#strings.contains(user.getRoles(),role)} ? 'checked' : ''">[[${role}]]
+                                    </p>
+                                </th:block>
+                                <th:block th:unless="${user.getRoles() != null}">
+                                    <p style="margin-left: auto"><input type="checkbox" th:name="${role}"> [[${role}]]
+                                    </p>
+                                </th:block>
+                            </th:block>
+                        </div>
 
-                    <div class="form-group form-inline">
-                        <label>Roles</label>
-                        <th:block th:each="role : ${roles}">
-                            <th:block th:if="${user.getRoles() != null}">
-                                <p style="margin-left: auto"><input  type="checkbox" th:name="${role}"
-                                           th:checked="${#strings.contains(user.getRoles(),role)} ? 'checked' : ''">[[${role}]]</p>
-                            </th:block>
-                            <th:block th:unless="${user.getRoles() != null}">
-                                <p style="margin-left: auto"><input  type="checkbox" th:name="${role}"> [[${role}]]</p>
-                            </th:block>
-                        </th:block>
+
                     </div>
+                    <div class="modal-footer">
+                        <a href="/admins/users">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </a>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                </form>
+            </div><!-- /.модальное окно-Содержание -->
+        </div><!-- /.модальное окно-диалог -->
+    </div><!-- /.модальное окно -->
 
 
-
-                </div>
-                <div class="modal-footer">
-                    <a href="/admins/users">
-                        <button type="button"  class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </a>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-            </form>
-        </div><!-- /.модальное окно-Содержание -->
-    </div><!-- /.модальное окно-диалог -->
-</div><!-- /.модальное окно -->
-
-
-
+    <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer --></div>
 </body>
 </html>

@@ -20,9 +20,4 @@ public class AllGetController {
     public String orderSuccessful(){
         return "orderSuccessful";
     }
-
-    @GetMapping("/admins/rest")
-    public String getRest(){
-        return "admins/rest";
-    }
 }

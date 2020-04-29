@@ -2,83 +2,83 @@
 <html lang="en">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:include="admins/parts/head.html :: head(title='Orders')">
+    <head th:include="parts/head.html :: head(title='Orders')">
 
 </head>
 <body style="background-color: #eee">
 
-<row>
-    <nav th:include="admins/parts/header.html :: header(url_active='orders')" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
-</row>
+<div id="wrapper">
+    <header th:insert="admins/parts/header.html :: header_v(url_active='orders')"></header>
 
-<div class="container mt-5">
+    <div class="container mt-5">
 
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <form method="get" action="/admins/message" class="form-inline">
-                <input type="text" name="filter" class="form-control" th:value="${filter}" placeholder="Search by tag">
-                <button type="submit" class="btn btn-primary ml-2">Search</button>
-                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-            </form>
-        </div>
-    </div>
-
-    <div th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
-
-    <div class="card-columns">
-
-        <th:block th:if="${page.getTotalElements() < 1}">
-            <li colspan="2"> No Orders Available</li>
-        </th:block>
-
-        <th:block th:each="order : ${page.content}">
-            <div class="card my-6 " th:object="${order}">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="'Id order: ' + *{id}"></h5>
-                    <a th:href="'/admins/user/' + *{user.id}" >
-                        <h5 class="card-title" th:text="'Id user: ' + *{user.id}"></h5>
-                    </a>
-                    <h5 class="card-title" th:text="'User name: ' + *{user.username}"></h5>
-                    <h5 class="card-title" th:text="'Total price: ' + ${order.total_price}"></h5>
-                    <h5 class="card-title" th:text="'Date: ' + ${order.placedAt}"></h5>
-
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">Id</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Count</th>
-                            <th scope="col">All Price</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <th:block th:each="product : *{products}">
-                            <tr>
-                                <th scope="row">[[${product.id}]]</th>
-                                <td>[[${product.name}]]</td>
-                                <td>[[${product.price}]]</td>
-                                <td>[[${order.count_price.get(product).count}]]</td>
-                                <td>[[${order.count_price.get(product).price}]]</td>
-                            </tr>
-                        </th:block>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="card-footer ">
-                    <div class="text-right">
-                        <a th:href="'/admins/products_order/?filter=' + *{id}">Products</a>
-                    </div>
-                    <div class="text-right">
-                        <a th:href="'/admins/order/delete/' + ${order.id}">delete</a>
-                    </div>
-                </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <form method="get" action="/admins/message" class="form-inline">
+                    <input type="text" name="filter" class="form-control" th:value="${filter}"
+                           placeholder="Search by tag">
+                    <button type="submit" class="btn btn-primary ml-2">Search</button>
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                </form>
             </div>
-        </th:block>
+        </div>
+
+        <div th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
+
+        <div class="card-columns">
+
+            <th:block th:if="${page.getTotalElements() < 1}">
+                <li colspan="2"> No Orders Available</li>
+            </th:block>
+
+            <th:block th:each="order : ${page.content}">
+                <div class="card my-6 " th:object="${order}">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="'Id order: ' + *{id}"></h5>
+                        <a th:href="'/admins/user/' + *{user.id}">
+                            <h5 class="card-title" th:text="'Id user: ' + *{user.id}"></h5>
+                        </a>
+                        <h5 class="card-title" th:text="'User name: ' + *{user.username}"></h5>
+                        <h5 class="card-title" th:text="'Total price: ' + ${order.total_price}"></h5>
+                        <h5 class="card-title" th:text="'Date: ' + ${order.placedAt}"></h5>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Count</th>
+                                <th scope="col">All Price</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="product : *{products}">
+                                <tr>
+                                    <th scope="row">[[${product.id}]]</th>
+                                    <td>[[${product.name}]]</td>
+                                    <td>[[${product.price}]]</td>
+                                    <td>[[${order.count_price.get(product).count}]]</td>
+                                    <td>[[${order.count_price.get(product).price}]]</td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer ">
+                        <div class="text-right">
+                            <a th:href="'/admins/products_order/?filter=' + *{id}">Products</a>
+                        </div>
+                        <div class="text-right">
+                            <a th:href="'/admins/order/delete/' + ${order.id}">delete</a>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+
+        <div th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
     </div>
-
-    <div th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
-
-</div>
+    <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer --></div>
 </body>
 </html>

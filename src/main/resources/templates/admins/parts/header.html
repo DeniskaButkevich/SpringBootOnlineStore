@@ -1,41 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
-            <nav th:fragment="header" >
-                <a class="navbar-brand" href="/admins/indexAdmin">Spring Boot App</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<nav th:fragment="header">
+    <a class="navbar-brand" href="/admins/indexAdmin">Spring Boot App</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+            aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-                <div class="collapse navbar-collapse" id="navbarColor02">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'indexAdmin') ? ' active': ''}">
-                            <a class="nav-link" href="/admins/indexAdmin">Home</a>
-                        </li>
-                        <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'product') ? ' active': ''}">
-                            <a class="nav-link" href="/admins/product">Product</a>
-                        </li>
-                        <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'message') ? ' active': ''}">
-                            <a class="nav-link" href="/admins/message">Message</a>
-                        </li>
-                        <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'users') ? ' active': ''}">
-                            <a class="nav-link" href="/admins/users">Users</a>
-                        </li>
-                        <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'orders') ? ' active': ''}">
-                            <a class="nav-link" href="/admins/orders">Orders</a>
-                        </li>
-                        <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'slider') ? ' active': ''}">
-                            <a class="nav-link" href="/admins/slider">Slider</a>
-                        </li>
-                        <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'rest') ? ' active': ''}">
-                            <a class="nav-link" href="/admins/rest">Rest</a>
-                        </li>
-                    </ul>
-                    <form th:action="@{/logout}" method="post">
-                        <button class="btn btn-primary" type="submit">Sign Out</button>
-                        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-                    </form>
-                </div>
-            </nav>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'indexAdmin') ? ' active': ''}">
+                <a class="nav-link" href="/admins/indexAdmin">Home</a>
+            </li>
+            <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'product') ? ' active': ''}">
+                <a class="nav-link" href="/admins/product">Product</a>
+            </li>
+            <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'message') ? ' active': ''}">
+                <a class="nav-link" href="/admins/message">Message</a>
+            </li>
+            <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'users') ? ' active': ''}">
+                <a class="nav-link" href="/admins/users">Users</a>
+            </li>
+            <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'orders') ? ' active': ''}">
+                <a class="nav-link" href="/admins/orders">Orders</a>
+            </li>
+            <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'slider') ? ' active': ''}">
+                <a class="nav-link" href="/admins/slider">Slider</a>
+            </li>
+        </ul>
+        <form th:action="@{/logout}" method="post">
+            <button class="btn btn-primary" type="submit">Sign Out</button>
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+        </form>
+    </div>
+</nav>
+<div th:fragment="header_v" id="header">
+    <header>
+        <div id="header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="header-top-left">
+                            <ul id="top-links" class="clearfix">
+                                <li><a href="/my-account?menu_item=CaA" title="My Account">
+                                    <span class="top-icon top-icon-user"></span>
+                                    <span class="hide-for-xs">My Account</span>
+                                </a></li>
+                            </ul>
+                        </div><!-- End .header-top-left -->
+                        <div class="header-top-right">
+
+
+                            <div class="header-text-container pull-right">
+                                <p class="header-text">Welcome to Predesign!</p>
+                                <a href="/my-account">
+                                    <span sec:authorize="isAuthenticated()" sec:authentication="name"></span>
+                                </a>
+                                <th:block sec:authorize="isAuthenticated()">
+                                    <form th:action="@{/logout}" method="post" style="display: inline">
+                                        <button type="submit" style="border: none; height: 36px; color: #7bae23;    background: #f5f5f5;">logout</button>
+                                        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                                    </form>
+                                </th:block>
+                                <p sec:authorize="!isAuthenticated()" class="header-link"><a th:href="@{/admins/users}">login</a>&nbsp;or&nbsp;<a
+                                        href="/registration">create an account</a></p>
+                            </div><!-- End .pull-right -->
+                        </div><!-- End .header-top-right -->
+                    </div><!-- End .col-md-12 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End #header-top -->
+
+        <div id="inner-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5 col-sm-5 col-xs-12 logo-container">
+                        <h1 class="logo clearfix">
+                            <span>Responsive eCommerce Template</span>
+                            <a href="/index" title="Predesign">
+                                <img src="/images/logo.png" alt="Predesign Commerce Template" width="238" height="76">
+                            </a>
+                        </h1>
+                    </div><!-- End .col-md-5 -->
+                    <div class="col-md-7 col-sm-7 col-xs-12 header-inner-right">
+                        <div class="header-box contact-infos pull-right">
+                            <ul>
+                                <li><span class="header-box-icon header-box-icon-skype"></span>Predesign_support</li>
+                                <li><span class="header-box-icon header-box-icon-email"></span><a href="mailto:Predesign@gmail.com">Predesign@gmail.com</a></li>
+                            </ul>
+                        </div><!-- End .contact-infos -->
+                        <div class="header-box contact-phones pull-right clearfix">
+                            <span class="header-box-icon header-box-icon-earphones"></span>
+                            <ul class="pull-left">
+                                <li>+(404) 158 14 25 78</li>
+                                <li>+(404) 851 21 48 15</li>
+                            </ul>
+                        </div><!-- End .contact-phones -->
+                    </div><!-- End .col-md-7 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+            <div id="main-nav-container">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 clearfix">
+                            <nav id="main-nav">
+                                <div id="responsive-nav">
+                                    <div id="responsive-nav-button">
+                                        Menu <span id="responsive-nav-button-icon"></span>
+                                    </div><!-- responsive-nav-button -->
+                                </div>
+                                <ul class="menu clearfix">
+                                    <li><a class="nav-link" href="/admins/indexAdmin">Home</a></li>
+                                    <li><a class="nav-link" href="/admins/product">Product</a></li>
+                                    <li><a class="nav-link" href="/admins/message">Message</a></li>
+                                    <li><a class="nav-link" href="/admins/users">Users</a></li>
+                                    <li><a class="nav-link" href="/admins/orders">Orders</a></li>
+                                    <li><a class="nav-link" href="/admins/slider">Slider</a></li>
+                                </ul>
+                            </nav>
+                            <div id="quick-access">
+                                <form class="form-inline quick-search-form" role="form" action="#">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Search here">
+                                    </div><!-- End .form-inline -->
+                                    <button type="submit" id="quick-search" class="btn btn-custom"></button>
+                                </form>
+                            </div><!-- End #quick-access -->
+                        </div><!-- End .col-md-12 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End #nav -->
+        </div><!-- End #inner-header -->
+    </header><!-- End #header -->
+</div>

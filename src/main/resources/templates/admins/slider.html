@@ -1,38 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:include="admins/parts/head.html :: head(title='Slider elemets')">
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:include="parts/head.html :: head(title='Slider elemets')">
 
 </head>
 <body style="background-color: #eee">
 
-<row>
-    <nav th:include="admins/parts/header.html :: header(url_active='slider')"
-         class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
-</row>
+<div id="wrapper">
+    <header th:insert="admins/parts/header.html :: header_v(url_active='slider')"></header>
 
-<div class="container mt-5">
     <div class="container mt-5">
+        <div class="container mt-5">
 
-        <h1 style="background-color: dodgerblue; color: white">Slide 1</h1>
-        <div th:include="admins/parts/sliderComponents :: slider_product(${slider_one},1)"></div>
-        <div    th:if="${slider_one != null}"
-                th:include="admins/parts/sliderComponents :: slider_img(${slider_one},1)"></div>
-        <div class="container mt-5"></div>
+            <h1 style="background-color: dodgerblue; color: white">Slide 1</h1>
+            <div th:include="admins/parts/sliderComponents :: slider_product(${slider_one},1)"></div>
+            <div th:if="${slider_one != null}"
+                 th:include="admins/parts/sliderComponents :: slider_img(${slider_one},1)"></div>
+            <div class="container mt-5"></div>
 
-        <h1 style="background-color: dodgerblue; color: white">Slide 2</h1>
-        <div th:include="admins/parts/sliderComponents :: slider_product(${slider_two},2)"></div>
-        <div    th:if="${slider_two != null}"
-                th:include="admins/parts/sliderComponents :: slider_img(${slider_two},2)"></div>
-        <div class="container mt-5"></div>
+            <h1 style="background-color: dodgerblue; color: white">Slide 2</h1>
+            <div th:include="admins/parts/sliderComponents :: slider_product(${slider_two},2)"></div>
+            <div th:if="${slider_two != null}"
+                 th:include="admins/parts/sliderComponents :: slider_img(${slider_two},2)"></div>
+            <div class="container mt-5"></div>
 
-        <h1 style="background-color: dodgerblue; color: white">Slide 3</h1>
-        <div th:include="admins/parts/sliderComponents :: slider_product(${slider_three},3)"></div>
-        <div    th:if="${slider_three != null}"
-                th:include="admins/parts/sliderComponents :: slider_img(${slider_three},3)"></div>
+            <h1 style="background-color: dodgerblue; color: white">Slide 3</h1>
+            <div th:include="admins/parts/sliderComponents :: slider_product(${slider_three},3)"></div>
+            <div th:if="${slider_three != null}"
+                 th:include="admins/parts/sliderComponents :: slider_img(${slider_three},3)"></div>
+        </div>
     </div>
-</div>
+    <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer --></div>
 </body>
 </html>

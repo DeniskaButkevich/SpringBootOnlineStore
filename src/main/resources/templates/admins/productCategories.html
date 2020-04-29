@@ -3,65 +3,71 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
 >
-<head th:include="admins/parts/head.html :: head(title='Categories')">
+    <head th:include="parts/head.html :: head(title='Categories')">
 
 </head>
 <body style="background-color: #eee">
 
-<row>
-    <nav th:include="admins/parts/header.html :: header(url_active='product')" class="navbar navbar-expand-lg navbar-dark bg-primary"></nav>
-</row>
-<div class="container mt-5">
-    <h1>Categories</h1>
-    <br>
-    <h2>Add Category level 1</h2>
-    <form method="post" action="/admins/product/categories/level_1">
-        <div class="form-group">
-            <input type="text" class="form-control" th:value="${errorCategory != null ? errorCategory : ''}"
-                   name="name" placeholder="name"
-                   th:attrappend="class=${errorCategory != null} ? ' is-invalid' : ''">
-            <div class="invalid-feedback" th:if="${errorCategory != null}">[[${errorCategory}]]</div>
-        </div>
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Add</button>
-        </div>
-    </form>
+<div id="wrapper">
+    <header th:insert="admins/parts/header.html :: header_v(url_active='product')"></header>
 
-    <br>
-    <h2>Add Category level 2</h2>
-    <form method="post" action="/admins/product/categories/level_2"
-          th:if="${categories != null && !categories.isEmpty()}">
-        <div class="form-group">
-            <select class="form-control" id="level2" name="categoryLevelOne" title="name">
-                <th:block th:each="category : ${categories}">
-                    <option th:text="${category.getName()}"></option>
-                </th:block>
-            </select>
-        </div>
-        <div class="form-group">
-            <!--/*@thymesVar id="name" type=""*/-->
-            <input type="text" class="form-control" th:value="${categoryLevelTwo != null ? categoryLevelTwo : ''}"
-                   name="categoryLevelTwo" placeholder="name category"
-                   th:attrappend="class=${categoryLevelTwoError != null} ? ' is-invalid' : ''">
-            <div class="invalid-feedback" th:if="${categoryLevelTwoError != null}">[[${categoryLevelTwoError}]]</div>
-        </div>
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Add</button>
-        </div>
-    </form>
+    <div class="container mt-5">
+        <h1>Categories</h1>
+        <br>
+        <h2>Add Category level 1</h2>
+        <form method="post" action="/admins/product/categories/level_1">
+            <div class="form-group">
+                <input type="text" class="form-control" th:value="${errorCategory != null ? errorCategory : ''}"
+                       name="name" placeholder="name"
+                       th:attrappend="class=${errorCategory != null} ? ' is-invalid' : ''">
+                <div class="invalid-feedback" th:if="${errorCategory != null}">[[${errorCategory}]]</div>
+            </div>
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
 
-    <br>
-    <h2> Categories Output</h2>
-    <th:block th:if="${setCategoriesLevelOne != null}" th:each=" categoryLevelOne : ${setCategoriesLevelOne}">
-        <h3 style="display: inline" th:text="${categoryLevelOne.id + '_' + categoryLevelOne.name}"></h3>
-            <a th:href="@{/admins/product/categories/delete/{path}/(path=${categoryLevelOne.id})}">delete</a><div></div>
-        <th:block th:if="${setCategoriesLevelTwo != null}" th:each="CategoriesLevelTwo : ${setCategoriesLevelTwo}">
-            <h4 style="display: inline" th:text="${CategoriesLevelTwo.ancestor == categoryLevelOne ? CategoriesLevelTwo.id + '___' + CategoriesLevelTwo.name : ''}"></h4>
-            <a th:if="${CategoriesLevelTwo.ancestor == categoryLevelOne}" th:href="@{/admins/product/categories/delete/{path}/(path=${CategoriesLevelTwo.id})}">delete</a><div></div>
+        <br>
+        <h2>Add Category level 2</h2>
+        <form method="post" action="/admins/product/categories/level_2"
+              th:if="${categories != null && !categories.isEmpty()}">
+            <div class="form-group">
+                <select class="form-control" id="level2" name="categoryLevelOne" title="name">
+                    <th:block th:each="category : ${categories}">
+                        <option th:text="${category.getName()}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="form-group">
+                <!--/*@thymesVar id="name" type=""*/-->
+                <input type="text" class="form-control" th:value="${categoryLevelTwo != null ? categoryLevelTwo : ''}"
+                       name="categoryLevelTwo" placeholder="name category"
+                       th:attrappend="class=${categoryLevelTwoError != null} ? ' is-invalid' : ''">
+                <div class="invalid-feedback" th:if="${categoryLevelTwoError != null}">[[${categoryLevelTwoError}]]
+                </div>
+            </div>
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+
+        <br>
+        <h2> Categories Output</h2>
+        <th:block th:if="${setCategoriesLevelOne != null}" th:each=" categoryLevelOne : ${setCategoriesLevelOne}">
+            <h3 style="display: inline" th:text="${categoryLevelOne.id + '_' + categoryLevelOne.name}"></h3>
+            <a th:href="@{/admins/product/categories/delete/{path}/(path=${categoryLevelOne.id})}">delete</a>
+            <div></div>
+            <th:block th:if="${setCategoriesLevelTwo != null}" th:each="CategoriesLevelTwo : ${setCategoriesLevelTwo}">
+                <h4 style="display: inline"
+                    th:text="${CategoriesLevelTwo.ancestor == categoryLevelOne ? CategoriesLevelTwo.id + '___' + CategoriesLevelTwo.name : ''}"></h4>
+                <a th:if="${CategoriesLevelTwo.ancestor == categoryLevelOne}"
+                   th:href="@{/admins/product/categories/delete/{path}/(path=${CategoriesLevelTwo.id})}">delete</a>
+                <div></div>
+            </th:block>
         </th:block>
-    </th:block>
-</div>
+    </div>
+    <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer --></div>
 </body>
 </html>
