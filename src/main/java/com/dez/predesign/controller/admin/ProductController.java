@@ -29,6 +29,8 @@ import java.util.Set;
 @Controller
 public class ProductController {
 
+    @Value("${AWS_SECRET_ACCESS_KEY}")
+    public String AWS_SECRET_ACCESS_KEY;
     private ProductRepo productRepo;
     private BrandRepo brandRepo;
     private ColorRepo colorRepo;
@@ -38,6 +40,12 @@ public class ProductController {
     private ImageRepo imageRepo;
     private OrderRepo orderRepo;
     private SizeRepo sizeRepo;
+    @Value("${AWS_ACCESS_KEY_ID}")
+    private String AWS_ACCESS_KEY_ID;
+    @Value("${S3_BUCKET_NAME}")
+    private String S3_BUCKET_NAME;
+    @Value("${upload.path}")
+    private String uploadPath;
 
     public ProductController(
             ProductRepo productRepo,
@@ -48,7 +56,7 @@ public class ProductController {
             CategoryRepo categoryRepo,
             ImageRepo imageRepo,
             OrderRepo orderRepo,
-            SizeRepo sizeRepo){
+            SizeRepo sizeRepo) {
         this.sizeRepo = sizeRepo;
         this.imageRepo = imageRepo;
         this.brandRepo = brandRepo;
@@ -59,15 +67,6 @@ public class ProductController {
         this.productService = productService;
         this.pageService = pageService;
     }
-
-    @Value("${AWS_ACCESS_KEY_ID}")
-    private String AWS_ACCESS_KEY_ID;
-
-    @Value("${AWS_SECRET_ACCESS_KEY}")
-    public String AWS_SECRET_ACCESS_KEY;
-
-    @Value("${S3_BUCKET_NAME}")
-    private String S3_BUCKET_NAME;
 
     @ModelAttribute(name = "brands")
     public Iterable<Brand> brands() {
@@ -94,23 +93,18 @@ public class ProductController {
         return categoryRepo.findByLevel(2);
     }
 
-    @Value("${upload.path}")
-    private String uploadPath;
-
     @GetMapping("/admins/product")
-    public String productShow(@RequestParam(required = false, defaultValue = "") Brand filter,
-                              @RequestParam(required = false, defaultValue = "") String id,
-                              @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 5) Pageable pageable,
+    public String productShow(@RequestParam(required = false, defaultValue = "") String filter,
+                              @RequestParam(required = false, defaultValue = "") String search_by,
+                              @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 5) Pageable pageable,
                               Model model) {
         Page<Product> page;
-
-        if (filter != null && !filter.getName().isEmpty()){
-            page = productRepo.findByBrand(pageable, filter);
-        }else if(id != null && !id.isEmpty()){
-            page = productRepo.findById(pageable, Long.parseLong(id));
-        }else{
+        if(filter != null && !filter.isEmpty() && search_by != null){
+            page = pageService.findByFilter(search_by, filter, pageable);
+        } else {
             page = productRepo.findAll(pageable);
         }
+
         List<Integer> listpages = pageService.listPages(page);
 
         model.addAttribute("listpages", listpages);
@@ -121,35 +115,24 @@ public class ProductController {
         return "admins/productList";
     }
 
-    @GetMapping("/admins/products_order")
-    public String productForOrder(@RequestParam(required = false, defaultValue = "") Order filter,
-                                  HttpServletRequest request,
-                                  Model model){
-
-        Set<Product> products = filter.getProducts();
-        model.addAttribute("products", products);
-        String url = pageService.getAbsolutePath(request);
-
-        model.addAttribute("url", url);
-
-        return "admins/productForOrder";
-    }
     @PostMapping("/admins/product")
-    public String productAdd(@AuthenticationPrincipal User user,
-                             @Valid Product product,
+    public String productAdd(@Valid Product product,
                              BindingResult bindingResult,
                              Model model,
-                             @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable) throws IOException {
+                             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 3) Pageable pageable) throws IOException {
+        String return_url;
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
-
+            errorsMap.put("hasErrors", "true");
             model.mergeAttributes(errorsMap);
             model.addAttribute("product", product);
+            return_url = "admins/productList";
         } else {
             model.addAttribute("product", null);
             product.setNewProduct(true);
             productRepo.save(product);
+            return_url = "redirect:/admins/product";
         }
         Page<Product> page = productRepo.findAll(pageable);
         List<Integer> listpages = pageService.listPages(page);
@@ -157,15 +140,15 @@ public class ProductController {
         model.addAttribute("listpages", listpages);
         model.addAttribute("page", page);
 
-        return "redirect:/admins/product";
+        return return_url;
     }
 
     @GetMapping("/product/delete")
     public String productRemove(@RequestParam String id) {
         Product product = productRepo.findById(Long.parseLong(id)).get();
 
-        Iterable<Image> images= imageRepo.findByProduct(product);
-        for (Image image: images){
+        Iterable<Image> images = imageRepo.findByProduct(product);
+        for (Image image : images) {
             imageRepo.delete(image);
             UploadImage.deleteObjectAmazonS3(image.getName(), S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY);
         }
@@ -177,11 +160,25 @@ public class ProductController {
     }
 
     @PostMapping("/product/edit/{id}")
-    public String productEdit(@PathVariable String id, Product productGet){
-        Product productSet = productRepo.findById( Long.parseLong(id)).get();
+    public String productEdit(@PathVariable String id, Product productGet) {
+        Product productSet = productRepo.findById(Long.parseLong(id)).get();
         productService.setProduct(productGet, productSet);
         productRepo.save(productSet);
 
         return "redirect:/admins/product";
+    }
+
+    @GetMapping("/admins/products_order")
+    public String productForOrder(@RequestParam(required = false, defaultValue = "") Order filter,
+                                  HttpServletRequest request,
+                                  Model model) {
+
+        Set<Product> products = filter.getProducts();
+        model.addAttribute("products", products);
+        String url = pageService.getAbsolutePath(request);
+
+        model.addAttribute("url", url);
+
+        return "admins/productForOrder";
     }
 }

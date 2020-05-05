@@ -1,6 +1,16 @@
 package com.dez.predesign.service;
 
+import com.dez.predesign.data.catalog.Brand;
+import com.dez.predesign.data.catalog.Category;
+import com.dez.predesign.data.catalog.Product;
+import com.dez.predesign.data.catalog.Size;
+import com.dez.predesign.repository.BrandRepo;
+import com.dez.predesign.repository.CategoryRepo;
+import com.dez.predesign.repository.ProductRepo;
+import com.dez.predesign.repository.SizeRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +20,23 @@ import java.util.List;
 
 @Service
 public class PageService {
-    public List<Integer> listPages(Page page) {
 
+    @Autowired
+    ProductRepo productRepo;
+
+    @Autowired
+    BrandRepo brandRepo;
+
+    @Autowired
+    SizeRepo sizeRepo;
+
+    @Autowired
+    CategoryRepo categoryRepo;
+
+    public List<Integer> listPages(Page page) {
+        if(page == null){
+            return null;
+        }
         if(page.getTotalPages() > 7){
 
             Integer totalPages = page.getTotalPages();
@@ -46,5 +71,33 @@ public class PageService {
         String path = request.getContextPath();
         String basePath = scheme + "://" + serverName + ":" + port + path;
         return basePath;
+    }
+
+    public Page<Product> findByFilter(String search_by, String filter, Pageable pageable) {
+
+        Page page = null;
+            if(search_by.equals("Id")) {
+                Long id = Long.parseLong(filter);
+                page = productRepo.findById(pageable, id);
+            }else if(search_by.equals("Name")){
+                page = productRepo.findByName(pageable, filter);
+            }else if(search_by.equals("Brand")){
+                Iterable<Brand> brand = brandRepo.findByName(filter);
+                page = productRepo.findByBrand(pageable, brand.iterator().next());
+            }else if(search_by.equals("Price")){
+                Double price = Double.parseDouble(filter);
+                page = productRepo.findByPrice(pageable, price);
+            }else if(search_by.equals("Sale")){
+                Integer sale = Integer.parseInt(filter);
+                page = productRepo.findBySale(pageable, sale);
+            }else if(search_by.equals("Category")){
+                Category category = categoryRepo.findByName(filter);
+                page = productRepo.findByCategory(pageable, category);
+            }else if(search_by.equals("Size")){
+                Size size = sizeRepo.findBySize(filter);
+                page = productRepo.findBySizes(pageable, size);
+            }
+
+        return page;
     }
 }

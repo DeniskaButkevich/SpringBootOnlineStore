@@ -19,146 +19,219 @@
         </div>
     </div>
     <div class="container mt-5">
-
-        <div class="category-toolbar clearfix">
-            <div class="toolbox-filter clearfix">
-                <div class="sort-box">
-                    <span class="separator">Product param:</span>
-                    <div class="btn-group select-dropdown">
-                        <button type="button" class="btn select-btn">Categories</button>
-                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-angle-down"></i>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="/admins/product/categories">Categories</a></li>
-                            <li><a href="/admins/product/colors">Colors</a></li>
-                            <li><a href="/admins/product/sizes">Sizes</a></li>
-                            <li><a href="/admins/product/brands">Brands</a></li>
-                        </ul>
-                    </div>
+        <form method="get" action="/admins/product">
+            <div class="form-row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="input-icon input-icon-country"></span><span
+                                class="input-text">SEARCH By:</span></span>
+                        <div class="large-selectbox clearfix">
+                            <select name="search_by" class="selectbox">
+                                <option value="Id">Id</option>
+                                <option value="Brand">Brand</option>
+                                <option value="Name">Name</option>
+                                <option value="Price">Price</option>
+                                <option value="Sale">Sale</option>
+                                <option value="Category">Category</option>
+                                <option value="Size">Size</option>
+                                <option>Find all</option>
+                            </select>
+                        </div><!-- End .large-selectbox-->
+                    </div><!-- End .input-group -->
                 </div>
-                <div class="col-md-2">
-                    <button  type="button" class="btn btn-default btn-sm" data-toggle="collapse" href="#collapseExample">add product</button>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="input-group input-group-lg">
+                                    <span class="input-group-btn">
+                                    <button class="btn btn-custom-2" type="submit"
+                                            style="color: #7bae23 !important;background-color: #f2f2f2; border: 1px solid #dcdcdc;">Search</button>
+                                    </span>
+                        <input type="text" name="filter" class="form-control" placeholder="Search here"
+                               th:value="${filter != null ? filter : ''}">
+                    </div><!-- /input-group -->
                 </div>
-<!--                <div class="sort-box">-->
-<!--                    <span class="separator">search by::</span>-->
-<!--                    <div class="btn-group select-dropdown">-->
-<!--                        <button type="button" class="btn select-btn">Categories</button>-->
-<!--                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">-->
-<!--                            <i class="fa fa-angle-down"></i>-->
-<!--                        </button>-->
+            </div>
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+        </form>
 
-<!--                        <select   role="menu" class="dropdown-menu custom-select custom-select-sm">-->
-<!--                            <option selected>Open this select menu</option>-->
-<!--                            <option value="1">One</option>-->
-<!--                            <option value="2">Two</option>-->
-<!--                            <option value="3">Three</option>-->
-<!--                        </select>-->
-<!--                    </div>-->
-<!--                </div>-->
+        <div class="col-md-12" style="text-align: center;">
+            <input type="button" value="ADD NEW PRODUCT" class="btn btn-custom-2 md-margin" data-toggle="collapse"
+                   href="#collapseExample" th:attrappend="class=${product != null ? ' collapsed' : ''}">
+        </div>
+        <div class="collapse " id="collapseExample" th:attrappend="class=${product != null ? ' in' : ''}">
+            <div class="row" th:object="${product}">
 
+                <th:block th:if="${hasErrors != null}">
+                    <h4 style="color: #a94442; margin-left: 14px;">Please correct the problems below and resubmit.</h4>
+                </th:block>
 
-            </div><!-- End .toolbox-filter -->
-
-            <th:block th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></th:block>
-
-        </div><!-- End .category-toolbar -->
-
-<!--        <div class="form-row">-->
-<!--            <div class="form-group col-md-6">-->
-<!--                <form method="get" action="/admins/product" class="form-inline">-->
-<!--                    <input type="text" name="filter" class="form-control"-->
-<!--                           th:value="${filter != null ? filter.getName() : ''}"-->
-<!--                           placeholder="Search by Brand">-->
-<!--                    <button type="submit" class="btn btn-primary ml-2">Search</button>-->
-<!--                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div class="row"><a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">-->
-<!--            Add new Product-->
-<!--        </a></div>-->
-
-        <div class="collapse " id="collapseExample" th:attrappend="class=${product != null ? ' show' : ''}">
-            <div class="form-group mt-3">
                 <form method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <input type="text" class="form-control" th:value="${product != null ? product.name : ''}"
-                               name="name" placeholder="name"
-                               th:attrappend="class=${nameError != null} ? ' is-invalid' : ''">
-                        <div class="invalid-feedback" th:if="${nameError != null}">[[${nameError}]]</div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                        <label class="control-label" style="color: #a94442;"
+                               th:if="${nameError != null}" th:text="${nameError}"></label>
+                        <div class="input-group"
+                             th:attrappend="class=${nameError != null ? ' has-error my-has-error' : ''}">
+                    <span class="input-group-addon"><span class="input-icon input-icon-user"></span><span
+                            class="input-text">Name*</span></span>
+                            <input type="text" class="form-control input-lg" placeholder="Product name"
+                                   name="name"
+                                   th:value="${product != null ? product.name : ''}"
+                                   th:attrappend="style=${nameError != null ? 'border: 1px solid #a94442;' : ''}">
+                        </div>
+
+                        <label class="control-label" style="color: #a94442;"
+                               th:if="${priceError != null}" th:text="${priceError}"></label>
+                        <div class="input-group"
+                             th:attrappend="class=${priceError != null ? ' has-error my-has-error' : ''}">
+                    <span class="input-group-addon"><span class="input-icon input-icon-user"></span><span
+                            class="input-text">Price*</span></span>
+                            <input type="text" class="form-control input-lg" placeholder="Product price"
+                                   name="price"
+                                   th:value="${product != null ? product.price : ''}"
+                                   th:attrappend="style=${priceError != null ? 'border: 1px solid #a94442;' : ''}">
+                        </div>
+
+                        <label class="control-label" style="color: #a94442;"
+                               th:if="${saleError != null}" th:text="${saleError}"></label>
+                        <div class="input-group"
+                             th:attrappend="class=${saleError != null ? ' has-error my-has-error' : ''}">
+                    <span class="input-group-addon"><span class="input-icon input-icon-user"></span><span
+                            class="input-text">Sale*</span></span>
+                            <input type="text" class="form-control input-lg" placeholder="Product sale"
+                                   name="sale"
+                                   th:value="${product != null ? product.sale : ''}"
+                                   th:attrappend="style=${saleError != null ? 'border: 1px solid #a94442;' : ''}">
+                        </div>
+
+                        <label class="control-label" style="color: #a94442;"
+                               th:if="${descriptionError != null}" th:text="${descriptionError}"></label>
+                        <div class="input-group textarea-container"
+                             th:attrappend="class=${descriptionError != null ? ' has-error my-has-error' : ''}">
+                    <span class="input-group-addon"><span class="input-icon input-icon-message"></span><span
+                            class="input-text">Description</span></span>
+                            <textarea th:value="${product != null ? product.description : ''}"
+                                      th:attrappend="style=${descriptionError != null ? 'border: 1px solid #a94442;' : ''}"
+                                      name="description" id="contact-message" class="form-control" cols="30"
+                                      rows="6"
+                                      placeholder="Your test"></textarea>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" th:value="${product != null ? product.description : ''}"
-                               name="description" placeholder="Input description"/>
-                    </div>
-                    <div class="form-group">
-                        <input type="number" class="form-control" th:value="${product != null ? product.price : ''}"
-                               name="price" placeholder="price" step="any"
-                               th:attrappend="class=${priceError != null} ? ' is-invalid' : ''">
-                        <div class="invalid-feedback" th:if="${priceError != null}">[[${priceError}]]</div>
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control" th:value="${product != null ? product.brand : ''}"
-                                id="exampleFormControlSelect1" name="brand" title="brand"
-                                th:attrappend="class=${brandError != null} ? ' is-invalid' : ''">
-                            <th:block th:each="brand : ${brands}">
-                                <option th:text="${brand.getName()}"></option>
-                            </th:block>
-                        </select>
-                        <div class="invalid-feedback" th:if="${brandError != null}">[[${brandError}]]</div>
-                    </div>
-                    <div class="form-group">
-                        <th:block th:each="color : ${colors}">
-                            <input type="checkbox" name="color" th:id="${color.getRgb()}"
-                                   th:value="${color.getRgb()}"/>
-                            <label th:class="label-color" th:for="${color.getRgb()}">
-                                <span th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}"></span>
-                            </label>
-                        </th:block>
-                    </div>
-                    <div class="form-group">
-                        <th:block th:each="size : ${sizes}">
-                            <input type="checkbox" name="sizes" th:id="${size.getSize()}"
-                                   th:value="${size.getSize()}"/>
-                            <label th:class="label-size" th:for="${size.getSize()}">
-                                <span th:text="${size.getSize()}"></span>
-                            </label>
-                        </th:block>
-                    </div>
-                    <div class="form-group">
-                        <input type="number" class="form-control" th:value="${product != null ? product.sale : ''}"
-                               name="sale" placeholder="sale"
-                               th:attrappend="class=${saleError != null} ? ' is-invalid' : ''">
-                        <div class="invalid-feedback" th:if="${saleError != null}">[[${saleError}]]</div>
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control" id="categoriesAdd" name="category" title="categories">
-                            <th:block th:each="categoryLevelOne : ${categoriesLevelOne}">
-                                <th:block th:each="categoryLevelTwo: ${categoriesLevelTwo}">
-                                    <option th:if="${categoryLevelOne.id == categoryLevelTwo.ancestor.id}"
-                                            th:text="${categoryLevelOne.name + ' -> ' + categoryLevelTwo.name}"
-                                            th:value="${categoryLevelTwo.id}"></option>
-                                </th:block>
-                            </th:block>
-                        </select>
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                        <div class="input-group">
+                    <span class="input-group-addon"><span class="input-icon input-icon-country"></span><span
+                            class="input-text">Brand*</span></span>
+                            <div class="large-selectbox clearfix">
+                                <select id="select-brand" name="brand" class="selectbox" title="brand"
+                                        th:value="${product != null ? product.brand : ''}">
+                                    <th:block th:each="brand : ${brands}">
+                                        <option th:value="${brand.getName()}"
+                                                th:text="${brand.getName()}">
+                                        </option>
+                                    </th:block>
+                                </select>
+                            </div><!-- End .large-selectbox-->
+                        </div><!-- End .input-group -->
+
+                        <div class="input-group">
+                    <span class="input-group-addon"><span class="input-icon input-icon-country"></span><span
+                            class="input-text">Category*</span></span>
+                            <div class="large-selectbox clearfix">
+                                <select id="select-category" name="category" class="selectbox" title="categories">
+                                    <th:block th:each="categoryLevelOne : ${categoriesLevelOne}">
+                                        <th:block th:each="categoryLevelTwo: ${categoriesLevelTwo}">
+                                            <option th:if="${categoryLevelOne.id == categoryLevelTwo.ancestor.id}"
+                                                    th:text="${categoryLevelOne.name + ' -> ' + categoryLevelTwo.name}"
+                                                    th:value="${categoryLevelTwo.id}"></option>
+                                        </th:block>
+                                    </th:block>
+                                </select>
+                                </select>
+                            </div><!-- End .large-selectbox-->
+                        </div><!-- End .input-group -->
+
+                        <div class="panel" style=" margin-bottom: 25px">
+                            <div class="accordion-header" style="height: 47px; margin-bottom: 0px; padding: 15px 21px;">
+                                <div class="accordion-title"><span>Color</span></div>
+                                <!-- End .accordion-title -->
+                                <a class="accordion-btn opened" data-toggle="collapse"
+                                   data-target="#category-list-4"></a>
+                            </div><!-- End .accordion-header -->
+
+                            <style>
+                                input[type="checkbox"] {
+                                    display: none;
+                                }
+
+                                input[type="checkbox"]:checked + label span {
+                                    transform: scale(1.25);
+                                    border: #262626 solid 2px;
+                                }
+                            </style>
+                            <div id="category-list-4" class="collapse in">
+                                <div class="panel-body" style="border: 1px solid #e4e2e2; background-color: #fcfcfc;">
+                                    <ul class="filter-color-list clearfix">
+                                        <th:block th:each="color : ${colors}">
+                                            <input type="checkbox" name="color" th:id="${color.getRgb()}"
+                                                   th:value="${color.getRgb()}"/>
+                                            <label th:class="label-color" th:for="${color.getRgb()}">
+                                                <span th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}"></span>
+                                            </label>
+                                        </th:block>
+                                    </ul>
+                                </div><!-- End .panel-body -->
+                            </div><!-- #collapse -->
+                        </div><!-- End .panel -->
+
+                        <div class="panel" style=" margin-bottom: 25px">
+                            <div class="accordion-header" style="height: 47px; margin-bottom: 0px; padding: 15px 21px;">
+                                <div class="accordion-title"><span>Size</span></div>
+                                <!-- End .accordion-title -->
+                                <a class="accordion-btn opened" data-toggle="collapse"
+                                   data-target="#product-size"></a>
+                            </div><!-- End .accordion-header -->
+                            <style>
+                                input[type="checkbox"] {
+                                    display: none;
+                                }
+
+                                input[type="checkbox"]:checked + label span {
+                                    transform: scale(1.25);
+                                    border: #262626 solid 2px;
+                                }
+                            </style>
+                            <div id="product-size" class="collapse in">
+                                <div class="panel-body" style="border: 1px solid #e4e2e2; background-color: #fcfcfc;">
+                                    <ul class="filter-color-list clearfix">
+                                        <th:block th:each="size : ${sizes}">
+                                            <input type="checkbox" name="sizes" th:id="${size.getSize()}"
+                                                   th:value="${size.getSize()}"/>
+                                            <label th:class="label-size" th:for="${size.getSize()}">
+                                                <span th:text="${size.getSize()}"></span>
+                                            </label>
+                                        </th:block>
+                                    </ul>
+                                </div><!-- End .panel-body -->
+                            </div><!-- #collapse -->
+                        </div><!-- End .panel -->
+
+                        <div class="form-group" style="text-align: center">
+                            <input type="submit" value="ADD PRODUCT" class="btn btn-custom-2 md-margin">
+                        </div>
                     </div>
                     <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Add</button>
-                    </div>
                 </form>
             </div>
         </div>
 
+        <div class="category-toolbar clearfix">
+            <th:block th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></th:block>
+        </div>
         <div class="card-columns">
-
             <th:block th:if="${page.getTotalElements() < 1}">
                 <li colspan="2"> No product Available</li>
             </th:block>
-
-
             <table class="table cart-table">
                 <thead>
                 <tr>

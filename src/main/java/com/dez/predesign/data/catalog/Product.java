@@ -46,6 +46,7 @@ public class Product {
     private Double price;
 
     @Column(length = 2048)
+    @javax.validation.constraints.Size(max=2048, message = "length should be no more than 30")
     private String description;
     private String filename;
     private String hoverFilename;

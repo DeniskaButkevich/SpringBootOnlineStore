@@ -3,6 +3,7 @@ package com.dez.predesign.repository;
 import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.data.catalog.Category;
 import com.dez.predesign.data.catalog.Product;
+import com.dez.predesign.data.catalog.Size;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,8 +15,23 @@ import java.util.List;
 
 public interface ProductRepo extends CrudRepository<Product,Long>, JpaRepository<Product,Long> {
     Page<Product> findByBrand(Pageable pageable,Brand brand);
+
+    Page<Product> findByName(Pageable pageable, String name);
+
     Page<Product> findById(Pageable pageable,Long brand);
+
+    Page<Product> findById(Pageable pageable,String brand);
+
+    Page<Product> findByPrice(Pageable pageable, Double price);
+
     Page<Product> findBySaleNotNull(Pageable pageable);
+
+    Page<Product> findBySale(Pageable pageable, Integer sale);
+
+    Page<Product> findByCategory(Pageable pageable, Category category);
+
+    Page<Product> findBySizes(Pageable pageable, Size size);
+
     Page<Product> findByNewProductNotNullAndImageListNotNull(Pageable pageable);
 
     @Query(value = "SELECT p FROM Product  p WHERE p.category IN :categories and p.brand IN :brand")

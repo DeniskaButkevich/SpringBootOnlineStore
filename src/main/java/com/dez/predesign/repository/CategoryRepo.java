@@ -16,4 +16,6 @@ public interface  CategoryRepo extends CrudRepository<Category,Long> {
     Category findByDescendant(Category descendant);
 
     Iterable<Category> findByAncestor(Category ancestor);
+
+    Category findByName(String filter);
 }
