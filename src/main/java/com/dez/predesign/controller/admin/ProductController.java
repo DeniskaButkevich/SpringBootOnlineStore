@@ -9,11 +9,15 @@ import com.dez.predesign.service.PageService;
 import com.dez.predesign.service.ProductService;
 import com.dez.predesign.util.ControllerUtils;
 import com.dez.predesign.util.UploadImage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -44,6 +49,15 @@ public class ProductController {
     private String S3_BUCKET_NAME;
     @Value("${upload.path}")
     private String uploadPath;
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(DataSource dataSource)
+    {
+        return new JdbcTemplate(dataSource);
+    }
+
+    @Autowired
+    private org.springframework.jdbc.core.JdbcTemplate JdbcTemplate;
 
     public ProductController(
             ProductRepo productRepo,
@@ -114,6 +128,7 @@ public class ProductController {
             imageRepo.delete(image);
             UploadImage.deleteObjectAmazonS3(image.getName(), S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY);
         }
+        JdbcTemplate.update("Delete from user_products where product_id = ?",Long.parseLong(id));
         productRepo.delete(
                 productRepo.findById(
                         Long.parseLong(id)).get()
