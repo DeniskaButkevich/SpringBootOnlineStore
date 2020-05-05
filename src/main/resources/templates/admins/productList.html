@@ -251,7 +251,7 @@
                         <header class="item-name" style="text-align: center"><a
                                 th:href="'/admins/product/' + *{id}">[[*{id}]]</a>
                         </header>
-                        <a th:href="@{/product/delete(id=${product.id})}">delete</a>
+                        <a class="close-button" style="margin: auto" th:href="@{/product/delete(id=${product.id})}"></a>
                     </td>
                     <td class="item-name-col" style="vertical-align: inherit;     padding: 15px 15px;">
                         <figure style="width: 126px">
@@ -296,87 +296,12 @@
                 </tr>
                 </tbody>
             </table>
-            <th:block th:each="item : ${page.content}">
-                <div class="modal fade" th:id="${item.id}">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <form enctype="multipart/form-data" th:action="@{'/product/edit/' + ${item.id}}"
-                                  method="post">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <h4 class="modal-title" th:text="'Edit Product № ' + ${item.id}"></h4>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control"
-                                               th:value="${item != null ? item.name : ''}"
-                                               name="name"
-                                               placeholder="Input name"/></div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control"
-                                               th:value="${item != null ? item.description : ''}"
-                                               name="description"
-                                               placeholder="Input description"/></div>
-                                    <div class="form-group">
-                                        <input type="number" class="form-control"
-                                               th:value="${item != null ? item.price : ''}"
-                                               name="price"
-                                               placeholder="Input text"></div>
-                                    <div class="form-group">
-                                        <select class="form-control" id="edit_brand" name="brand" title="brand">
-                                            <th:block th:each="brand : ${brands}">
-                                                <th:block
-                                                        th:if="${#strings.contains(brand.getName(),item.brand.getName())}">
-                                                    <option th:text="${brand.getName()}" selected></option>
-                                                </th:block>
-                                                <th:block
-                                                        th:unless="${#strings.contains(brand.getName(),item.brand.getName())}">
-                                                    <option th:text="${brand.getName()}"></option>
-                                                </th:block>
-                                            </th:block>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <th:block th:each="color : ${colors}">
-                                            <input type="checkbox" name="color" th:id="${color.getRgb()}"
-                                                   th:value="${color.getRgb()}"/>
-                                            <label th:class="label-color" th:for="${color.getRgb()}">
-                                                <span th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}"></span>
-                                            </label>
-                                        </th:block>
-                                    </div>
-                                    <div class="form-group">
-                                        <select class="form-control" id="edit_newProduct" name="newProduct"
-                                                title="newProduct">
-                                            <option>true</option>
-                                            <option>false</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="number" class="form-control"
-                                               th:value="${item != null ? item.sale : ''}"
-                                               name="sale"
-                                               placeholder="Input sale"></div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
-                                        </button>
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                    </div>
-                                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-                                </div>
-                            </form>
-                        </div><!-- /.модальное окно-Содержание -->
-                    </div><!-- /.модальное окно-диалог -->
-                </div><!-- /.модальное окно -->
-            </th:block>
 
         </div>
 
         <div th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
     </div>
     <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer -->
-
+</div>
 </body>
 </html>

@@ -1,9 +1,10 @@
 package com.dez.predesign.controller.admin;
 
 import com.dez.predesign.data.Order;
-import com.dez.predesign.data.User;
-import com.dez.predesign.data.catalog.*;
-import com.dez.predesign.repository.*;
+import com.dez.predesign.data.catalog.Image;
+import com.dez.predesign.data.catalog.Product;
+import com.dez.predesign.repository.ImageRepo;
+import com.dez.predesign.repository.ProductRepo;
 import com.dez.predesign.service.PageService;
 import com.dez.predesign.service.ProductService;
 import com.dez.predesign.util.ControllerUtils;
@@ -13,11 +14,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -32,14 +35,9 @@ public class ProductController {
     @Value("${AWS_SECRET_ACCESS_KEY}")
     public String AWS_SECRET_ACCESS_KEY;
     private ProductRepo productRepo;
-    private BrandRepo brandRepo;
-    private ColorRepo colorRepo;
     private ProductService productService;
     private PageService pageService;
-    private CategoryRepo categoryRepo;
     private ImageRepo imageRepo;
-    private OrderRepo orderRepo;
-    private SizeRepo sizeRepo;
     @Value("${AWS_ACCESS_KEY_ID}")
     private String AWS_ACCESS_KEY_ID;
     @Value("${S3_BUCKET_NAME}")
@@ -49,50 +47,14 @@ public class ProductController {
 
     public ProductController(
             ProductRepo productRepo,
-            BrandRepo brandRepo,
-            ColorRepo colorRepo,
             ProductService productService,
             PageService pageService,
-            CategoryRepo categoryRepo,
-            ImageRepo imageRepo,
-            OrderRepo orderRepo,
-            SizeRepo sizeRepo) {
-        this.sizeRepo = sizeRepo;
+            ImageRepo imageRepo) {
         this.imageRepo = imageRepo;
-        this.brandRepo = brandRepo;
-        this.categoryRepo = categoryRepo;
-        this.orderRepo = orderRepo;
-        this.colorRepo = colorRepo;
         this.productRepo = productRepo;
         this.productService = productService;
         this.pageService = pageService;
     }
-
-    @ModelAttribute(name = "brands")
-    public Iterable<Brand> brands() {
-        return brandRepo.findAll();
-    }
-
-    @ModelAttribute(name = "colors")
-    public Iterable<Color> colors() {
-        return colorRepo.findAll();
-    }
-
-    @ModelAttribute(name = "sizes")
-    public Iterable<Size> sizes() {
-        return sizeRepo.findAll();
-    }
-
-    @ModelAttribute(name = "categoriesLevelOne")
-    public List<Category> setCategoriesLevelOne() {
-        return categoryRepo.findByLevelAndDescendant(1, null);
-    }
-
-    @ModelAttribute(name = "categoriesLevelTwo")
-    public List<Category> setCategoriesLevelTwo() {
-        return categoryRepo.findByLevel(2);
-    }
-
     @GetMapping("/admins/product")
     public String productShow(@RequestParam(required = false, defaultValue = "") String filter,
                               @RequestParam(required = false, defaultValue = "") String search_by,
