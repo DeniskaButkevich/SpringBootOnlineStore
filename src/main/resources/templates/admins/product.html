@@ -46,7 +46,7 @@
                                             <img src="/images/products/big-item1.jpg" alt="Phone photo 1"></a>
                                     </li>
 
-                                    <th:block th:each="image : ${images}">
+                                    <th:block th:each="image : ${product.imageList}">
                                         <li><a data-rel='prettyPhoto[product]'
                                                th:href="'/img/' + ${image.name}"
                                                th:data-image="'/img/' + ${image.name}"

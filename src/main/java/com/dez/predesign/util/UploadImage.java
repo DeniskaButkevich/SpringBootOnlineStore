@@ -37,11 +37,17 @@ public class UploadImage {
 
         Product product = productRepo.findById(Long.parseLong(id)).get();
         if (flag.equals("general")){
+            if(product.getFilename() != null){
+                UploadImage.deleteObjectAmazonS3(product.getFilename(), s3_bucket_name, aws_access_key_id, aws_secret_access_key);
+            }
             product.setFilename(resultFilename);
             productRepo.save(product);
             return;
         }
         if (flag.equals("hover")){
+            if(product.getHoverFilename() != null){
+                UploadImage.deleteObjectAmazonS3(product.getHoverFilename(), s3_bucket_name, aws_access_key_id, aws_secret_access_key);
+            }
             product.setHoverFilename(resultFilename);
             productRepo.save(product);
             return;

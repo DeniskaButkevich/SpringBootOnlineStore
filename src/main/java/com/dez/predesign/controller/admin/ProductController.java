@@ -50,12 +50,6 @@ public class ProductController {
     @Value("${upload.path}")
     private String uploadPath;
 
-    @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource)
-    {
-        return new JdbcTemplate(dataSource);
-    }
-
     @Autowired
     private org.springframework.jdbc.core.JdbcTemplate JdbcTemplate;
 

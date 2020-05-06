@@ -46,4 +46,16 @@ public class ProductService {
             }
             return false;
     }
+
+    public void update(Product old_product, Product product) {
+        old_product.setNewProduct(true);
+        old_product.setBrand(product.getBrand());
+        old_product.setColor(product.getColor());
+        old_product.setDescription(product.getDescription());
+        old_product.setName(product.getName());
+        old_product.setPrice(product.getPrice());
+        old_product.setSale(product.getSale());
+        old_product.setCategory(product.getCategory());
+        old_product.setSizes(product.getSizes());
+    }
 }

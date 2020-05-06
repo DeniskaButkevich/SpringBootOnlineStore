@@ -3,51 +3,86 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
 >
-    <head th:include="parts/head.html :: head(title='Sizes')">
+<head th:include="parts/head.html :: head(title='Sizes')">
 
 </head>
-<body style="background-color: #eee">
+<body style="background-color: #eee; height:100%">
 
-<div id="wrapper">
+<div id="wrapper" style="min-height: 100vh;">
     <header th:insert="admins/parts/header.html :: header_v(url_active='product')"></header>
 
-    <div class="container mt-5">
-        <h1>Sizes</h1>
-
-        <br>
-        <h2>Add size</h2>
-        <form method="post" th:action="@{/admins/product/sizes/add}">
-            <div class="form-group">
-                <input type="text" class="form-control" th:value="${size != null ? size : ''}"
-                       name="size" placeholder="size"
-                       th:attrappend="class=${sizeError != null} ? ' is-invalid' : ''">
-                <div class="invalid-feedback" th:if="${sizeError != null}">[[${sizeError}]]</div>
-            </div>
-            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Add size</button>
-            </div>
-        </form>
-
-        <br>
-        <h2>Delete size</h2>
-        <form method="post" th:action="@{/admins/product/sizes/delete}">
-            <div class="form-group">
-                <th:block th:if="${sizes != null}" th:each="size : ${sizes}">
-                    <input type="radio" name="color" th:id="${size.getSize()}"
-                           th:value="${size.getSize()}"/>
-                    <label th:class="label-color" th:for="${size.getSize()}">
-                        <span th:text="${size.getSize()}"></span>
-                    </label>
-                </th:block>
-            </div>
-            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Delete size</button>
-            </div>
-        </form>
-
+    <div class="container">
+        <div class="row">
+            <div class="col-12"></div>
+        </div>
     </div>
+    <section id="content">
+        <div id="breadcrumb-container">
+            <div class="container">
+                <ul class="breadcrumb">
+                    <li><a href="index">Home</a></li>
+                    <li><a href="/admins/product">Product</a></li>
+                    <li class="active">Sizes</li>
+                </ul>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-xs-12 product-viewer clearfix">
+                            <h2 class="sub-title">Sizes</h2>
+
+                            <form method="post" th:action="@{/admins/products/sizes/delete}" name="super">
+                                <table class="table cart-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="table-title">delete</th>
+                                        <th class="table-title">view</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:if="${sizes != null}" th:each="size : ${sizes}" th:object="${size}">
+                                        <td>
+                                            <input type="text" hidden  name="color" th:value="${size.getSize()}"/>
+                                            <a class="close-button" style="margin: auto"  href="javascript:document.super.submit()" ></a>
+                                        </td>
+                                        <td class="item-name-col" style="vertical-align: inherit; padding: 15px 15px;" th:text="${size.getSize()}">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                            </form>
+                        </div><!-- End .col-md-6 -->
+                        <div class="col-md-6 col-sm-12 col-xs-12 product">
+                            <h2 class="sub-title">DETAILS</h2>
+                            <form method="post" th:action="@{/admins/products/sizes/add}">
+                                <label class="control-label" style="color: #a94442;" th:if="${sizeError != null}"
+                                       th:text="${sizeError}"></label>
+                                <div class="input-group"
+                                     th:attrappend="class=${sizeError != null ? ' has-error my-has-error' : ''}">
+                                    <span class="input-group-addon"><span
+                                            class="input-icon input-icon-user"></span><span
+                                            class="input-text">Size*</span></span>
+                                    <input type="text" class="form-control input-lg" placeholder="New size"
+                                           name="size"
+                                           th:value="${size != null ? size : ''}"
+                                           th:attrappend="style=${sizeError != null ? 'border: 1px solid #a94442;' : ''}">
+                                </div>
+                                <div class="form-group" style="text-align: center">
+                                    <input type="submit" value="Add color" class="btn btn-custom-2 md-margin"
+                                           style=" background-color: #7bae21;  border: green;">
+                                </div>
+                                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                            </form>
+                        </div><!-- End .col-md-6 -->
+                    </div><!-- End .row -->
+                </div><!-- End .col-md-12 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </section><!-- End #content -->
+
     <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer --></div>
 </body>
 </html>

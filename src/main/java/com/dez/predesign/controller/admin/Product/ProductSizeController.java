@@ -3,12 +3,16 @@ package com.dez.predesign.controller.admin.Product;
 import com.dez.predesign.data.catalog.Size;
 import com.dez.predesign.repository.SizeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.sql.DataSource;
+
 @Controller
-@RequestMapping("/admins/product/sizes")
+@RequestMapping("/admins/products/sizes")
 public class ProductSizeController {
 
     @Autowired
@@ -19,6 +23,9 @@ public class ProductSizeController {
         return sizeRepo.findAll();
     }
 
+    @Autowired
+    private org.springframework.jdbc.core.JdbcTemplate JdbcTemplate;
+
     @GetMapping
     public String showSizes(Model model){
         return "admins/productSizes";
@@ -26,8 +33,10 @@ public class ProductSizeController {
 
     @PostMapping("delete")
     public String deleteSize(@RequestParam Size color){
+
+        JdbcTemplate.update("Delete from product_sizes ps where ps.sizes_size = ?",color.getSize());
         sizeRepo.delete(color);
-        return "redirect:/admins/product/sizes";
+        return "redirect:/admins/products/sizes";
     }
 
     @PostMapping("add")
@@ -45,6 +54,6 @@ public class ProductSizeController {
         Size new_size = new Size(size);
 
         sizeRepo.save(new_size);
-        return "redirect:/admins/product/sizes";
+        return "redirect:/admins/products/sizes";
     }
 }
