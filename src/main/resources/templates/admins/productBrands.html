@@ -7,69 +7,96 @@
 
 </head>
 <body style="background-color: #eee">
-
-<div id="wrapper">
+<div id="wrapper" style="min-height: 100vh">
     <header th:insert="admins/parts/header.html :: header_v(url_active='product')"></header>
-
-    <div class="container mt-5">
-        <h1>Brands</h1>
-
-        <br>
-        <h2>Add brand</h2>
-        <form method="post" th:action="@{/admins/product/brands/add}" enctype="multipart/form-data">
-            <div class="form-group">
-                <input type="text" class="form-control" th:value="${name != null ? name : ''}"
-                       name="name" placeholder="name"
-                       th:attrappend="class=${nameError != null || nameError != null} ? ' is-invalid' : ''">
-                <div class="invalid-feedback" th:if="${nameError != null}">[[${nameError}]]</div>
+    <div class="container"><div class="row"><div class="col-12"></div></div></div>
+    <section id="content">
+        <div id="breadcrumb-container">
+            <div class="container">
+                <ul class="breadcrumb">
+                    <li><a href="index">Home</a></li>
+                    <li><a href="/admins/product">Products</a></li>
+                    <li class="active">Brands</li>
+                </ul>
             </div>
-            <div class="form-group">
-                <div class="custom-file">
-                    <input type="file" name="file" id="customFile">
-                    <label class="custom-file-label" for="customFile">Choose file</label>
-                </div>
-            </div>
-            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Add brand</button>
-            </div>
-        </form>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-xs-12 product-viewer clearfix">
+                            <h2 class="sub-title">Brands</h2>
+                            <table class="table cart-table">
+                                <thead>
+                                <tr>
+                                    <th class="table-title">Delete</th>
+                                    <th class="table-title">View</th>
+                                    <th class="table-title">Name</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="brand : ${brands}">
+                                    <td>
+                                        <a class="close-button" style="margin: auto" th:href="@{/admins/product/brands/delete/{path}(path=${brand.name})}"></a>
+                                    </td>
+                                    <td class="item-name-col" style="vertical-align: inherit; padding: 15px 15px;">
+                                        <figure style="width: 126px">
+                                            <a class="product-gallery-item">
+                                                <img th:src="${brand.filename!= null ? '/img/' + brand.filename : '/images/products/compare1.jpg'}" th:alt="${brand.filename}"></a>
+                                        </figure>
+                                        <ul style="text-align: center">
+                                            <li class="text-muted" th:text="${brand.filename != null ? brand.filename: 'img none'}"></li>
+                                        </ul>
+                                    </td>
+                                    <td th:text="${brand.name}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- End .col-md-6 -->
+                        <div class="col-md-6 col-sm-12 col-xs-12 product">
+                            <h2 class="sub-title">DETAILS</h2>
+                            <th:block th:if="${hasErrors != null}">
+                                <h4 style="color: #a94442; margin-left: 14px;">Please correct the problems below and
+                                    resubmit.</h4>
+                            </th:block>
+                            <form method="post" th:action="@{/admins/product/brands/add}" enctype="multipart/form-data">
 
-        <br>
-        <div class="row">
-            <div class="col-md-12 table-responsive">
-                <table class="table cart-table">
-                    <thead>
-                    <tr>
-                        <th class="table-title">name</th>
-                        <th class="table-title">image</th>
-                        <th class="table-title">delete</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <th:block th:each="brand : ${brands}">
-                        <tr th:object="${brand}">
-                            <td class="item-name-col">
-                                <header class="item-name" style="text-align: center"><a>[[*{name}]]</a></header>
-                            </td>
-                            <td class="item-code">
-                                <th:block th:if="*{filename != null}">
-                                    <img th:src="'/img/' + *{filename}" class="card-img-top">
-                                </th:block>
-                            </td>
+                                <label class=" control-label " style="color: #a94442;"
+                                       th:if="${nameError != null}" th:text="${nameError}"></label>
+                                <div class="input-group"
+                                     th:attrappend="class=${nameError != null ? ' has-error my-has-error' : ''}">
+                    <span class="input-group-addon"><span class="input-icon input-icon-user"></span><span
+                            class="input-text">Name*</span></span>
+                                    <input type="text" class="form-control input-lg" placeholder="Product name"
+                                           name="name"
+                                           th:value="${brand != null ? brand.name : ''}"
+                                           th:attrappend="style=${nameError != null ? 'border: 1px solid #a94442;' : ''}">
+                                </div>
 
-                            <td class="item-code">
-                                <a th:href="@{/admins/product/brands/delete/{path}(path=*{name})}">delete</a>
-                            </td>
-                        </tr>
-                    </th:block>
-                    </tbody>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span
+                                            class="fa fa-file-image-o"></span><span class="input-text">  Image*</span></span>
+                                    <input type="text" class="form-control input-lg" placeholder="Choose file" disabled="" style="margin-bottom: -47px">
+                                    <input value="Choose a video please" type="file" name="file"
+                                           id="imageGeneral" class="form-control input-lg" placeholder="Image" style="opacity: 0;">
+                                </div>
 
-                </table>
-                <div class="md-margin2x"></div><!-- Space -->
-            </div><!-- End .col-md-12 -->
-        </div><!-- End .row -->
-    </div>
+                                <div class="form-group" style="text-align: center">
+                                    <input type="submit" name="but" value="Add brand" class="btn btn-custom-2 md-margin">
+                                    <input type="submit" name="but" value="Update" class="btn btn-custom-2 md-margin">
+                                </div>
+
+                                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                            </form>
+
+                        </div><!-- End .col-md-6 -->
+
+                    </div><!-- End .row -->
+                </div><!-- End .col-md-12 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </section><!-- End #content -->
+</div>
     <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer --></div>
 </body>
 </html>

@@ -32,10 +32,10 @@ public class ProductSizeController {
     }
 
     @PostMapping("delete")
-    public String deleteSize(@RequestParam Size color){
+    public String deleteSize(@RequestParam Size size){
 
-        JdbcTemplate.update("Delete from product_sizes ps where ps.sizes_size = ?",color.getSize());
-        sizeRepo.delete(color);
+        JdbcTemplate.update("Delete from product_sizes ps where ps.sizes_size = ?",size.getSize());
+        sizeRepo.delete(size);
         return "redirect:/admins/products/sizes";
     }
 

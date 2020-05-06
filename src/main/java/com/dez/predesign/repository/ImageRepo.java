@@ -5,6 +5,7 @@ import com.dez.predesign.data.catalog.Product;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ImageRepo extends CrudRepository<Image,Long> {
-    Iterable<Image> findByProduct(Product product);
+    Iterable<Image>
+    findByProduct(Product product);
     Image findByName(String name);
 }

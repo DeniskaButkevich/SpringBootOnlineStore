@@ -33,7 +33,6 @@
                         <div class="col-md-6 col-sm-12 col-xs-12 product-viewer clearfix">
                             <h2 class="sub-title">Sizes</h2>
 
-                            <form method="post" th:action="@{/admins/products/sizes/delete}" name="super">
                                 <table class="table cart-table">
                                     <thead>
                                     <tr>
@@ -42,10 +41,12 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:if="${sizes != null}" th:each="size : ${sizes}" th:object="${size}">
+                                    <tr th:if="${sizes != null}" th:each="size , i : ${sizes}" th:object="${size}">
                                         <td>
-                                            <input type="text" hidden  name="color" th:value="${size.getSize()}"/>
-                                            <a class="close-button" style="margin: auto"  href="javascript:document.super.submit()" ></a>
+                                            <form method="post" th:action="@{/admins/products/sizes/delete}" th:name="${i.index}">
+                                            <input type="text" hidden  name="size" th:value="${size.getSize()}"/>
+                                            <button class="close-button" style="margin: auto"  type="submit" ></button>
+                                            </form>
                                         </td>
                                         <td class="item-name-col" style="vertical-align: inherit; padding: 15px 15px;" th:text="${size.getSize()}">
                                         </td>
@@ -53,7 +54,6 @@
                                     </tbody>
                                 </table>
                                 <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-                            </form>
                         </div><!-- End .col-md-6 -->
                         <div class="col-md-6 col-sm-12 col-xs-12 product">
                             <h2 class="sub-title">DETAILS</h2>

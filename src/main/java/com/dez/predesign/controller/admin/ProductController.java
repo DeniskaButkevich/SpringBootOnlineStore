@@ -130,15 +130,6 @@ public class ProductController {
         return "redirect:/admins/product";
     }
 
-    @PostMapping("/product/edit/{id}")
-    public String productEdit(@PathVariable String id, Product productGet) {
-        Product productSet = productRepo.findById(Long.parseLong(id)).get();
-        productService.setProduct(productGet, productSet);
-        productRepo.save(productSet);
-
-        return "redirect:/admins/product";
-    }
-
     @GetMapping("/admins/products_order")
     public String productForOrder(@RequestParam(required = false, defaultValue = "") Order filter,
                                   HttpServletRequest request,

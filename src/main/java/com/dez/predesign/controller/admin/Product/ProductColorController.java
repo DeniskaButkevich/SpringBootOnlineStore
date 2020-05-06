@@ -24,8 +24,13 @@ public class ProductColorController {
         return "admins/productColors";
     }
 
+    @Autowired
+    private org.springframework.jdbc.core.JdbcTemplate JdbcTemplate;
+
     @PostMapping("delete")
     public String deleteCOlor(@RequestParam Color color){
+
+        JdbcTemplate.update("Delete from product_color WHERE color_rgb = ?;", color.getRgb());
         colorRepo.delete(color);
 
         return "redirect:/admins/product/colors";
@@ -33,6 +38,10 @@ public class ProductColorController {
 
     @PostMapping("add")
     public String addCOlor(@RequestParam String r, @RequestParam String g, @RequestParam String b, Model model){
+        if(r.isEmpty() || g.isEmpty() || b.isEmpty()){
+            model.addAttribute("colorError", "Fill in all the fields");
+            return "admins/productColors";
+        }
         Integer r_i = Integer.parseInt(r);
         Integer g_i = Integer.parseInt(g);
         Integer b_i =Integer.parseInt(b);

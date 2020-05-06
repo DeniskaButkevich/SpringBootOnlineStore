@@ -8,7 +8,7 @@
 </head>
 <body style="background-color: #eee">
 
-<div id="wrapper">
+<div id="wrapper" style="min-height: 100vh">
     <header th:insert="admins/parts/header.html :: header_v(url_active='product')"></header>
     <div class="container"><div class="row"><div class="col-12"></div></div></div>
     <section id="content">
@@ -129,12 +129,17 @@
                     <span class="input-group-addon"><span class="input-icon input-icon-country"></span><span
                             class="input-text">Brand*</span></span>
                                 <div class="large-selectbox clearfix">
-                                    <select id="select-brand" name="brand" class="selectbox" title="brand"
-                                            th:value="${product != null ? product.brand : ''}">
+                                    <select id="select-brand" name="brand" class="selectbox" title="brand">
+                                        <option th:value="${product.brand != null ? product.brand.getName() : ''}"
+                                                th:text="${product.brand  != null  ? product.brand.getName() : ''}"></option>
                                         <th:block th:each="brand : ${brands}">
-                                            <option th:value="${brand.getName()}"
-                                                    th:text="${brand.getName()}">
-                                            </option>
+                                            <th:block th:if="${product.brand  != null}">
+                                                <option th:if="${!#strings.contains(brand.getName(),product.brand.getName())}"
+                                                        th:value="${brand.getName()}" th:text="${brand.getName()}"></option>
+                                            </th:block>
+                                            <th:block th:unless="${product.brand  != null}">
+                                                <option th:value="${brand.getName()}" th:text="${brand.getName()}"></option>
+                                            </th:block>
                                         </th:block>
                                     </select>
                                 </div><!-- End .large-selectbox-->
@@ -146,6 +151,7 @@
                                 <div class="large-selectbox clearfix">
                                     <select id="select-category" name="category" class="selectbox"
                                             title="categories">
+                                        <option th:text="${product.category.ancestor.name + ' -> ' + product.category.name}" th:value="${product.category.id}"></option>
                                         <th:block th:each="categoryLevelOne : ${categoriesLevelOne}">
                                             <th:block th:each="categoryLevelTwo: ${categoriesLevelTwo}">
                                                 <option th:if="${categoryLevelOne.id == categoryLevelTwo.ancestor.id}"
@@ -183,7 +189,7 @@
                                         <ul class="filter-color-list clearfix">
                                             <th:block th:each="color : ${colors}">
                                                 <input th:checked="${#strings.contains(product.color, color.rgb)}"
-                                                       type="checkbox" checked name="color" th:id="${color.getRgb()}"
+                                                       type="checkbox" name="color" th:id="${color.getRgb()}"
                                                        th:value="${color.getRgb()}"/>
                                                 <label th:class="label-color" th:for="${color.getRgb()}">
                                                     <span th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}"></span>
