@@ -1,7 +1,9 @@
 package com.dez.predesign.controller.admin.Product;
 
 import com.dez.predesign.data.catalog.Category;
+import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.repository.CategoryRepo;
+import com.dez.predesign.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +18,17 @@ public class ProductCategoryController {
     @Autowired
     CategoryRepo categoryRepo;
 
+    @Autowired
+    ProductService productService;
+
     @ModelAttribute(name = "categories")
     public List<Category> categories() {
         return categoryRepo.findByLevelAndDescendant(1, null);
+    }
+
+    @ModelAttribute(name = "all_categories")
+    public Iterable<Category> allCategories() {
+        return categoryRepo.findAll();
     }
 
     @ModelAttribute(name = "setCategoriesLevelOne")
@@ -40,6 +50,11 @@ public class ProductCategoryController {
     public String levelOne(@RequestParam String name, Model model) {
         List<Category> categories = categoryRepo.findByLevel(1);
 
+        if(name.isEmpty()){
+            model.addAttribute("errorCategory", "Name must be not null");
+            return "admins/productCategories";
+        }
+
         if (categories.stream().anyMatch(s -> s.getName().equals(name))) {
             model.addAttribute("errorCategory", "Name already exist");
             return "admins/productCategories";
@@ -53,6 +68,11 @@ public class ProductCategoryController {
     public String levelTwo(@RequestParam String categoryLevelOne,
                            @RequestParam String categoryLevelTwo,
                            Model model) {
+        if(categoryLevelOne.isEmpty() || categoryLevelTwo.isEmpty()){
+            model.addAttribute("categoryLevelTwoError", "name must be nut empty");
+            return "admins/productCategories";
+        }
+
         Category levelOne = categoryRepo.findByNameAndLevelAndDescendant(categoryLevelOne, 1, null);
 
         List<Category> categories = categoryRepo.findByLevel(2);
@@ -78,15 +98,27 @@ public class ProductCategoryController {
         Category ancestor = categoryRepo.findByDescendant(category);
         Iterable<Category> descendants = categoryRepo.findByAncestor(category);
 
-        if (ancestor != null)
+        if (ancestor != null){
             categoryRepo.delete(ancestor);
 
+            for(Product product : category.getProducts()){
+                productService.deleteOne(product.getId().toString());
+            }
+            categoryRepo.delete(category);
+        }
         for (Category descendant : descendants) {
             Category ancestor_ = categoryRepo.findByDescendant(descendant);
-            categoryRepo.delete(ancestor_);
+
+            if(ancestor_ !=null){
+                categoryRepo.delete(ancestor_);
+            }
+
+            for(Product product : descendant.getProducts()){
+                productService.deleteOne(product.getId().toString());
+            }
             categoryRepo.delete(descendant);
+            categoryRepo.delete(category);
         }
-        categoryRepo.delete(category);
 
         return "redirect:/admins/product/categories";
     }

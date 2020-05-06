@@ -31,6 +31,8 @@ public interface ProductRepo extends CrudRepository<Product,Long>, JpaRepository
 
     Page<Product> findByCategory(Pageable pageable, Category category);
 
+    List<Product> findByCategory(Category category);
+
     Page<Product> findBySizes(Pageable pageable, Size size);
 
     Page<Product> findByNewProductNotNullAndImageListNotNull(Pageable pageable);
