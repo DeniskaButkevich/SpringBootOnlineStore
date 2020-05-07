@@ -1,22 +1,31 @@
 package com.dez.predesign.controller.admin;
 
+import com.dez.predesign.data.Payment;
 import com.dez.predesign.data.Role;
 import com.dez.predesign.data.User;
 import com.dez.predesign.repository.UserRepo;
+import com.dez.predesign.service.PageService;
 import com.dez.predesign.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 @Controller
+@RequestMapping(value = "/admins/users")
 public class UserController {
 
     @Autowired
@@ -28,80 +37,67 @@ public class UserController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @ModelAttribute(name = "users")
-    public Iterable<User> users() {
-        return userRepo.findAll();
-    }
+    @Autowired
+    PageService pageService;
+
 
     @ModelAttribute(name = "roles")
     public Role[] roles() {
         return Role.values();
     }
 
-    @GetMapping("/admins/users/add")
-    public String userAdd(@ModelAttribute User user) {
-        return "admins/userAdd";
-    }
-
-    @GetMapping("/admins/users")
-    public String usersShow(@ModelAttribute User user, Model model) {
-
-        final String[] freeze = {"admin", "1"};
-        model.addAttribute("freeze", freeze);
+    @GetMapping()
+    public String usersShow(Model model, @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 5) Pageable pageable) {
+        Page<User> page = userRepo.findAll(pageable);
+        List<Integer> listpages = pageService.listPages(page);
+        model.addAttribute("listpages", listpages);
+        model.addAttribute("page", page);
         return "admins/userList";
     }
 
-    @GetMapping("/admins/user/{id}")
-    public String oneUser(@PathVariable String id, Model model) {
-        model.addAttribute("user", userRepo.findById(Integer.parseInt(id)).get());
-        final String[] freeze = {"admin", "1"};
-        model.addAttribute("freeze", freeze);
-        return "admins/userOne";
-    }
+    @PostMapping()
+    public String userAdd(@Valid User user,
+                          BindingResult bindingResult,
+                          Model model,
+                          @RequestParam String confirmPassword,
+                          @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 5) Pageable pageable) {
 
-    @GetMapping("/admins/users/edit/{id}")
-    public String userEdit(@PathVariable String id, Model model) {
-
-        User usr = userRepo.findById(Integer.parseInt(id)).get();
-        model.addAttribute("user", usr);
-
-        return "admins/userEdit";
-    }
-
-    @GetMapping("/admins/users/passwordChange/{id}")
-    public String userPasswordChange(@PathVariable String id, Model model) {
-        return "admins/passwordChange";
-    }
-
-    @GetMapping("/admins/delete")
-    public String userRemove(@RequestParam String id) {
-
-        userRepo.delete(
-                userRepo.findById(
-                        Integer.parseInt(id)).get());
-
-        return "redirect:/admins/users";
-    }
-
-    @PostMapping("/admins/users/edit/{id}")
-    public String userEdit(@RequestParam Map<String, String> form,
-                           @PathVariable String id,
-                           @Valid User user,
-                           Errors errors,
-                           Model model) {
-
-        if (userService.save(id, form, user, model, errors)) {
+        if (userService.addUser(user, bindingResult, model, confirmPassword)) {
             return "redirect:/admins/users";
         } else {
-            return "admins/userEdit";
+            Page<User> page = userRepo.findAll(pageable);
+            model.addAttribute("page", page);
+            return "admins/userList";
         }
     }
 
-    @PostMapping("/admins/users/passwordChange/{id}")
-    public String userPasswordChange(@RequestParam String confirmPassword,
-                                     @PathVariable String id,
-                                     @RequestParam String password,
-                                     Model model) {
+    @GetMapping("/delete")
+    public String userRemove(@RequestParam String id) {
+        userRepo.delete(userRepo.findById(Integer.parseInt(id)).get());
+        return "redirect:/admins/users";
+    }
+
+    @GetMapping("/{id}")
+    public String getUser(@PathVariable Integer id, Model model) {
+
+        User user = userRepo.findById(id).get();
+        model.addAttribute("user", user);
+        return "admins/userOne";
+    }
+
+    @PostMapping("/{id}")
+    public String userUpdate(@PathVariable Integer id,
+                             Model model,
+                             @Valid User user,
+                             BindingResult bindingResult) {
+      if(userService.update(id, model, user, bindingResult)){
+          return "redirect:/admins/users/" + id;
+      }
+        return "admins/userOne";
+    }
+
+    @PostMapping("/password/{id}")
+    public String userPasswordChange(@RequestParam String confirmPassword, @PathVariable String id, @RequestParam String password, Model model) {
         if (userService.passwordChange(id, password, confirmPassword, model)) {
             return "redirect:/admins/users";
         } else {
@@ -109,29 +105,15 @@ public class UserController {
         }
     }
 
-    @PostMapping("/admins/users/add")
-    public String userAdd(@Valid User user,
-                          Errors errors,
-                          Model model,
-                          @RequestParam String confirmPassword) {
-
-        if (userService.addUser(user, errors, model, confirmPassword)) {
-            return "redirect:/admins/users";
-        } else {
-            return "admins/userAdd";
+    @PostMapping("/{id}/payment/update")
+    public String paymentUpdate(@PathVariable Integer id,
+                                Model model,
+                                @Valid Payment payment,
+                                BindingResult bindingResult) {
+        if(userService.updatePayment(id, model, payment, bindingResult)){
+            return "redirect:/admins/users" + id;
+        }else {
+            return "admins/userOne";
         }
-    }
-
-    @GetMapping("/create")
-    public String createU(){
-        User user = new User();
-        user.setActive(true);
-        user.setUsername("admin");
-        user.setPassword(passwordEncoder.encode("admin"));
-        user.setRoles(Collections.singleton(Role.ROLE_ADMIN));
-
-        userRepo.save(user);
-
-        return "404";
     }
 }

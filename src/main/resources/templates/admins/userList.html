@@ -2,81 +2,162 @@
 <html lang="en">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:include="parts/head.html :: head(title='Users')">
+<head th:include="parts/head.html :: head(title='Users')">
 
 
-    </head>
+</head>
 <body style="background-color: #eee">
-
 <div id="wrapper" style="min-height: 100vh">
     <header th:insert="admins/parts/header.html :: header_v(url_active='users')"></header>
-
-    <div class="container mt-5">
-        <a class="btn btn-primary" href="/admins/users/add"
-           role="button" aria-expanded="false" aria-controls="collapseExample">
-            Add new User
-        </a>
-
-
-        <ul th:if="${users.empty}">
-            <li colspan="2"> No User Available</li>
-        </ul>
-        <div class="card-group">
-            <div class="list-group" th:each="user : ${users}">
-                <div class="card" style="text-align: center">
-                    <a href="#" class="list-group-item list-group-item-action active"
-                       th:text="${'ID: ' + user.id}">
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action "
-                       th:text="${'Username: ' + user.username}"></a>
-                    <a href="#" class="list-group-item list-group-item-action "
-                       th:text="${'FirstName: ' + user.firstName}"></a>
-                    <a href="#" class="list-group-item list-group-item-action "
-                       th:text="${'LastName: ' + user.lastName}"></a>
-                    <a href="#" class="list-group-item list-group-item-action "
-                       th:text="${user.email != null ? 'Email: ' + user.email : 'Email: '}"> </a>
-                    <a href="#" class="list-group-item list-group-item-action "
-                       th:text="${'PostCode: ' + user.postCode}"></a>
-                    <a href="#" class="list-group-item list-group-item-action "
-                       th:text="${'Adress: ' + user.address}"></a>
-                    <a href="#" class="list-group-item list-group-item-action "
-                       th:text="${'PhoneNumber: ' + user.phoneNumber}"></a>
-
-                    <a th:href="@{/admins/users/edit/{path}(path=${user.id})}"
-                       class="list-group-item list-group-item-action" style="color: #007bff">EDIT</a>
-                    <a th:href="@{/admins/users/passwordChange/{path}(path=${user.id})}"
-                       class="list-group-item list-group-item-action" style="color: #007bff">PASSWORD<br>CHANGE</a>
-
-                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                            th:attrappend="data-target='#' + ${user.id} + '_user'">DELETE
-                    </button>
-                    <!-- Modal -->
-                    <div class="modal fade" th:id="${user.id} + '_user'" tabindex="-1" role="dialog"
-                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    Delete user?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <a th:href="@{/admins/delete(id=${user.id})}">
-                                        <button type="button" class="btn btn-primary">Delete</button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12"></div>
         </div>
     </div>
-    <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer --></div>
+
+    <div id="breadcrumb-container">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="index">Home</a></li>
+                <li class="active">Users</li>
+            </ul>
+        </div>
+    </div>
+    <div class="container mt-5">
+
+        <div class="col-md-12" style="text-align: center;">
+            <input type="button" value="NEW User" class="btn btn-custom-2 md-margin" data-toggle="collapse"
+                   href="#collapseExample" th:attrappend="class=${user != null ? ' collapsed' : ''}">
+        </div>
+        <div class="collapse " id="collapseExample" th:attrappend="class=${user != null ? ' in' : ''}">
+            <div class="row">
+
+                <th:block th:if="${hasErrors != null}">
+                    <h4 style="color: #a94442; margin-left: 14px;">Please correct the problems below and resubmit.</h4>
+                </th:block>
+
+                <form method="post" enctype="multipart/form-data">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                        <label class="control-label" style="color: #a94442;" th:if="${userExist != null}"
+                               th:text="${userExist}"></label>
+                        <label class="control-label" style="color: #a94442;" th:if="${usernameError != null}"
+                               th:text="${usernameError}"></label>
+                        <div class="input-group"
+                             th:attrappend="class=${userExist != null || usernameError != null ? ' has-error my-has-error' : ''}">
+                    <span class="input-group-addon"><span class="input-icon input-icon-user"></span><span
+                            class="input-text">Username*</span></span>
+                            <input type="text" class="form-control input-lg" placeholder="Username" name="username"
+                                   th:value="${user != null ? user.username : ''}"
+                                   th:attrappend="style=${userExist != null || usernameError != null ? 'border: 1px solid #a94442;' : ''}">
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="input-icon input-icon-user"></span><span
+                                    class="input-text">last name</span></span>
+                            <input type="text" class="form-control input-lg" placeholder="First name" name="firstName"
+                                   th:value="${user != null ? user.firstName : ''}"></div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="input-icon input-icon-user"></span><span
+                                    class="input-text">last name</span></span>
+                            <input type="text" class="form-control input-lg" placeholder="Last name" name="lastName"
+                                   th:value="${user != null ? user.lastName : ''}"></div>
+
+                        <label class="control-label" style="color: #a94442;" th:if="${emailError != null}" th:text="${emailError}"></label>
+                        <div class="input-group"
+                             th:attrappend="class=${emailError != null ? ' has-error my-has-error' : ''}">
+                    <span class="input-group-addon"><span class="input-icon input-icon-user"></span><span
+                            class="input-text">Email*</span></span>
+                            <input type="text" class="form-control input-lg" placeholder="Email"
+                                   name="email"
+                                   th:value="${user != null ? user.email : ''}"
+                                   th:attrappend="style=${emailError != null ? 'border: 1px solid #a94442;' : ''}"></div>
+
+                        <label class="control-label" style="color: #a94442;" th:if="${phoneNumberError != null}" th:text="${phoneNumberError}"></label>
+                        <div class="input-group"
+                             th:attrappend="class=${phoneNumberError != null ? ' has-error my-has-error' : ''}">
+                    <span class="input-group-addon"><span class="input-icon input-icon-user"></span><span
+                            class="input-text">phone</span></span>
+                            <input type="text" class="form-control input-lg" placeholder="phoneNumber"
+                                   name="phoneNumber"
+                                   th:value="${user != null ? user.phoneNumber : ''}"
+                                   th:attrappend="style=${phoneNumberError != null ? 'border: 1px solid #a94442;' : ''}"></div>
+
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                        <label class="control-label" style="color: #a94442;"
+                               th:if="${passwordError != null}" th:text="${passwordError}"></label>
+                        <div class="input-group"
+                             th:attrappend="class=${passwordError != null ? ' has-error my-has-error' : ''}">
+                    <span class="input-group-addon"><span class="input-icon input-icon-user"></span><span
+                            class="input-text">password*</span></span>
+                            <input type="text" class="form-control input-lg" placeholder="password"
+                                   name="password"
+                                   th:value="${user != null ? user.password : ''}"
+                                   th:attrappend="style=${passwordError != null ? 'border: 1px solid #a94442;' : ''}"></div>
+
+                        <label class="control-label" style="color: #a94442;"
+                               th:if="${errorConfirm != null}" th:text="${errorConfirm}"></label>
+                        <div class="input-group"
+                             th:attrappend="class=${errorConfirm != null ? ' has-error my-has-error' : ''}">
+                    <span class="input-group-addon"><span class="input-icon input-icon-user"></span><span
+                            class="input-text">password*</span></span>
+                            <input type="text" class="form-control input-lg" placeholder="Confirm password"
+                                   name="confirmPassword"
+                                   th:attrappend="style=${errorConfirm != null ? 'border: 1px solid #a94442;' : ''}"></div>
+
+                        <div class="form-group" style="text-align: center">
+                            <input type="submit" value="add user" class="btn btn-custom-2 md-margin">
+                        </div>
+                    </div>
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                </form>
+            </div>
+        </div>
+
+        <div class="category-toolbar clearfix">
+            <th:block th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></th:block>
+        </div>
+        <div class="card-columns">
+            <table class="table cart-table">
+                <thead>
+                <tr>
+                    <th class="table-title">id</th>
+                    <th class="table-title">user name</th>
+                    <th class="table-title">email</th>
+                    <th class="table-title">phone</th>
+                    <th class="table-title">active</th>
+                    <th class="table-title">roles</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${page.content}" th:object="${user}">
+                    <td>
+                        <header class="item-name" style="text-align: center"><a
+                                th:href="'/admins/users/' + *{id}" th:text="*{id}"></a>
+                        </header>
+                        <a th:if="${user.id != 1}" class="close-button" style="margin: auto" th:href="@{/admins/users/delete(id=*{id})}"></a>
+                    </td>
+                    <td class="item-code" style="vertical-align: inherit;"
+                        th:text="*{username}"></td>
+                    <td class="item-code" style="vertical-align: inherit;"
+                        th:text="*{email}"></td>
+                    <td class="item-code" style="vertical-align: inherit;"
+                        th:text="*{phoneNumber}"></td>
+                    <td class="item-code" style="vertical-align: inherit;"
+                        th:text="*{active}"></td>
+                    <td class="item-code" style="vertical-align: inherit;"
+                        th:text="*{roles}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
+    </div>
+    <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer -->
+</div>
 </body>
 </html>

@@ -20,7 +20,6 @@
             <div id="slider-rev">
                 <ul>
                     <th:block th:each="slide, i : ${slides}">
-
                         <th:block th:if="${(i.index+3) % 3 == 0}" th:insert="parts/slide.html :: slide_v1(${slide})"></th:block>
                         <th:block th:if="${(i.index+2) % 3 == 0}" th:insert="parts/slide.html :: slide_v2(${slide})"></th:block>
                         <th:block th:if="${(i.index+1) % 3 == 0}" th:insert="parts/slide.html :: slide_v3(${slide})"></th:block>
