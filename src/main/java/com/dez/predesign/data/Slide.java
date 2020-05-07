@@ -1,31 +1,25 @@
 package com.dez.predesign.data;
 
 import com.dez.predesign.data.catalog.Product;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
 @Data
-public class SliderElement {
-
+public class Slide {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
     @OneToOne(targetEntity = Product.class)
     private Product product;
-
     private String filename;
 
-    private Integer number;
-
-    public SliderElement(Integer id, Product product, Integer number){
-        this.id = id;
+    public Slide(Product product, String filename) {
         this.product = product;
-        this.number = number;
+        this.filename = filename;
     }
 }

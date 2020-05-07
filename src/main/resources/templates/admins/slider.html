@@ -6,31 +6,145 @@
 
 </head>
 <body style="background-color: #eee">
-
 <div id="wrapper" style="min-height: 100vh">
-    <header th:insert="admins/parts/header.html :: header_v(url_active='slider')"></header>
-
-    <div class="container mt-5">
-        <div class="container mt-5">
-
-            <h1 style="background-color: dodgerblue; color: white">Slide 1</h1>
-            <div th:include="admins/parts/sliderComponents :: slider_product(${slider_one},1)"></div>
-            <div th:if="${slider_one != null}"
-                 th:include="admins/parts/sliderComponents :: slider_img(${slider_one},1)"></div>
-            <div class="container mt-5"></div>
-
-            <h1 style="background-color: dodgerblue; color: white">Slide 2</h1>
-            <div th:include="admins/parts/sliderComponents :: slider_product(${slider_two},2)"></div>
-            <div th:if="${slider_two != null}"
-                 th:include="admins/parts/sliderComponents :: slider_img(${slider_two},2)"></div>
-            <div class="container mt-5"></div>
-
-            <h1 style="background-color: dodgerblue; color: white">Slide 3</h1>
-            <div th:include="admins/parts/sliderComponents :: slider_product(${slider_three},3)"></div>
-            <div th:if="${slider_three != null}"
-                 th:include="admins/parts/sliderComponents :: slider_img(${slider_three},3)"></div>
+    <header th:insert="admins/parts/header.html :: header_v(url_active='product')"></header>
+    <div class="container">
+        <div class="row">
+            <div class="col-12"></div>
         </div>
     </div>
+    <section id="content">
+        <div id="breadcrumb-container">
+            <div class="container">
+                <ul class="breadcrumb">
+                    <li><a href="index">Home</a></li>
+                    <li class="active">Slider</li>
+                </ul>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-xs-12 product-viewer clearfix">
+                            <h2 class="sub-title">Slides</h2>
+
+                            <table class="table cart-table">
+                                <thead>
+                                <tr>
+                                    <th class="table-title">delete</th>
+                                    <th class="table-title">view</th>
+                                    <th class="table-title">product</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="slide : ${slides}">
+                                    <td>
+                                        <header class="item-name" style="text-align: center"th:text="${slide.id}">
+                                        </header>
+                                        <form action="/admins/slider/delete" method="post">
+                                            <button class="close-button"  type="submit"></button>
+                                            <input type="hidden" name="id" th:value="${slide.id}"/>
+                                            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                                        </form>
+                                    </td>
+                                    <td class="item-name-col" style="vertical-align: inherit; padding: 15px 15px;">
+                                        <figure style="width: 126px">
+                                            <a data-rel='prettyPhoto[product]'
+                                               th:href="${slide.filename!= null ? '/img/' + slide.filename : '/images/products/compare1.jpg'}"
+                                               th:data-image="${slide.filename!= null ? '/img/' + slide.filename : '/images/products/compare1.jpg'}"
+                                               th:data-zoom-image="${slide.filename!= null ? '/img/' + slide.filename : '/images/products/compare1.jpg'}"
+                                               class="product-gallery-item">
+                                                <img th:src="${slide.filename!= null ? '/img/' + slide.filename : '/images/products/compare1.jpg'}"
+                                                     th:alt="${slide.filename}"></a>
+                                        </figure>
+                                        <ul style="text-align: center">
+                                            <li class="text-muted"
+                                                th:text="${slide.filename != null ? slide.filename : 'none'}"></li>
+                                        </ul>
+                                    </td>
+                                    <td><a th:href="'/admins/product?id=' + ${slide.product.id}" th:text="${slide.product.id}"></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- End .col-md-6 -->
+                        <div class="col-md-6 col-sm-12 col-xs-12 product">
+                            <h2 class="sub-title">Details</h2>
+                            <form method="post" enctype="multipart/form-data" action="/admins/slider/add">
+
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="input-icon input-icon-country"></span><span
+                                            class="input-text">Product id*</span></span>
+                                    <div class="large-selectbox clearfix">
+                                        <select id="select-brand" name="product" class="selectbox" title="brand">
+                                            <th:block th:each="id : ${ids}">
+                                                <option th:value="${id}" th:text="${id}"></option>
+                                            </th:block>
+                                        </select>
+                                    </div><!-- End .large-selectbox-->
+                                </div><!-- End .input-group -->
+
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span
+                                            class="fa fa-file-image-o"></span><span class="input-text">  Slide image*</span></span>
+                                    <input type="text" class="form-control input-lg" placeholder="Choose file" disabled="" style="margin-bottom: -47px">
+                                    <input value="Choose a video please" type="file" name="file"
+                                           class="form-control input-lg" placeholder="Slider image" style="opacity: 0;">
+                                </div>
+
+
+                                <div class="form-group" style="text-align: center">
+                                    <input type="submit" name="add" value="Add slide" class="btn btn-custom-2 md-margin" style=" background-color: #7bae21;  border: green;">
+                                </div>
+                                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                            </form>
+                            <form method="post" enctype="multipart/form-data"  action="/admins/slider/update" th:if="${slides != null && slides.iterator().hasNext()}">
+
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="input-icon input-icon-country"></span><span
+                                            class="input-text">Slider id*</span></span>
+                                    <div class="large-selectbox clearfix">
+                                        <select name="id" class="selectbox" title="slide_id">
+                                            <th:block th:each="slide : ${slides}">
+                                                <option th:value="${slide.id}" th:text="${slide.id}"></option>
+                                            </th:block>
+                                        </select>
+                                    </div><!-- End .large-selectbox-->
+                                </div><!-- End .input-group -->
+
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="input-icon input-icon-country"></span><span
+                                            class="input-text">Product id*</span></span>
+                                    <div class="large-selectbox clearfix">
+                                        <select name="product" class="selectbox" title="brand">
+                                            <th:block th:each="id : ${ids}">
+                                                <option th:value="${id}" th:text="${id}"></option>
+                                            </th:block>
+                                        </select>
+                                    </div><!-- End .large-selectbox-->
+                                </div><!-- End .input-group -->
+
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span
+                                            class="fa fa-file-image-o"></span><span class="input-text">  Slide image*</span></span>
+                                    <input type="text" class="form-control input-lg" placeholder="Choose file" disabled="" style="margin-bottom: -47px">
+                                    <input value="Choose a video please" type="file" name="file"
+                                           class="form-control input-lg" placeholder="Slider image" style="opacity: 0;">
+                                </div>
+
+
+                                <div class="form-group" style="text-align: center">
+                                    <input type="submit" class="btn btn-custom-2 md-margin" style=" background-color: #7bae21;  border: green;">
+                                </div>
+                                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                            </form>
+                        </div><!-- End .col-md-6 -->
+                    </div><!-- End .row -->
+                </div><!-- End .col-md-12 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </section><!-- End #content -->
     <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer --></div>
+
 </body>
 </html>

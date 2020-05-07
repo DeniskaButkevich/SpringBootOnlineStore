@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html class="ie8"> <![endif]-->
+<!--[if IE 9]> <html class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html> <!--<![endif]-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:insert="parts/head.html :: head"></head>
+<body>
+<div id="wrapper">
+    <header th:replace="parts/header.html :: header"></header>
+    <section id="content" class="no-content">
+        <div class="lg-margin"></div><!-- Space -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="no-content-comment">
+                        <h2>405</h2>
+                        <h3>Method Not Supported</h3>
+                    </div><!-- End .no-content-comment -->
+                </div><!-- End .col-md-12 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </section><!-- End #content -->
+    <footer th:insert="parts/footer.html :: footer"></footer><!-- End #footer -->
+</div><!-- End #wrapper -->
+<th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer -->
+</body>
+</html>

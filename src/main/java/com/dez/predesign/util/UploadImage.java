@@ -8,12 +8,12 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.dez.predesign.data.SliderElement;
+import com.dez.predesign.data.Slide;
 import com.dez.predesign.data.catalog.Image;
 import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.repository.ImageRepo;
 import com.dez.predesign.repository.ProductRepo;
-import com.dez.predesign.repository.SliderElementRepo;
+import com.dez.predesign.repository.SlideRepo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -96,13 +96,5 @@ public class UploadImage {
     public static void deleteObjectAmazonS3(String key, String s3_bucket_name, String aws_access_key_id, String aws_secret_access_key) {
         AmazonS3 connection = getConnectiontAmazonS3(aws_access_key_id, aws_secret_access_key);
         connection.deleteObject(s3_bucket_name, key);
-    }
-
-    public static void uploadImageSlider(Integer level_number, SliderElementRepo sliderElementRepo, MultipartFile file, String aws_access_key_id, String aws_secret_access_key, String s3_bucket_name) throws IOException {
-        String resultFilename = putObjectAmazonS3(file, s3_bucket_name, aws_access_key_id, aws_secret_access_key);
-
-        SliderElement sliderElement = sliderElementRepo.findByNumber(level_number);
-        sliderElement.setFilename(resultFilename);
-        sliderElementRepo.save(sliderElement);
     }
 }
