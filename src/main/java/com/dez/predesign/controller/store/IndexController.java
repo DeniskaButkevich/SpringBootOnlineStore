@@ -14,6 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.HashMap;
 
@@ -29,15 +30,16 @@ public class IndexController {
     @Autowired
     SlideRepo slideRepo;
 
+    @ModelAttribute(value = "slides")
+    public Iterable<Slide> getSlides() {return slideRepo.findAll();}
+
     @GetMapping(value = {"/index", "/", ""})
     public String show(Model model, @PageableDefault(size = 6, direction = Sort.Direction.DESC, sort = {"id"}) Pageable pageable) {
 
         HashMap<String, Page<Product>> mapProducts;
         mapProducts = new HashMap<>();
 
-        Page<Product> products = null;
-
-        products = productRepo.findAll(pageable);
+        Page<Product> products = productRepo.findAll(pageable);
         if (products.getContent().size() > 0) {
             mapProducts.put("productsAll", products);
         }
@@ -55,10 +57,6 @@ public class IndexController {
             mapProducts.put(brand.getName(), products);
         }
         model.addAttribute("mapProducts", mapProducts);
-
-        Page<Slide> sliderElements = slideRepo.findAll(pageable);
-
-        model.addAttribute("sliderElements", sliderElements);
 
         return "index";
     }

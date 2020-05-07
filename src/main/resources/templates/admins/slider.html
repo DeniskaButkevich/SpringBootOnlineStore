@@ -63,7 +63,7 @@
                                                 th:text="${slide.filename != null ? slide.filename : 'none'}"></li>
                                         </ul>
                                     </td>
-                                    <td><a th:href="'/admins/product?id=' + ${slide.product.id}" th:text="${slide.product.id}"></a></td>
+                                    <td><a th:href="'/admins/product?filter=' + ${slide.product.id} + '&search_by=Id'" th:text="${slide.product.id}"></a></td>
                                 </tr>
                                 </tbody>
                             </table>

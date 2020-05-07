@@ -19,129 +19,15 @@
         <div id="slider-rev-container">
             <div id="slider-rev">
                 <ul>
-                    <th:block th:if="${sliderElements != null}">
-                        <th:block th:if="${sliderElements.getContent().size() > 0}">
-                            <li th:object="${sliderElements.getContent().get(0)}"
-                                data-transition="fade" data-slotamount="6" data-masterspeed="600" data-saveperformance="on"
-                                data-title="Special Offers">
-                                <img th:src="'/img/' + *{filename}" alt="slidebg1" th:data-lazyload="'/img/' + *{filename}"
-                                     data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
-                                <div class="tp-caption rev-title lfr ltr" data-x="695" data-y="198" data-speed="1600"
-                                     data-start="300" data-endspeed="300">[[*{product.name}]]
-                                </div>
-                                <div class="tp-caption rev-text lfr ltr" data-x="695" data-y="252" data-speed="1600"
-                                     data-start="600" data-endspeed="550">Performance &amp; Design. Taken right <br> to the
-                                    edge.
-                                </div>
+                    <th:block th:each="slide, i : ${slides}">
 
-                                <div class="tp-caption lfr ltr" data-x="695" data-y="332" data-speed="1600" data-start="900"
-                                     data-endspeed="800">
-                                    <a th:href="*{'/product/' + product.id}" class="btn btn-custom-2">Learn More</a>
-                                </div>
-                                <div class="tp-caption lfl ltl" data-x="center" data-y="bottom" data-hoffset="-230"
-                                     data-speed="2000" data-start="500" data-endspeed="800">
-                                    <img th:src="'/img/' + *{product.filename}" alt="Slide 1_1">
-                                </div>
-                            </li>
-                        </th:block>
-                    </th:block>
-                    <th:block th:if="${sliderElements != null}">
-                        <th:block th:if="${sliderElements.getContent().size() > 1}">
-                            <li th:object="${sliderElements.getContent().get(1)}"
-                                data-transition="fade" data-slotamount="5" data-masterspeed="600" data-saveperformance="on"
-                                data-title="Learn More">
-                                <img th:src="'/img/' + *{filename}" alt="slidebg2" th:data-lazyload="'/img/' + *{filename}"
-                                     data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
-                                <div class="tp-caption rev-title lfr ltr" data-x="755" data-y="238" data-speed="1600"
-                                     data-start="750" data-endspeed="300">[[*{product.name}]]
-                                </div>
-                                <div class="tp-caption rev-text2 lfr ltr" data-x="755" data-y="290" data-speed="1600"
-                                     data-start="1050" data-endspeed="550">Take, view and share photos with <br> the 13MP
-                                    camera
-                                    and stunning 5" display.
-                                </div>
-
-                                <div class="tp-caption lfr ltr" data-x="755" data-y="360" data-speed="1600"
-                                     data-start="1350"
-                                     data-endspeed="800">
-                                    <a th:href="*{'/product/' + product.id}" class="btn btn-custom-2">Learn More</a>
-                                </div>
-
-                                <div class="tp-caption rev-price randomrotate randomrotateout" data-x="360" data-y="55"
-                                     data-speed="1200" data-start="2000" data-endspeed="400">
-                                    [[*{product.price}]]
-                                </div>
-
-                                <div class="tp-caption lfl ltl" data-x="center" data-y="center" data-hoffset="-204"
-                                     data-speed="1750" data-start="400" data-endspeed="800">
-                                    <img th:src="*{'/img/' + product.hoverFilename}" alt="Slide 2_2">
-                                </div>
-
-                                <div class="tp-caption lfr ltr" data-x="380" data-y="50" data-speed="1800" data-start="250"
-                                     data-endspeed="800">
-                                    <img th:src="*{'/img/' + product.filename}">
-                                </div>
-
-                            </li>
-                        </th:block>
-                    </th:block>
-                    <th:block th:if="${sliderElements != null}">
-                        <th:block th:if="${sliderElements.getContent().size() > 2}">
-                            <li th:object="${sliderElements.getContent().get(2)}"
-                                data-transition="fade" data-slotamount="4" data-masterspeed="600" data-saveperformance="on"
-                                data-title="More Features">
-                                <img th:src="'/img/' + *{filename}" alt="slidebg3" th:data-lazyload="'/img/' + *{filename}"
-                                     data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
-
-                                <div class="tp-caption sfr str" data-x="24" data-y="bottom" data-speed="900"
-                                     data-start="500"
-                                     data-endspeed="300">
-                                    <img th:src="*{'/img/' + product.filename}" alt="Slide 3_1">
-                                </div>
-
-                                <div class="tp-caption sfl stl" data-x="788" data-y="95" data-speed="1000" data-start="1200"
-                                     data-endspeed="540">
-                                    <img th:if="*{product.imageList.size() > 0}"
-                                         th:src="*{'/img/' + product.imageList.get(0).name}"
-                                         alt="Slide 3_3">
-                                </div>
-
-                                <div class="tp-caption sfl stl" data-x="700" data-y="260" data-speed="800" data-start="800"
-                                     data-endspeed="420">
-                                    <img th:if="*{product.imageList.size() > 1}"
-                                         th:src="*{'/img/' + product?.getImageList().get(1).name}"
-                                         alt="Slide 3_2">
-                                </div>
-
-                                <div class="tp-caption sfl stl" data-x="613" data-y="325" data-speed="600" data-start="400"
-                                     data-endspeed="300">
-                                    <img th:if="*{product.imageList.size() > 2}"
-                                         th:src="*{'/img/' + product?.getImageList().get(2).name}"
-                                         alt="Slide 3_4">
-                                </div>
-
-                                <div class="tp-caption rev-title sfr str" data-x="20" data-y="56" data-speed="600"
-                                     data-start="1400" data-endspeed="200">[[*{product.name}]]
-                                </div>
-                                <div class="tp-caption rev-text long sfr str" data-x="20" data-y="110" data-speed="600"
-                                     data-start="1650" data-endspeed="300">Smart Interaction lets you interact <br> with
-                                    your TV
-                                    as never before.
-                                </div>
-
-                                <div class="tp-caption sfr str" data-x="20" data-y="190" data-speed="600" data-start="1900"
-                                     data-endspeed="400">
-                                    <a th:href="*{'/product/' + product.id}" class="btn btn-custom-2">Learn More</a>
-                                </div>
-
-                            </li>
-                        </th:block>
+                        <th:block th:if="${(i.index+3) % 3 == 0}" th:insert="parts/slide.html :: slide_v1(${slide})"></th:block>
+                        <th:block th:if="${(i.index+2) % 3 == 0}" th:insert="parts/slide.html :: slide_v2(${slide})"></th:block>
+                        <th:block th:if="${(i.index+1) % 3 == 0}" th:insert="parts/slide.html :: slide_v3(${slide})"></th:block>
                     </th:block>
                 </ul>
             </div><!-- End #slider-rev -->
         </div><!-- End #slider-rev-container -->
-
-
         <div class="md-margin2x"></div><!-- Space -->
         <div class="container">
             <div class="row">
