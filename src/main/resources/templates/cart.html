@@ -59,8 +59,12 @@
                                                         th:href="'/product/' + *{id}">[[*{name}]]</a>
                                                 </header>
                                                 <ul>
-                                                    <li>Color: </li>
-                                                    <li>Size: SM</li>
+                                                    <li style="margin-bottom: 14px;">Color: <label th:if="${colors != null}" th:class="label-color">
+                                                        <span 
+                                                            th:attr="style='background-color: rgb( ' + ${colors.get(product.id) + '); margin-top: 16px;'}"></span>
+                                                    </label>
+                                                    </li>
+                                                    <li th:text="${sizes != null  ? 'Size: ' + sizes.get(product.id) : ''}"></li>
                                                 </ul>
                                             </td>
                                             <td class="item-code">[[*{id}]]</td>

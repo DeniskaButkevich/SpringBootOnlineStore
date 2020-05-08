@@ -32,7 +32,7 @@
                                 pharetra.</p>
                         </header>
                         <div class="xs-margin"></div><!-- space -->
-                        <form action="/orderSuccessful" id="checkout-form" method="post" th:object="${user}">
+                        <form action="/orderSuccessful" id="checkout-form" method="post" >
                             <div class="panel-group custom-accordion" id="checkout">
 
                                 <div class="panel">
@@ -55,7 +55,7 @@
                                                                 class="input-text">First Name&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
                                                                placeholder="Your First Name" th:name="firstName"
-                                                               th:field="*{firstName}">
+                                                               th:text="${user?.firstName}">
                                                     </div><!-- End .input-group -->
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span
@@ -63,7 +63,7 @@
                                                                 class="input-text">Last Name&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
                                                                placeholder="Your Last Name" th:name="lastName"
-                                                               th:field="*{lastName}">
+                                                               th:text="${user?.lastName}">
                                                     </div><!-- End .input-group -->
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span
@@ -71,10 +71,10 @@
                                                                 class="input-text">Email&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
                                                                placeholder="Your Email" th:name="email"
-                                                               th:field="*{email}"
+                                                               th:text="${user?.email}"
                                                                th:attrappend="class=${emailError != null} ? ' is-invalid' + ''">
                                                         <span class="validationError text-danger"
-                                                              th:if="${emailError != null}" th:errors="*{email}"></span>
+                                                              th:if="${emailError != null}" th:errors="${user?.email}"></span>
                                                     </div><!-- End .input-group -->
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span
@@ -84,18 +84,10 @@
                                                                placeholder="Your Telephone"
                                                                th:attrappend="class=${phoneNumberError != null} ? ' is-invalid' + ''"
                                                                th:name="phoneNumber"
-                                                               th:field="*{phoneNumber}">
+                                                               th:value="${user?.phoneNumber}">
                                                         <span class="validationError text-danger"
-                                                              th:if="${#fields.hasErrors('phoneNumber')}"
-                                                              th:errors="*{phoneNumber}"></span>
-                                                    </div><!-- End .input-group -->
-
-                                                    <div class="input-group custom-checkbox sm-margin">
-                                                        <input type="checkbox"> <span class="checbox-container">
-											 	<i class="fa fa-check"></i>
-											 </span>
-                                                        I wish to subscribe to the Venedor newsletter.
-
+                                                              th:if="${phoneNumberError != null}"
+                                                              th:errors="${user?.phoneNumber}"></span>
                                                     </div><!-- End .input-group -->
 
 
@@ -111,7 +103,7 @@
                                                         <input type="text" class="form-control input-lg"
                                                                placeholder="Your Address"
                                                                th:name="address"
-                                                               th:field="*{address}"
+                                                               th:text="${user?.address}"
                                                                th:attrappend="class=${addressError != null} ? ' is-invalid' + ''">
                                                         <span class="validationError text-danger"
                                                               th:if="${addressError != null}"
@@ -124,7 +116,7 @@
                                                                 class="input-text">Post Code&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
                                                                placeholder="Your Post Code" th:name="postCode"
-                                                               th:field="*{postCode}"
+                                                               th:text="${user?.postCode}"
                                                                th:attrappend="class=${postCodeError != null} ? ' is-invalid' + ''">
                                                         <span th:if="${postCodeError != null}"
                                                               class="validationError text-danger"
@@ -238,6 +230,7 @@
 
                                                     <tbody>
                                                     <th:block th:each="product : ${products}">
+
                                                         <tr th:object="${product.getKey()}"
                                                             th:id="'tr_product_id_' + ${product.getKey().id}">
                                                             <td class="item-name-col">
@@ -249,8 +242,12 @@
                                                                         th:href="'/product/' + *{id}" th:text="*{name}"></a>
                                                                 </header>
                                                                 <ul>
-                                                                    <li>Color: \</li>
-                                                                    <li>Size: SM</li>
+                                                                    <li style="margin-bottom: 14px;">Color: <label th:if="${colors != null}" th:class="label-color">
+                                                        <span
+                                                                th:attr="style='background-color: rgb( ' + ${colors.get(product.getKey().id) + '); margin-top: 16px;'}"></span>
+                                                                    </label>
+                                                                    </li>
+                                                                    <li th:text="${sizes != null  ? 'Size: ' + sizes.get(product.getKey().id) : ''}"></li>
                                                                 </ul>
                                                             </td>
                                                             <td class="item-code">[[*{id}]]</td>

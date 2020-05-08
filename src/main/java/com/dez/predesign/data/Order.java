@@ -1,13 +1,11 @@
 package com.dez.predesign.data;
 
+import com.dez.predesign.data.catalog.Params;
 import com.dez.predesign.data.catalog.Product;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
@@ -34,6 +32,9 @@ public class Order {
     private Map<Product,CountAndPrice> count_price;
 
     private Double total_price;
+
+    @OneToMany
+    private List<Params> params;
 
     @PrePersist
     void placedAt() {

@@ -9,6 +9,7 @@ $('document').ready(function () {
     checkCompare();
     checkWishlist();
     checkSizes();
+    checkColors();
     if (window.location.pathname == '/cart') {
         totalPrice();
     }
@@ -417,8 +418,9 @@ function selectorSize(size,id) {
 }
 
 function selectorColor(rgb,id) {
-
-    colors[id] = rgb;
+    var cookie_elem = rgb.split(', ');
+    var str = cookie_elem[0] + '_' + cookie_elem[1] + '_' + cookie_elem[2];
+    colors[id] = str;
     saveColors()
 }
 
@@ -449,6 +451,18 @@ function checkSizes() {
         for (var i = 0; i < cookie_elem.length; i++) {
             var sizes_item = cookie_elem[i].split('-');
             sizes[sizes_item[0]]= sizes_item[1];
+        }
+    }
+}
+
+function checkColors() {
+    if (document.cookie.includes('сolors=')) {
+
+        var cookie_elem = getCookie('сolors').split('|');
+
+        for (var i = 0; i < cookie_elem.length; i++) {
+            var сolors_item = cookie_elem[i].split('-');
+            sizes[сolors_item[0]]= сolors_item[1];
         }
     }
 }
