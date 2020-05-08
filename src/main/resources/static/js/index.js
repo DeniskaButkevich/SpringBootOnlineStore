@@ -1,11 +1,14 @@
 var cart = {};
 var compare = new Array();
 var wishlist = new Array();
+var colors = new Array();
+var sizes = new Array();
 
 $('document').ready(function () {
     checkCart();
     checkCompare();
     checkWishlist();
+    checkSizes();
     if (window.location.pathname == '/cart') {
         totalPrice();
     }
@@ -189,11 +192,9 @@ function checkEmptyCompare(){
 
 function counterChange(id, flag) {
 
-    var att_price = document.getElementById('price-' + id);
     var att_count = document.getElementById('count-' + id);
 
     var count = att_count.getAttribute("value");
-    var price = att_price.getAttribute("value");
 
     if (flag < 0) {
         if (count == 1)
@@ -209,8 +210,12 @@ function counterChange(id, flag) {
     document.getElementById('count-' + id)
         .setAttribute("value", count);
 
-    att_price.innerText = price * count;
-    totalPrice()
+    var att_price = document.getElementById('price-' + id);
+    if(att_price != null){
+        var price = att_price.getAttribute("value");
+        att_price.innerText = price * count;
+        totalPrice()
+    }
 }
 
 ////////////////////////////////////////////////
@@ -403,4 +408,47 @@ function getCookie(cname) {
 
 function clearPriceFilter() {
     
+}
+
+function selectorSize(size,id) {
+
+    sizes[id] = size;
+    saveSizes()
+}
+
+function selectorColor(rgb,id) {
+
+    colors[id] = rgb;
+    saveColors()
+}
+
+function saveSizes() {
+    var str = "sizes=";
+    for (var key in sizes) {
+        str += key + '-' + sizes[key] + '|';
+    }
+    str = str.slice(0, -1);
+    str += ';path=/';
+    document.cookie = str;
+}
+function saveColors() {
+    var str = "colors=";
+    for (var key in colors) {
+        str += key + '-' + colors[key] + '|';
+    }
+    str = str.slice(0, -1);
+    str += ';path=/';
+    document.cookie = str;
+}
+
+function checkSizes() {
+    if (document.cookie.includes('sizes=')) {
+
+        var cookie_elem = getCookie('sizes').split('|');
+
+        for (var i = 0; i < cookie_elem.length; i++) {
+            var sizes_item = cookie_elem[i].split('-');
+            sizes[sizes_item[0]]= sizes_item[1];
+        }
+    }
 }

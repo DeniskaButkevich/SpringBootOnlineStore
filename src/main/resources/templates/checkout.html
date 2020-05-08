@@ -246,10 +246,10 @@
                                                                     <a th:unless="*{filename != null}"  href="#"><img src="/images/products/compare1.jpg" th:alt="*{name}"></a>
                                                                 </figure>
                                                                 <header class="item-name"><a
-                                                                        th:href="'/product/' + *{id}">[[*{name}]]</a>
+                                                                        th:href="'/product/' + *{id}" th:text="*{name}"></a>
                                                                 </header>
                                                                 <ul>
-                                                                    <li>Color: [[*{color.rgb}]]</li>
+                                                                    <li>Color: \</li>
                                                                     <li>Size: SM</li>
                                                                 </ul>
                                                             </td>

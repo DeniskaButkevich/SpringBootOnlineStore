@@ -109,7 +109,8 @@
                                         <th:block th:each="color : ${product.color.iterator()}">
                                             <input type="radio" name="color" th:id="${color.getRgb()}"
                                                    th:value="${color.getRgb()}"/>
-                                            <label th:class="label-color" th:for="${color.getRgb()}">
+                                            <label th:class="label-color" th:for="${color.getRgb()}"
+                                                   th:onclick="selectorColor([[${color.rgb}]], [[${product.id}]]);">
                                                 <span th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}"></span>
                                             </label>
                                         </th:block>
@@ -125,21 +126,30 @@
                                 <div class="xs-margin"></div>
 
                                 <ul class="filter-size-list clearfix">
-                                    <th:block th:each="size : ${product.sizes.iterator()}">
-                                        <li><a href="#" th:text="${size.size}"></a></li>
+                                    <th:block th:each="size : ${product.sizes.iterator()}" th:object="${size}">
+                                        <input type="radio" name="size" th:id="${size.size}"
+                                               th:value="${size.size}"/>
+                                        <label class="li-size" th:for="${size.size}">
+                                            <li
+                                                th:onclick="selectorSize([[${size.size}]], [[${product.id}]]);">
+                                                <a th:text="${size.size}"></a>
+                                            </li>
+                                        </label>
+
                                     </th:block>
                                 </ul>
                             </div><!-- End .product-size-filter-container-->
                             <hr>
                             <div class="product-add clearfix">
                                 <div class="custom-quantity-input">
-                                    <input type="text" name="quantity" value="1">
-                                    <a href="#" onclick="return false;" class="quantity-btn quantity-input-up"><i
+                                    <input disabled type="text" name="quantity" th:id="'count-' + ${product.id}" value="1">
+                                    <a th:onclick="'counterChange(' + ${product.id} + ', 1);'"
+                                       class="quantity-btn quantity-input-up"><i
                                             class="fa fa-angle-up"></i></a>
-                                    <a href="#" onclick="return false;" class="quantity-btn quantity-input-down"><i
+                                    <a th:onclick="'counterChange(' + ${product.id} + ', -1);'"
+                                       class="quantity-btn quantity-input-down"><i
                                             class="fa fa-angle-down"></i></a>
                                 </div>
-                                <!--                                <button class="btn btn-custom-2">ADD TO CART</button>-->
                                 <th:block th:if="${authorizedUserId < 0}">
                                     <button data-toggle="modal" data-target="#exampleModal" class="btn btn-custom-2">
                                         <span class="icon-cart-text">Add to Cart</span>
@@ -157,8 +167,12 @@
                             <div class="product-extra clearfix">
                                 <div class="product-extra-box-container clearfix">
                                     <div class="item-action-inner">
-                                        <a href="#" class="icon-button icon-like">Favourite</a>
-                                        <a href="#" class="icon-button icon-compare">Checkout</a>
+                                        <a class="icon-button icon-like"
+                                           th:id="'like-' + ${product.id}"
+                                           th:onclick="'addToWishlist(' +${product.id} +')'">Favourite</a>
+                                        <a class="icon-button icon-compare"
+                                           th:id="'compare-' + ${product.id}"
+                                           th:onclick="'addToCompare(' +${product.id} +')'">Checkout</a>
                                     </div><!-- End .item-action-inner -->
                                 </div>
                                 <div class="md-margin visible-xs"></div>

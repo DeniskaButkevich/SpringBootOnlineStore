@@ -46,23 +46,6 @@ public class UserService implements UserDetailsService {
                 "User '" + username + "' not found");
     }
 
-    public boolean save(String id, Map<String, String> form, User user, Model model, Errors errors) {
-
-//        Set<String> roles = Arrays.stream(Role.values())
-//                .map(Role::name)
-//                .collect(Collectors.toSet());
-//
-//        usr.getRoles().clear();
-//
-//        for (String key : form.keySet())
-//            if (roles.contains(key))
-//                usr.getRoles().add(Role.valueOf(key));
-//
-//        userRepo.save(usr);
-
-        return true;
-    }
-
     public boolean passwordChange(String id, String password, String confirmPassword, Model model) {
         if (password == null || password.isEmpty()){
             model.addAttribute("passwordEmpty", "Password is not the same");
