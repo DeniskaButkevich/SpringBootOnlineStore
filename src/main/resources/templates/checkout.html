@@ -32,7 +32,7 @@
                                 pharetra.</p>
                         </header>
                         <div class="xs-margin"></div><!-- space -->
-                        <form action="/orderSuccessful" id="checkout-form" method="post" >
+                        <form action="/orderSuccessful" id="checkout-form" method="post">
                             <div class="panel-group custom-accordion" id="checkout">
 
                                 <div class="panel">
@@ -52,82 +52,81 @@
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span
                                                                 class="input-icon input-icon-user"></span><span
-                                                                class="input-text">First Name&#42;</span></span>
+                                                                class="input-text">First Name</span></span>
                                                         <input type="text" class="form-control input-lg"
-                                                               placeholder="Your First Name" th:name="firstName"
-                                                               th:text="${user?.firstName}">
+                                                               placeholder="Your First Name"
+                                                               th:name="firstName" th:text="${user?.firstName}">
                                                     </div><!-- End .input-group -->
+
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span
                                                                 class="input-icon input-icon-user"></span><span
-                                                                class="input-text">Last Name&#42;</span></span>
+                                                                class="input-text">Last Name</span></span>
                                                         <input type="text" class="form-control input-lg"
-                                                               placeholder="Your Last Name" th:name="lastName"
-                                                               th:text="${user?.lastName}">
+                                                               placeholder="Your Last Name"
+                                                               th:name="lastName" th:text="${user?.lastName}">
                                                     </div><!-- End .input-group -->
-                                                    <div class="input-group">
+
+                                                    <label class="control-label" style="color: #a94442;"
+                                                           th:if="${emailError != null}"
+                                                           th:text="${emailError}"></label>
+                                                    <div class="input-group"
+                                                         th:attrappend="class=${emailError != null ? ' has-error my-has-error' : ''}">
                                                         <span class="input-group-addon"><span
-                                                                class="input-icon input-icon-email"></span><span
+                                                                class="input-icon input-icon-user"></span><span
                                                                 class="input-text">Email&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
-                                                               placeholder="Your Email" th:name="email"
-                                                               th:text="${user?.email}"
-                                                               th:attrappend="class=${emailError != null} ? ' is-invalid' + ''">
-                                                        <span class="validationError text-danger"
-                                                              th:if="${emailError != null}" th:errors="${user?.email}"></span>
-                                                    </div><!-- End .input-group -->
-                                                    <div class="input-group">
+                                                               placeholder="Your Email" name="email"
+                                                               th:value="${user?.email}"
+                                                               th:attrappend="style=${emailError != null ? 'border: 1px solid #a94442;' : ''}">
+                                                    </div>
+
+                                                    <label class="control-label" style="color: #a94442;"
+                                                           th:if="${phoneNumberError != null}"
+                                                           th:text="${phoneNumberError}"></label>
+                                                    <div class="input-group"
+                                                         th:attrappend="class=${phoneNumberError != null ? ' has-error my-has-error' : ''}">
                                                         <span class="input-group-addon"><span
-                                                                class="input-icon input-icon-phone"></span><span
+                                                                class="input-icon input-icon-user"></span><span
                                                                 class="input-text">Telephone&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
-                                                               placeholder="Your Telephone"
-                                                               th:attrappend="class=${phoneNumberError != null} ? ' is-invalid' + ''"
-                                                               th:name="phoneNumber"
-                                                               th:value="${user?.phoneNumber}">
-                                                        <span class="validationError text-danger"
-                                                              th:if="${phoneNumberError != null}"
-                                                              th:errors="${user?.phoneNumber}"></span>
-                                                    </div><!-- End .input-group -->
-
-
+                                                               placeholder="Your Telephone" name="phoneNumber"
+                                                               th:value="${user?.phoneNumber}"
+                                                               th:attrappend="style=${phoneNumberError != null ? 'border: 1px solid #a94442;' : ''}">
+                                                    </div>
                                                 </div><!-- End .col-md-6 -->
 
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
+
                                                     <h2 class="checkout-title">Your Address</h2>
 
-                                                    <div class="input-group">
+                                                    <label class="control-label" style="color: #a94442;"
+                                                           th:if="${addressError != null}"
+                                                           th:text="${addressError}"></label>
+                                                    <div class="input-group"
+                                                         th:attrappend="class=${addressError != null ? ' has-error my-has-error' : ''}">
                                                         <span class="input-group-addon"><span
-                                                                class="input-icon input-icon-address"></span><span
-                                                                class="input-text">Address 1&#42;</span></span>
+                                                                class="input-icon input-icon-user"></span><span
+                                                                class="input-text">Address&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
-                                                               placeholder="Your Address"
-                                                               th:name="address"
-                                                               th:text="${user?.address}"
-                                                               th:attrappend="class=${addressError != null} ? ' is-invalid' + ''">
-                                                        <span class="validationError text-danger"
-                                                              th:if="${addressError != null}"
-                                                              th:text="${addressError}"></span>
-                                                    </div><!-- End .input-group -->
+                                                               placeholder="Your Address" name="address"
+                                                               th:value="${user?.address}"
+                                                               th:attrappend="style=${addressError != null ? 'border: 1px solid #a94442;' : ''}">
+                                                    </div>
 
-                                                    <div class="input-group">
+                                                    <label class="control-label" style="color: #a94442;"
+                                                           th:if="${postCodeError != null}"
+                                                           th:text="${postCodeError}"></label>
+                                                    <div class="input-group"
+                                                         th:attrappend="class=${postCodeError != null ? ' has-error my-has-error' : ''}">
                                                         <span class="input-group-addon"><span
-                                                                class="input-icon input-icon-postcode"></span><span
+                                                                class="input-icon input-icon-user"></span><span
                                                                 class="input-text">Post Code&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
-                                                               placeholder="Your Post Code" th:name="postCode"
-                                                               th:text="${user?.postCode}"
-                                                               th:attrappend="class=${postCodeError != null} ? ' is-invalid' + ''">
-                                                        <span th:if="${postCodeError != null}"
-                                                              class="validationError text-danger"
-                                                              th:text="${postCodeError}"></span>
-                                                    </div><!-- End .input-group -->
-
-                                                    <div class="input-group custom-checkbox md-margin">
-                                                        <input type="checkbox"><span class="checbox-container">
-                                                        <i class="fa fa-check"></i></span>I have reed and agree to the
-                                                        <a href="#">Privacy Policy</a>.
-                                                    </div><!-- End .input-group -->
+                                                               placeholder="Your Post Code" name="postCode"
+                                                               th:value="${user?.postCode}"
+                                                               th:attrappend="style=${postCodeError != null ? 'border: 1px solid #a94442;' : ''}">
+                                                    </div>
                                                     <a class="btn btn-custom-2"
                                                        onclick="collapsePanel('billing_id','payment-method_id')">CONTINUE</a>
                                                 </div><!-- End .col-md-6 -->
@@ -150,46 +149,48 @@
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
 
                                                     <h2 class="checkout-title">Your credit card data</h2>
-                                                    <div class="input-group">
+
+                                                    <label class="control-label" style="color: #a94442;"
+                                                           th:if="${ccNumberError != null}"
+                                                           th:text="${ccNumberError}"></label>
+                                                    <div class="input-group"
+                                                         th:attrappend="class=${ccNumberError != null ? ' has-error my-has-error' : ''}">
                                                         <span class="input-group-addon"><span
                                                                 class="input-icon input-icon-user"></span><span
                                                                 class="input-text">Number&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
-                                                               placeholder="Your credit card number"
-                                                               th:attrappend="class=${ccNumberError != null} ? ' is-invalid' + ''"
-                                                               th:name="ccNumber"
-                                                               th:text="${payment != null} ? ${payment.ccNumber} : ''">
-                                                        <span class="validationError text-danger"
-                                                              th:if="${ccNumberError != null}"
-                                                              th:value="${ccNumberError}"></span>
-                                                    </div><!-- End .input-group -->
-                                                    <div class="input-group">
+                                                               placeholder="Your credit card numbe" name="ccNumber"
+                                                               th:value="${payment?.ccNumber}"
+                                                               th:attrappend="style=${ccNumberError != null ? 'border: 1px solid #a94442;' : ''}">
+                                                    </div>
+
+                                                    <label class="control-label" style="color: #a94442;"
+                                                           th:if="${ccExpirationError != null}"
+                                                           th:text="${ccExpirationError}"></label>
+                                                    <div class="input-group"
+                                                         th:attrappend="class=${ccExpirationError != null ? ' has-error my-has-error' : ''}">
                                                         <span class="input-group-addon"><span
                                                                 class="input-icon input-icon-user"></span><span
                                                                 class="input-text">Expiration&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
-                                                               placeholder="Your credit card expiration"
-                                                               th:attrappend="class=${ccExpirationError != null} ? ' is-invalid' + ''"
-                                                               th:name="ccExpiration"
-                                                               th:value="${payment != null} ? ${payment.ccExpiration} : ''">
-                                                        <span class="validationError text-danger"
-                                                              th:if="${ccExpirationError  != null}"
-                                                              th:text="${ccExpirationError}"></span>
-                                                    </div><!-- End .input-group -->
-                                                    <div class="input-group">
+                                                               placeholder="Your credit card expiration" name="ccExpiration"
+                                                               th:value="${payment?.ccExpiration}"
+                                                               th:attrappend="style=${ccExpirationError != null ? 'border: 1px solid #a94442;' : ''}">
+                                                    </div>
+
+                                                    <label class="control-label" style="color: #a94442;"
+                                                           th:if="${ccCVVError != null}"
+                                                           th:text="${ccCVVError}"></label>
+                                                    <div class="input-group"
+                                                         th:attrappend="class=${ccCVVError != null ? ' has-error my-has-error' : ''}">
                                                         <span class="input-group-addon"><span
                                                                 class="input-icon input-icon-user"></span><span
                                                                 class="input-text">CVV&#42;</span></span>
                                                         <input type="text" class="form-control input-lg"
-                                                               placeholder="Your credit card CVV"
-                                                               th:attrappend="class=${ccCVVError != null} ? ' is-invalid' + ''"
-                                                               th:name="ccCVV"
-                                                               th:value="${payment != null} ? ${payment.ccCVV} : ''">
-                                                        <span class="validationError text-danger"
-                                                              th:if="${ccCVVError != null}"
-                                                              th:text="${ccCVVError}"></span>
-                                                    </div><!-- End .input-group -->
-
+                                                               placeholder="Your credit card CVV" name="ccCVV"
+                                                               th:value="${payment?.ccCVV}"
+                                                               th:attrappend="style=${ccCVVError != null ? 'border: 1px solid #a94442;' : ''}">
+                                                    </div>
 
                                                 </div><!-- End .col-md-6 -->
 
@@ -235,14 +236,22 @@
                                                             th:id="'tr_product_id_' + ${product.getKey().id}">
                                                             <td class="item-name-col">
                                                                 <figure>
-                                                                    <a th:if="*{filename != null}" th:href="'/product/' + *{id}"><img th:src="*{'/img/' + filename}" th:alt="*{name}"></a>
-                                                                    <a th:unless="*{filename != null}"  href="#"><img src="/images/products/compare1.jpg" th:alt="*{name}"></a>
+                                                                    <a th:if="*{filename != null}"
+                                                                       th:href="'/product/' + *{id}"><img
+                                                                            th:src="*{'/img/' + filename}"
+                                                                            th:alt="*{name}"></a>
+                                                                    <a th:unless="*{filename != null}" href="#"><img
+                                                                            src="/images/products/compare1.jpg"
+                                                                            th:alt="*{name}"></a>
                                                                 </figure>
                                                                 <header class="item-name"><a
-                                                                        th:href="'/product/' + *{id}" th:text="*{name}"></a>
+                                                                        th:href="'/product/' + *{id}"
+                                                                        th:text="*{name}"></a>
                                                                 </header>
                                                                 <ul>
-                                                                    <li style="margin-bottom: 14px;">Color: <label th:if="${colors != null}" th:class="label-color">
+                                                                    <li style="margin-bottom: 14px;">Color: <label
+                                                                            th:if="${colors != null}"
+                                                                            th:class="label-color">
                                                         <span
                                                                 th:attr="style='background-color: rgb( ' + ${colors.get(product.getKey().id) + '); margin-top: 16px;'}"></span>
                                                                     </label>

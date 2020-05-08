@@ -7,10 +7,7 @@ import com.dez.predesign.data.catalog.Color;
 import com.dez.predesign.data.catalog.Params;
 import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.data.catalog.Size;
-import com.dez.predesign.repository.ColorRepo;
-import com.dez.predesign.repository.OrderRepo;
-import com.dez.predesign.repository.SizeRepo;
-import com.dez.predesign.repository.UserRepo;
+import com.dez.predesign.repository.*;
 import com.dez.predesign.service.OrderService;
 import com.dez.predesign.util.ControllerUtils;
 import com.dez.predesign.util.OrderUtil;
@@ -50,6 +47,12 @@ public class OrderController {
 
     @Autowired
     ColorRepo colorRepo;
+
+    @Autowired
+    ProductRepo productRepo;
+
+    @Autowired
+    ParamsRepo paramsRepo;
 
     @GetMapping("/checkout")
     public String checkout(@AuthenticationPrincipal User user,
@@ -125,12 +128,14 @@ public class OrderController {
 
         for(Product prod :products){
             Long id = prod.getId();
-
             Size size = sizeRepo.findBySize(map_sizes.get(id));
             Color color = colorRepo.findByRgb(map_colors.get(id));
-            params.add(new Params(id,size,color));
-        }
+            Product product = productRepo.findById(id).get();
 
+            Params param = new Params(product,size,color);
+            paramsRepo.save(param);
+            params.add(param);
+        }
         order.setParams(params);
 
         orderRepo.save(order);
