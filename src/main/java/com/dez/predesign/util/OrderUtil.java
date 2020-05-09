@@ -3,6 +3,8 @@ package com.dez.predesign.util;
 import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.repository.ProductRepo;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,5 +50,13 @@ public class OrderUtil {
            products = productRepo.findAllProductsByIds(ids);
         }
         return products;
+    }
+
+    public static void cleanCookie(String name, HttpServletResponse response) {
+        Cookie cookie = new Cookie(name, null); // Not necessary, but saves bandwidth.
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(0); // Don't set to -1 or it will become a session cookie!
+        response.addCookie(cookie);
     }
 }
