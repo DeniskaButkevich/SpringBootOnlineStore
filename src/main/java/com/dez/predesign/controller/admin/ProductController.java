@@ -57,7 +57,7 @@ public class ProductController {
                               Model model) {
         Page<Product> page;
         if(filter != null && !filter.isEmpty() && search_by != null){
-            page = pageService.findByFilter(search_by, filter, pageable);
+            page = pageService.findByFilterProducts(search_by, filter, pageable);
         } else {
             page = productRepo.findAll(pageable);
         }

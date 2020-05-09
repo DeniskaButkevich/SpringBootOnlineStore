@@ -71,8 +71,8 @@
                              class="item-image">
                         <img th:if="${product.hoverFilename != null}" th:src="'img/' + ${product.hoverFilename}"
                              alt="item1  Hover" class="item-image-hover">
-                    <img th:unless="${product.hoverFilename != null}" src="/images/products/item2-hover.jpg"
-                         alt="item1  Hover" class="item-image-hover">
+                        <img th:unless="${product.hoverFilename != null}" src="/images/products/item2-hover.jpg"
+                             alt="item1  Hover" class="item-image-hover">
                     </a>
                 </figure>
                 <div class="item-price-container">
@@ -98,18 +98,10 @@
                 <h3 class="item-name"><a th:href="'/product/' + ${product.id}">[[${product.name}]]</a>
                 </h3>
                 <div class="item-action">
-                    <!--                    <a href="#" class="item-add-btn"><span class="icon-cart-text">Add to Cart</span></a>-->
-                    <th:block th:if="${authorizedUserId < 0}">
-                        <a data-toggle="modal" data-target="#exampleModal" class="item-add-btn">
-                            <span class="icon-cart-text">Add to Cart</span>
-                        </a>
-                    </th:block>
 
-                    <th:block th:unless="${authorizedUserId < 0}">
-                        <a th:onclick="'addToCart(' +${product.id} +')'" class="item-add-btn">
-                            <span class="icon-cart-text" th:attrappend="class=${' ' + product.id}">Add to Cart</span>
-                        </a>
-                    </th:block>
+                    <a th:onclick="'addToCart(' +${product.id} +')'" class="item-add-btn">
+                        <span class="icon-cart-text" th:attrappend="class=${' ' + product.id}">Add to Cart</span>
+                    </a>
                     <div class="item-action-inner">
                         <a class="icon-button icon-like"
                            th:id="'like-' + ${product.id}"
@@ -167,18 +159,9 @@
             </div><!-- End .rating-container -->
             <p>[[${product.description}]]</p>
             <div class="item-action" style="text-align: left;">
-                <th:block th:if="${authorizedUserId < 0}">
-                    <a data-toggle="modal" data-target="#exampleModal" class="item-add-btn">
-                        <span class="icon-cart-text">Add to Cart</span>
-                    </a>
-                </th:block>
-
-                <th:block th:unless="${authorizedUserId < 0}">
-                    <a th:onclick="'addToCart(' +${product.id} +')'" class="item-add-btn">
-                                                            <span class="icon-cart-text"
-                                                                  th:attrappend="class=${' ' + product.id}">Add to Cart</span>
-                    </a>
-                </th:block>
+                <a th:onclick="'addToCart(' +${product.id} +')'" class="item-add-btn">
+                    <span class="icon-cart-text" th:attrappend="class=${' ' + product.id}">Add to Cart</span>
+                </a>
                 <div class="item-action-inner">
                     <a class="icon-button icon-like"
                        th:id="'like-' + ${product.id}"
@@ -231,20 +214,10 @@
             </div><!-- End .rating-container -->
             <h3 class="item-name"><a th:href="'/product/' + *{id}" th:text="*{name}"></a></h3>
             <div class="item-action">
-                <th:block th:if="${authorizedUserId < 0}">
-                    <button data-toggle="modal" data-target="#exampleModal"
-                            class="item-add-btn">
-                        <span class="icon-cart-text">Add to Cart</span>
-                    </button>
-                </th:block>
 
-                <th:block th:unless="${authorizedUserId < 0}">
-                    <button th:onclick="'addToCart(' +*{id} +')'"
-                            class="item-add-btn">
-                                                            <span class="icon-cart-text"
-                                                                  th:attrappend="class=*{' ' + id}">Add to Cart</span>
-                    </button>
-                </th:block>
+                <button th:onclick="'addToCart(' +*{id} +')'" class="item-add-btn">
+                    <span class="icon-cart-text" th:attrappend="class=*{' ' + id}">Add to Cart</span>
+                </button>
                 <div class="item-action-inner">
                     <a class="icon-button icon-like"
                        th:id="'like-' + ${product.id}"
@@ -300,22 +273,9 @@
                 <h3 class="item-name"><a th:href="'/product/' + *{id}" th:text="*{name}"></a>
                 </h3>
                 <div class="item-action">
-
-                    <th:block th:if="${authorizedUserId < 0}">
-                        <button data-toggle="modal" data-target="#exampleModal"
-                                class="item-add-btn">
-                            <span class="icon-cart-text">Add to Cart</span>
-                        </button>
-                    </th:block>
-
-                    <th:block th:unless="${authorizedUserId < 0}">
-                        <button th:onclick="'addToCart(' +*{id} +')'"
-                                class="item-add-btn">
-                                                            <span class="icon-cart-text"
-                                                                  th:attrappend="class=*{' ' + id}">Add to Cart</span>
-                        </button>
-                    </th:block>
-
+                    <button th:onclick="'addToCart(' +*{id} +')'" class="item-add-btn">
+                        <span class="icon-cart-text" th:attrappend="class=*{' ' + id}">Add to Cart</span>
+                    </button>
                     <div class="item-action-inner">
                         <a class="icon-button icon-like"
                            th:id="'like-' + ${product.id}"

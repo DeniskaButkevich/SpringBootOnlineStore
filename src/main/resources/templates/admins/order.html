@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:include="parts/head.html :: head(title='Products')">
+
+</head>
+<body style="background-color: #eee">
+
+
+<div id="wrapper" style="min-height: 100vh">
+    <header th:insert="admins/parts/header.html :: header_v(url_active='product')"></header>
+    <div id="breadcrumb-container">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="index">Home</a></li>
+                <li><a href="/admins/orders">Orders</a></li>
+                <li class="active" th:text="${order.id}"></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12 product">
+                <h2 class="sub-title">Order</h2>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="input-icon input-icon-email"></span><span class="input-text">Id</span></span>
+                    <input type="text" required="" class="form-control input-lg" th:value="${order.id}" disabled="">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="input-icon input-icon-email"></span><span class="input-text">Total price</span></span>
+                    <input type="text" required="" class="form-control input-lg" th:value="${order.total_price}" disabled="">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="input-icon input-icon-email"></span><span class="input-text">Data</span></span>
+                    <input type="text" required="" class="form-control input-lg" th:value="${order.placedAt}" disabled="">
+                </div>
+                <form method="post" th:action="'/admins/orders/' + ${order.id}">
+                <div class="input-group">
+                        <span class="input-group-addon"><span class="input-icon input-icon-country"></span><span
+                                class="input-text">Active</span></span>
+                        <div class="large-selectbox clearfix">
+                            <select id="select-active" name="active" class="selectbox" title="active">
+                                <option th:value="${order.active}"
+                                        th:text="${order.active == 1 ? 'true' : 'false'}">
+                                </option>
+                                <option th:value="${order.active == 1 ? -1 : 1}"
+                                        th:text="${order.active == 1 ? 'false' : 'true'}">
+                                </option>
+                            </select>
+                        </div><!-- End .large-selectbox-->
+                </div><!-- End .input-group -->
+                    <div class="form-group" style="text-align: center">
+                        <input type="submit" value="Update" class="btn btn-custom-2 md-margin">
+                    </div>
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                </form>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12 product">
+                <h2 class="sub-title">User</h2>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="input-icon input-icon-email"></span><span class="input-text">Id</span></span>
+                    <a th:href="${order.user != null ? '/admins/users/' + order.user?.id : '#'}"><input type="text" required="" class="form-control input-lg" th:value="${order.user?.id}" disabled=""></a>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="input-icon input-icon-email"></span><span class="input-text">User name</span></span>
+                    <input type="text" required="" class="form-control input-lg" th:value="${order.user?.username}" disabled="">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="input-icon input-icon-email"></span><span class="input-text">Phone Number</span></span>
+                    <input type="text" required="" class="form-control input-lg" th:value="${order.user?.phoneNumber}" disabled="">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="input-icon input-icon-email"></span><span class="input-text">Email</span></span>
+                    <input type="text" required="" class="form-control input-lg" th:value="${order.user?.email}" disabled="">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="input-icon input-icon-email"></span><span class="input-text">Address</span></span>
+                    <input type="text" required="" class="form-control input-lg" th:value="${order.user?.address}" disabled="">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="input-icon input-icon-email"></span><span class="input-text">Post code</span></span>
+                    <input type="text" required="" class="form-control input-lg" th:value="${order.user?.postCode}" disabled="">
+                </div>
+            </div>
+        </div>
+        <div class="card-columns">
+            <h2 class="sub-title">Customer</h2>
+            <table class="table cart-table">
+                <thead>
+                <tr>
+                    <th class="table-title">Id</th>
+                    <th class="table-title">Product Name</th>
+                    <th class="table-title">Price</th>
+                    <th class="table-title">Sale</th>
+                    <th class="table-title">Brand</th>
+                    <th class="table-title">Size</th>
+                    <th class="table-title">Color</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product, i : ${order?.products}" th:object="${product}">
+                    <td>
+                        <header class="item-name" style="text-align: center"><a
+                                th:href="'/admins/product/' + *{id}">[[*{id}]]</a>
+                        </header>
+                    </td>
+                    <td class="item-name-col" style="vertical-align: inherit;     padding: 15px 15px;">
+                        <figure style="width: 126px">
+                            <a th:href="'/admins/product/' + *{id}">
+                                <img th:src="${product.filename != null ? '/img/' + product.filename : '/images/products/compare1.jpg'}"
+                                     th:alt="*{name}">
+                            </a>
+                        </figure>
+                        <header class="item-name" style="text-align: center"><a
+                                th:href="'/admins/product/' + *{id}">[[*{name}]]</a>
+                        </header>
+                    </td>
+                    <td class="item-price-col" th:text="*{price + '$'}" style="vertical-align: inherit;"></td>
+                    <td class="item-code" th:text="${product.sale != null ? product.sale + '%' : ''}"
+                        style="vertical-align: inherit;"></td>
+                    <td class="item-code" th:text="*{brand.name}" style="vertical-align: inherit;"></td>
+                    <td class="item-code" style="vertical-align: inherit;">
+                        <label class="li-size">
+                            <li><a th:text="${order.params?.get(i.index)?.size?.size}"></a></li>
+                        </label>
+                    </td>
+                    <td class="item-code" style="vertical-align: inherit;">
+                        <label class="label-color">
+                            <span th:attrappend="style=${'background-color: rgb(' + order.params?.get(i.index)?.color?.rgb + ');'}"></span>
+                        </label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer -->
+</div>
+
+</body>
+</html>

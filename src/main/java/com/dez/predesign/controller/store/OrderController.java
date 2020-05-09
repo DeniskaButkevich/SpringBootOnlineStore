@@ -116,11 +116,19 @@ public class OrderController {
             return "checkout";
         }
 
+        if(user_auth != null){
+            user_auth.setAddress(user.getAddress());
+            user_auth.setPostCode(user.getPostCode());
+            userRepo.save(user_auth);
+        }
+
         Order order = new Order();
         order.setProducts(orderService.getProductByCookie(cart));
         order.setUser(user_auth);
         order.setCount_price(orderService.setCountPrice(cart));
         order.setTotal_price(orderService.setTotalPrice(cart));
+        order.setActive(1);
+
 
         List<Params> params = new ArrayList<>();
         Set<Product> products = orderService.getProductByCookie(cart);

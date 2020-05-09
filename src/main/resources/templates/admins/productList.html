@@ -10,7 +10,7 @@
 
 <div id="wrapper" style="min-height: 100vh">
     <header th:insert="admins/parts/header.html :: header_v(url_active='product')"></header>
-    <div id="category-breadcrumb">
+    <div id="breadcrumb-container">
         <div class="container">
             <ul class="breadcrumb">
                 <li><a href="index">Home</a></li>
@@ -240,7 +240,6 @@
                     <th class="table-title">Price</th>
                     <th class="table-title">Sale</th>
                     <th class="table-title">Brand</th>
-                    <th class="table-title">Size</th>
                     <th class="table-title">Category</th>
                     <th class="table-title">New</th>
                 </tr>
@@ -283,13 +282,6 @@
                     <td class="item-code" th:text="${product.sale != null ? product.sale + '%' : ''}"
                         style="vertical-align: inherit;"></td>
                     <td class="item-code" th:text="*{brand.name}" style="vertical-align: inherit;"></td>
-                    <td class="item-code" style="vertical-align: inherit;">
-                        <th:block th:each="size : *{sizes.iterator()}">
-                            <label th:class="label-size" th:for="${size}">
-                                <span th:text="${size.getSize()}"></span>
-                            </label>
-                        </th:block>
-                    </td>
                     <td th:text="*{newProduct}" style="vertical-align: inherit;"></td>
                     <td class="item-code" th:text="*{category.name + ' -> ' + category.ancestor.name + ';'}"
                         style="vertical-align: inherit;"></td>

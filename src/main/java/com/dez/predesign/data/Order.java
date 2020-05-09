@@ -31,6 +31,8 @@ public class Order {
     @MapKeyJoinColumn(name = "product_id")
     private Map<Product,CountAndPrice> count_price;
 
+    private Integer active;
+
     private Double total_price;
 
     @OneToMany

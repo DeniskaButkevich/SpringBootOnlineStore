@@ -1,13 +1,12 @@
 package com.dez.predesign.service;
 
+import com.dez.predesign.data.Order;
+import com.dez.predesign.data.User;
 import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.data.catalog.Category;
 import com.dez.predesign.data.catalog.Product;
 import com.dez.predesign.data.catalog.Size;
-import com.dez.predesign.repository.BrandRepo;
-import com.dez.predesign.repository.CategoryRepo;
-import com.dez.predesign.repository.ProductRepo;
-import com.dez.predesign.repository.SizeRepo;
+import com.dez.predesign.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +31,12 @@ public class PageService {
 
     @Autowired
     CategoryRepo categoryRepo;
+
+    @Autowired
+    OrderRepo orderRepo;
+
+    @Autowired
+    UserRepo userRepo;
 
     public List<Integer> listPages(Page page) {
         if(page == null){
@@ -73,9 +78,9 @@ public class PageService {
         return basePath;
     }
 
-    public Page<Product> findByFilter(String search_by, String filter, Pageable pageable) {
+    public Page<Product> findByFilterProducts(String search_by, String filter, Pageable pageable) {
 
-        Page page = null;
+        Page<Product> page = null;
             if(search_by.equals("Id")) {
                 Long id = Long.parseLong(filter);
                 page = productRepo.findById(pageable, id);
@@ -98,6 +103,20 @@ public class PageService {
                 page = productRepo.findBySizes(pageable, size);
             }
 
+        return page;
+    }
+
+    public Page<Order> findByFilterOrders(String search_by, String filter, Pageable pageable) {
+        Page<Order> page = null;
+        if(search_by.equals("Id")) {
+            Long id = Long.parseLong(filter);
+            page = orderRepo.findById(pageable, id);
+        }else if(search_by.equals("Username")){
+            User user = userRepo.findByUsername(filter);
+            page = orderRepo.findByUser(pageable, user);
+        }else if(search_by.equals("Find all")){
+            page = orderRepo.findAll(pageable);
+        }
         return page;
     }
 }

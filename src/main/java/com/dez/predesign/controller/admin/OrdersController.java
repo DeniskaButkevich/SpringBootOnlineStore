@@ -11,14 +11,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/admins/")
+@RequestMapping("/admins/orders")
 public class OrdersController {
 
     @Autowired
@@ -30,26 +28,41 @@ public class OrdersController {
     @Autowired
     PageService pageService;
 
-    @GetMapping("orders")
-    public String orderList(Model model, @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 5) Pageable pageable){
-
+    @GetMapping()
+    public String getOrders(Model model,
+                            @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 5) Pageable pageable,
+                            @RequestParam(required = false, defaultValue = "") String filter,
+                            @RequestParam(required = false) String search_by){
         Page<Order> page;
-
-        page = orderRepo.findAll(pageable);
-        model.addAttribute("page", page);
-
+        if(filter != null && !filter.isEmpty() && search_by != null){
+            page = pageService.findByFilterOrders(search_by, filter, pageable);
+        } else {
+            page = orderRepo.findAll(pageable);
+        }
         List<Integer> listpages = pageService.listPages(page);
         model.addAttribute("listpages", listpages);
-
         model.addAttribute("url", "/admins/orders");
         model.addAttribute("page", page);
+
+        model.addAttribute("filter", filter);
+        model.addAttribute("search_by", search_by);
         return "admins/orderList";
     }
 
-    @GetMapping("order/delete/{id}")
-    public String orderRemove(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public String getOrder(@PathVariable Long id,Model model){
         Order order = orderRepo.findById(id).get();
-        orderRepo.delete(order);
-        return "redirect:/admins/orders";
+        model.addAttribute("order",order);
+        return "admins/order";
+    }
+
+    @PostMapping("/{id}")
+    public String updateStatus(@RequestParam Integer active, @PathVariable Long id){
+
+        Order order = orderRepo.findById(id).get();
+        order.setActive(active);
+        orderRepo.save(order);
+
+        return "redirect:/admins/orders/{id}";
     }
 }
