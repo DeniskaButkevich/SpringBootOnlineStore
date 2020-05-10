@@ -6,7 +6,8 @@
 <!--[if !IE]><!-->
 <html> <!--<![endif]-->
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <head th:insert="parts/head.html :: head"></head>
 <body>
@@ -19,7 +20,8 @@
             <div class="container">
                 <ul class="breadcrumb">
                     <li><a href="index">Home</a></li>
-                    <li class="active">Product</li>
+                    <li><a href="/category">Products</a></li>
+                    <li class="active" th:text="${product.id}"></li>
                 </ul>
             </div>
         </div>
@@ -47,7 +49,7 @@
                                             <img src="/images/products/big-item1.jpg" alt="Phone photo 1"></a>
                                     </li>
 
-                                    <th:block th:each="image : ${images}">
+                                    <th:block th:each="image : ${product.imageList}">
                                         <li><a data-rel='prettyPhoto[product]'
                                                th:href="'/img/' + ${image.name}"
                                                th:data-image="'/img/' + ${image.name}"
@@ -87,14 +89,15 @@
                             <div class="lg-margin visible-sm visible-xs"></div><!-- Space -->
                             <h1 class="product-name">[[${product.name}]]</h1>
                             <div class="ratings-container">
-                                <div class="ratings separator">
-                                    <div class="ratings-result" data-result="70"></div>
-                                </div><!-- End .ratings -->
-                                <span class="ratings-amount separator">
-									3 Review(s)
-								</span>
-                                <span class="separator">|</span>
-                                <a href="#review" class="rate-this">Add Your Review</a>
+                                <th:block th:if="${rating != null}">
+                                    <div class="ratings separator">
+                                        <div class="ratings-result" th:data-result="${rating}"></div>
+                                    </div><!-- End .ratings -->
+                                    <span class="ratings-amount separator"
+                                          th:text="${product.messages.size() + ' Review(s)'}"></span>
+                                    <span class="separator">|</span>
+                                </th:block>
+                                <a href="#review" class="rate-this" style="color: #7bae23;">Add Your Review</a>
                             </div><!-- End .rating-container -->
                             <ul class="product-list">
                                 <li><span>Product Code:</span>[[${product.id}]]</li>
@@ -131,7 +134,7 @@
                                                th:value="${size.size}"/>
                                         <label class="li-size" th:for="${size.size}">
                                             <li
-                                                th:onclick="selectorSize([[${size.size}]], [[${product.id}]]);">
+                                                    th:onclick="selectorSize([[${size.size}]], [[${product.id}]]);">
                                                 <a th:text="${size.size}"></a>
                                             </li>
                                         </label>
@@ -142,7 +145,8 @@
                             <hr>
                             <div class="product-add clearfix">
                                 <div class="custom-quantity-input">
-                                    <input disabled type="text" name="quantity" th:id="'count-' + ${product.id}" value="1">
+                                    <input disabled type="text" name="quantity" th:id="'count-' + ${product.id}"
+                                           value="1">
                                     <a th:onclick="'counterChange(' + ${product.id} + ', 1);'"
                                        class="quantity-btn quantity-input-up"><i
                                             class="fa fa-angle-up"></i></a>
@@ -150,18 +154,11 @@
                                        class="quantity-btn quantity-input-down"><i
                                             class="fa fa-angle-down"></i></a>
                                 </div>
-                                <th:block th:if="${authorizedUserId < 0}">
-                                    <button data-toggle="modal" data-target="#exampleModal" class="btn btn-custom-2">
-                                        <span class="icon-cart-text">Add to Cart</span>
-                                    </button>
-                                </th:block>
 
-                                <th:block th:unless="${authorizedUserId < 0}">
-                                    <button th:onclick="'addToCart(' +${product.id} +')'" class="btn btn-custom-2">
-                                                            <span class="icon-cart-text"
-                                                                  th:attrappend="class=${' ' + product.id}">Add to Cart</span>
-                                    </button>
-                                </th:block>
+                                <button th:onclick="'addToCart(' +${product.id} +')'" class="btn btn-custom-2">
+                                    <span class="icon-cart-text"
+                                          th:attrappend="class=${' ' + product.id}">Add to Cart</span>
+                                </button>
                             </div><!-- .product-add -->
                             <div class="md-margin"></div><!-- Space -->
                             <div class="product-extra clearfix">
@@ -205,7 +202,6 @@
                             <div class="tab-container left product-detail-tab clearfix">
                                 <ul class="nav-tabs">
                                     <li class="active"><a href="#" data-toggle="tab">Overview</a></li>
-
                                 </ul>
                                 <div class="tab-content clearfix">
                                     <div class="tab-pane active" id="overview">
@@ -213,13 +209,113 @@
                                     </div><!-- End .tab-pane -->
                                 </div><!-- End .tab-content -->
                             </div><!-- End .tab-container -->
+
                             <div class="lg-margin visible-xs"></div>
+                            <div class="lg-margin2x"></div><!-- Space -->
+
+                            <div class="comments">
+                                <header class="title-bg" th:if="${product.messages.size() > 0}">
+                                    <h3 th:text="${'COMMENTS (' +product.messages.size()+ ')'}"></h3>
+                                </header>
+                                    <ul class="comments-list" style="margin-bottom: 0px;">
+                                        <li th:each="message : ${page.content}">
+                                            <div class="comment clearfix">
+                                                <figure>
+<!--                                                    <img th:src="${message.author.filename != null ? '/img/' + message.author.filename : '/images/blog/user1.jpg'}" alt="Comment Author">-->
+                                                    <img src="/images/blog/user1.jpg" alt="Comment Author">
+                                                </figure>
+                                                <div class="comment-details">
+                                                    <div class="comment-title" th:text="${message.subject}">
+
+                                                    </div><!-- End .comment-title -->
+                                                    <div class="comment-meta-container">
+                                                        <a th:text="${message.author.username}"></a>
+                                                        <span th:text="${message.placedAt.toLocaleString()}"></span>
+                                                        <div class="ratings separator">
+                                                            <div class="ratings-result" th:data-result="${message.rating*20}" ></div>
+                                                        </div><!-- End .ratings -->
+                                                    </div><!-- End .comment-meta-container -->
+                                                    <p th:text="${message.text}"></p>
+                                                </div><!-- End .comment-details -->
+                                            </div><!-- End .comment -->
+                                        </li>
+                                    </ul>
+                                <div th:if="${product.messages.size() > 0}"  class="category-toolbar clearfix" style="border-bottom: none; text-align: center;">
+                                    <div class="toolbox-pagination clearfix" style="float: none; display: inline-block">
+                                        <ul class="pagination">
+                                            <th:block th:each="i : ${list_pages}">
+                                                <li th:attrappend="class=${i == page.getNumber()+1 ? 'active':''}"><a
+                                                        th:href="${'/product/' + product.id + '?page=' + (i - 1) + '&size=3'}" th:text="${i}"></a></li>
+                                            </th:block>
+                                        </ul>
+                                    </div><!-- End .toolbox-pagination -->
+                                </div>
+
+                                <h4 sec:authorize="isAuthenticated()" class="sub-title" id="review">Leave a comment</h4>
+                                <h4 sec:authorize="!isAuthenticated()" class="sub-title" id="review">Login to leave a comment</h4>
+                                <div class="row">
+                                    <form method="post" th:action="'/product/' + ${product.id}" id="comment-form">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                            <label class="control-label" style="color: #a94442;"
+                                                   th:if="${textError != null}" th:text="${textError}"></label>
+                                            <div class="input-group textarea-container"
+                                                 th:attrappend="class=${textError != null ? ' has-error my-has-error' : ''}">
+                                            <span class="input-group-addon"><span
+                                                    class="input-icon input-icon-message"></span><span
+                                                    class="input-text">Your Comment&#42;</span></span>
+                                                <textarea name="text" id="comment-message"
+                                                          class="form-control"
+                                                          cols="30" rows="6" placeholder="Your Comment"
+                                                          th:value="${message != null ? message.text : ''}"
+                                                          th:attrappend="style=${textError != null ? 'border: 1px solid #a94442;' : ''}"></textarea>
+                                            </div><!-- End .input-group -->
+                                        </div><!-- End .col-md-6 -->
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                            <label class="control-label" style="color: #a94442;"
+                                                   th:if="${subjectError != null}" th:text="${subjectError}"></label>
+                                            <div class="input-group" th:attrappend="class=${subjectError != null ? ' has-error my-has-error' : ''}">
+                                            <span class="input-group-addon"><span
+                                                    class="input-icon input-icon-user"></span><span class="input-text">Subject&#42;</span></span>
+                                                <input type="text" name="subject" id="comment-name"
+                                                       class="form-control input-lg" placeholder="Your Name"
+                                                       th:value="${message != null ? message.subject : ''}"
+                                                       th:attrappend="style=${subjectError != null ? 'border: 1px solid #a94442;' : ''}">
+                                            </div><!-- End .input-group -->
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span
+                                                        class="input-icon input-icon-country"></span><span
+                                                        class="input-text">Rating*</span></span>
+                                                <div class="large-selectbox clearfix">
+                                                    <select id="select-brand" name="rating" class="selectbox"
+                                                            title="Rating">
+                                                        <option value="5">5</option>
+                                                        <option value="4">4</option>
+                                                        <option value="3">3</option>
+                                                        <option value="2">2</option>
+                                                        <option value="1">1</option>
+                                                    </select>
+                                                </div><!-- End .large-selectbox-->
+                                            </div><!-- End .input-group -->
+                                            <div sec:authorize="isAuthenticated()" style="text-align: center">
+                                                <input type="submit" value="POST COMMENT" class="btn btn-custom-2">
+                                            </div>
+                                            <div sec:authorize="!isAuthenticated()" style="text-align: center">
+                                                <input type="button" onclick="window.location.href='/admin'" value="Login" class="btn btn-custom-2">
+                                            </div>
+                                        </div><!-- End .col-md-6 -->
+                                        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                                    </form>
+                                </div><!-- End .row -->
+                            </div><!-- End .row -->
                         </div><!-- End .col-md-9 -->
                         <div class="lg-margin2x visible-sm visible-xs"></div><!-- Space -->
                         <div class="col-md-3 col-sm-12 col-xs-12 sidebar">
                             <div class="widget featured">
                                 <h3>Featured</h3>
-
                                 <div class="featured-slider flexslider sidebarslider">
                                     <ul class="featured-list clearfix">
                                         <th:block th:each="product, i : ${featured_products?.content}">
@@ -251,7 +347,6 @@
                                     </ul>
                                 </div><!-- End .featured-slider -->
                             </div><!-- End .widget -->
-
                         </div><!-- End .col-md-4 -->
                     </div><!-- End .row -->
                     <div class="lg-margin2x"></div><!-- Space -->
@@ -260,15 +355,16 @@
                             <div class="title-bg">
                                 <h2 class="title">Also Purchased</h2>
                             </div><!-- End .title-bg -->
-                            <p class="title-desc">Note the similar products - after buying for more than $500 you can
+                            <p class="title-desc">Note the similar products - after buying for more than $500 you
+                                can
                                 get a discount.</p>
                         </header>
-
                         <div class="carousel-controls">
                             <div id="purchased-items-slider-prev" class="carousel-btn carousel-btn-prev"></div>
                             <!-- End .carousel-prev -->
                             <div id="purchased-items-slider-next"
-                                 class="carousel-btn carousel-btn-next carousel-space"></div><!-- End .carousel-next -->
+                                 class="carousel-btn carousel-btn-next carousel-space"></div>
+                            <!-- End .carousel-next -->
                         </div><!-- End .carousel-controllers -->
                         <div class="purchased-items-slider owl-carousel">
                             <th:block th:each="product : ${also_purchased_products}">
@@ -282,8 +378,6 @@
         </div><!-- End .container -->
 
     </section><!-- End #content -->
-
-
 
     <footer th:insert="parts/footer.html :: footer"></footer><!-- End #footer -->
 

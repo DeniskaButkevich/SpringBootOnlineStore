@@ -42,7 +42,4 @@ public class Order {
     void placedAt() {
         this.placedAt = new Date();
     }
-
-
-
 }

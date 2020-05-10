@@ -1,5 +1,6 @@
 package com.dez.predesign.data.catalog;
 
+import com.dez.predesign.data.Message;
 import com.dez.predesign.data.Order;
 import com.dez.predesign.data.User;
 import lombok.AllArgsConstructor;
@@ -24,19 +25,6 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Product)) return false;
-        Product product = (Product) o;
-        return Objects.equals(id, product.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
     @NotBlank(message = "Please fill the name")
     @javax.validation.constraints.Size(max=30, message = "length should be no more than 30")
     private String name;
@@ -48,7 +36,9 @@ public class Product {
     @Column(length = 2048)
     @javax.validation.constraints.Size(max=2048, message = "length should be no more than 30")
     private String description;
+
     private String filename;
+
     private String hoverFilename;
 
     @OneToMany(targetEntity = Image.class, mappedBy = "product")
@@ -56,6 +46,7 @@ public class Product {
 
     @ManyToOne(targetEntity= Brand.class)
     private Brand brand;
+
     @ManyToMany(targetEntity= Color.class)
     private Set<Color> color;
 
@@ -69,10 +60,15 @@ public class Product {
     @Min(value = 0, message = "sale should be more than 0")
     @Max(value = 100, message = "sale should be less than 100")
     private Integer sale;
+
     private boolean newProduct;
 
     @ManyToMany
     private Set<Order> orders;
+
+    @OneToMany(targetEntity = Message.class)
+    @JoinColumn(name = "product_id")
+    private List<Message> messages;
 
     @Override
     public String toString() {
@@ -80,6 +76,19 @@ public class Product {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return Objects.equals(id, product.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
 }

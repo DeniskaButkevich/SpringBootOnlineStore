@@ -1,5 +1,6 @@
 package com.dez.predesign.service;
 
+import com.dez.predesign.data.Message;
 import com.dez.predesign.data.User;
 import com.dez.predesign.data.catalog.Image;
 import com.dez.predesign.data.catalog.Product;
@@ -97,5 +98,19 @@ public class ProductService {
                 productRepo.findById(
                         Long.parseLong(id)).get()
         );
+    }
+
+    public Integer getRating(Product product) {
+        if(product.getMessages() != null && product.getMessages().size() > 0){
+            Double rating = 0D;
+            for (Message message: product.getMessages()){
+                rating += message.getRating();
+            }
+            rating = rating/product.getMessages().size()*20;
+
+            Integer result =  rating.intValue();
+            return result;
+        }
+        return null;
     }
 }

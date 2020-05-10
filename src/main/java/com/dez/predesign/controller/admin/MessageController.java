@@ -51,11 +51,8 @@ public class MessageController  {
                                 @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable) {
         Page<Message> page;
 
-        if (filter != null && !filter.isEmpty()){
-            page = messageRepo.findByTag(filter, pageable);
-        } else{
             page = messageRepo.findAll(pageable);
-        }
+
         List<Integer> listpages = pageService.listPages(page);
 
         model.addAttribute("listpages", listpages);
@@ -83,7 +80,6 @@ public class MessageController  {
         } else {
             if (file != null && !file.getOriginalFilename().isEmpty()) {
                 String resultFilenameTest = UploadImage.putObjectAmazonS3(file, S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY);
-                message.setFilename(resultFilenameTest);
             }
             model.addAttribute("message", null);
             messageRepo.save(message);
@@ -98,11 +94,8 @@ public class MessageController  {
     }
 
     @GetMapping("/message/delete")
-    public String messageRemove(@RequestParam String id) throws IOException {
+    public String messageRemove(@RequestParam String id){
         Message message =  messageRepo.findById(Long.parseLong(id)).get();
-        if(message.getFilename() != null && !message.getFilename().isEmpty()){
-            UploadImage.deleteObjectAmazonS3(message.getFilename(), S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY);
-        }
         messageRepo.delete(message);
 
         return "redirect:/admins/message";
@@ -111,8 +104,6 @@ public class MessageController  {
     @PostMapping("/message/edit/{id}")
     public String messageEdit(@PathVariable String id, Message message){
         Message mes = messageRepo.findById(Long.parseLong(id)).get();
-
-        mes.setName(message.getName());
         mes.setText(message.getText());
         messageRepo.save(mes);
 
