@@ -17,10 +17,10 @@
                 <a class="nav-link" href="/admins/indexAdmin">Home</a>
             </li>
             <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'product') ? ' active': ''}">
-                <a class="nav-link" href="/admins/product">Product</a>
+                <a class="nav-link" href="/admins/product">Products</a>
             </li>
-            <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'message') ? ' active': ''}">
-                <a class="nav-link" href="/admins/message">Message</a>
+            <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'messages') ? ' active': ''}">
+                <a class="nav-link" href="/admins/messages">Messages</a>
             </li>
             <li class="nav-item" th:attrappend="class=${#strings.contains(url_active,'users') ? ' active': ''}">
                 <a class="nav-link" href="/admins/users">Users</a>
@@ -115,7 +115,7 @@
                                 </div>
                                 <ul class="menu clearfix">
                                     <li><a class="nav-link" href="/admins/indexAdmin">Home</a></li>
-                                    <li class="mega-menu-container"><a href="/admins/product">Product</a>
+                                    <li class="mega-menu-container"><a href="/admins/product">Products</a>
                                         <ul style="display: none;">
                                             <li><a href="/admins/product">Products</a></li>
                                             <li><a href="/admins/product/colors">Colors</a></li>
@@ -124,7 +124,7 @@
                                             <li><a href="/admins/product/categories/">Categories</a></li>
                                         </ul>
                                     </li>
-                                    <li><a class="nav-link" href="/admins/message">Message</a></li>
+                                    <li><a class="nav-link" href="/admins/messages">Messages</a></li>
                                     <li><a class="nav-link" href="/admins/users">Users</a></li>
                                     <li><a class="nav-link" href="/admins/orders">Orders</a></li>
                                     <li><a class="nav-link" href="/admins/slider">Slider</a></li>

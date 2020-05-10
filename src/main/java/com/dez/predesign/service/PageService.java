@@ -1,5 +1,6 @@
 package com.dez.predesign.service;
 
+import com.dez.predesign.data.Message;
 import com.dez.predesign.data.Order;
 import com.dez.predesign.data.User;
 import com.dez.predesign.data.catalog.Brand;
@@ -37,6 +38,9 @@ public class PageService {
 
     @Autowired
     UserRepo userRepo;
+
+    @Autowired
+    MessageRepo messageRepo;
 
     public List<Integer> listPages(Page page) {
         if(page == null){
@@ -116,6 +120,20 @@ public class PageService {
             page = orderRepo.findByUser(pageable, user);
         }else if(search_by.equals("Find all")){
             page = orderRepo.findAll(pageable);
+        }
+        return page;
+    }
+
+    public Page<Message> findByFilterMessages(String search_by, String filter, Pageable pageable) {
+        Page<Message> page = null;
+        if(search_by.equals("User name")) {
+            User user = userRepo.findByUsername(filter);
+            page = messageRepo.findByAuthor(pageable, user);
+        }else if(search_by.equals("Product id")){
+            Product product = productRepo.findById(Long.parseLong(filter)).get();
+            page = messageRepo.findByProduct(pageable, product);
+        }else{
+            page = messageRepo.findAll(pageable);
         }
         return page;
     }

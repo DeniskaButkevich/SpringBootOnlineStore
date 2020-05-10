@@ -107,7 +107,7 @@ public class ProductsController {
             productService.addViewedProduct(authentication_user_id, product, userRepo);
         }
 
-        Page<Message> page = messageRepo.findAll(pageable);
+        Page<Message> page = messageRepo.findByProduct(pageable, product);
         model.addAttribute("page", page);
 
         List<Integer> list_pages = new ArrayList<>();

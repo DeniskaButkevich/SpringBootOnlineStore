@@ -16,10 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -28,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/admins/messages")
 public class MessageController  {
 
     @Autowired
@@ -36,78 +34,32 @@ public class MessageController  {
     @Autowired
     PageService pageService;
 
-    @Value("${AWS_ACCESS_KEY_ID}")
-    private String AWS_ACCESS_KEY_ID;
-
-    @Value("${AWS_SECRET_ACCESS_KEY}")
-    public String AWS_SECRET_ACCESS_KEY;
-
-    @Value("${S3_BUCKET_NAME}")
-    private String S3_BUCKET_NAME;
-
-    @GetMapping("/admins/message")
-    public String messagesShow( @RequestParam(required = false, defaultValue = "") String filter,
-                                Model model,
-                                @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable) {
+    @GetMapping()
+    public String messagesShow(@RequestParam(required = false, defaultValue = "") String filter,
+                               @RequestParam(required = false, defaultValue = "") String search_by,
+                               @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 5) Pageable pageable,
+                               Model model) {
         Page<Message> page;
-
+        if((filter != null && !filter.isEmpty()) && (search_by != null && !filter.isEmpty())){
+            page = pageService.findByFilterMessages(search_by, filter, pageable);
+        } else {
             page = messageRepo.findAll(pageable);
+        }
 
         List<Integer> listpages = pageService.listPages(page);
 
         model.addAttribute("listpages", listpages);
         model.addAttribute("page", page);
-        model.addAttribute("url", "/admins/message");
+        model.addAttribute("url", "/admins/messages");
         model.addAttribute("filter", filter);
 
         return "admins/message";
     }
 
-    @PostMapping("/admins/message")
-    public String messageAdd(@AuthenticationPrincipal User user,
-                             @Valid Message message,
-                             BindingResult bindingResult,
-                             Model model,
-                             @RequestParam("file") MultipartFile file,
-                             @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC, size = 3) Pageable pageable) throws IOException {
-        message.setAuthor(user);
-
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
-
-            model.mergeAttributes(errorsMap);
-            model.addAttribute("message", message);
-        } else {
-            if (file != null && !file.getOriginalFilename().isEmpty()) {
-                String resultFilenameTest = UploadImage.putObjectAmazonS3(file, S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY);
-            }
-            model.addAttribute("message", null);
-            messageRepo.save(message);
-        }
-        Page<Message> page = messageRepo.findAll(pageable);
-        List<Integer> listpages = pageService.listPages(page);
-
-        model.addAttribute("listpages", listpages);
-        model.addAttribute("page", page);
-
-        return "admins/message";
-    }
-
-    @GetMapping("/message/delete")
-    public String messageRemove(@RequestParam String id){
-        Message message =  messageRepo.findById(Long.parseLong(id)).get();
+    @GetMapping("/delete")
+    public String messageRemove(@RequestParam Long id){
+        Message message =  messageRepo.findById(id).get();
         messageRepo.delete(message);
-
-        return "redirect:/admins/message";
+        return "redirect:/admins/messages";
     }
-
-    @PostMapping("/message/edit/{id}")
-    public String messageEdit(@PathVariable String id, Message message){
-        Message mes = messageRepo.findById(Long.parseLong(id)).get();
-        mes.setText(message.getText());
-        messageRepo.save(mes);
-
-        return "redirect:/admins/message";
-    }
-
 }

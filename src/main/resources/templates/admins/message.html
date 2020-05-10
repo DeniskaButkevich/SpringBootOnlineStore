@@ -2,139 +2,91 @@
 <html lang="en">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:include="parts/head.html :: head(title='Messages')">
+<head th:include="parts/head.html :: head(title='Products')">
 
 </head>
 <body style="background-color: #eee">
 
 <div id="wrapper" style="min-height: 100vh">
-    <header th:insert="admins/parts/header.html :: header_v(url_active='message')"></header>
-    <div class="container mt-5">
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <form method="get" action="/admins/message" class="form-inline">
-                    <input type="text" name="filter" class="form-control" th:value="${filter}"
-                           placeholder="Search by tag">
-                    <button type="submit" class="btn btn-primary ml-2">Search</button>
-                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-                </form>
-            </div>
+    <header th:insert="admins/parts/header.html :: header_v(url_active='product')"></header>
+    <div id="breadcrumb-container">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="index">Home</a></li>
+                <li class="active">Messages</li>
+            </ul>
         </div>
-        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button"
-           aria-expanded="false"
-           aria-controls="collapseExample">
-            Add new Message
-        </a>
-        <div class="collapse " id="collapseExample" th:attrappend="class=${message != null ? ' show' : ''}">
-            <div class="form-group mt-3">
-                <form method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <input type="text" class="form-control" th:value="${message != null ? message.text : ''}"
-                               name="text" placeholder="Input message"
-                               th:attrappend="class=${textError != null} ? ' is-invalid' : ''"/>
-                        <div class="invalid-feedback" th:if="${textError != null}">[[${textError}]]</div>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" th:value="${message != null ? message.tag : ''}"
-                               name="tag"
-                               placeholder="Tag"
-                               th:attrappend="class=${tagError != null} ? ' is-invalid' : ''">
-                        <div class="invalid-feedback" th:if="${tagError != null}">[[${tagError}]]</div>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" th:value="${message != null ? message.name : ''}"
-                               name="name" placeholder="name"
-                               th:attrappend="class=${nameError != null} ? ' is-invalid' : ''">
-                        <div class="invalid-feedback" th:if="${nameError != null}">[[${nameError}]]</div>
-                    </div>
-                    <div class="form-group">
-                        <div class="custom-file">
-                            <input type="file" name="file" id="customFile">
-                            <label class="custom-file-label" for="customFile">Choose file</label>
-                        </div>
-                    </div>
-                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Добавить</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
-
-        <div class="card-columns">
-
-            <th:block th:if="${page.getTotalElements() < 1}">
-                <li colspan="2"> No Message Available</li>
-            </th:block>
-
-            <th:block th:each="message : ${page.content}">
-                <div class="card my-3 ">
-                    <th:block th:if="${message.filename != null}">
-                        <img th:src="'/img/' + ${message.filename}" class="card-img-top">
-                    </th:block>
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="'Id: ' + ${message.Id}">Card title</h5>
-                        <h5 class="card-title" th:text="'Name: ' + ${message.name}">Card title</h5>
-                        <p class="card-text" th:text="'Text: ' + ${message.text}"></p>
-                    </div>
-                    <div class="card-footer ">
-                        <small class="text-muted"
-                               th:text="'Tag: ' + ${message.tag} + ' --- Author: ' + ${message.getAuthorName()}"></small>
-                        <div class="text-right">
-                            <a th:href="@{/message/delete(id=${message.id})}">delete</a>
-                            <a type="button" data-toggle="modal" th:data-target="'#' + ${message.id}">edit</a>
-                        </div>
-
-                    </div>
-
-                    <div class="modal fade" th:id="${message.id}">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <form enctype="multipart/form-data" th:action="@{'/message/edit/' + ${message.id}}"
-                                      method="post">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        <h4 class="modal-title" th:text="'Edit Message № ' + ${message.id}"></h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" value="" name="tag"
-                                                   placeholder="Input tag"/></div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" value="" name="name"
-                                                   placeholder="Input name"/></div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" value="" name="text"
-                                                   placeholder="Input text"></div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
-                                        </button>
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                    </div>
-                                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-                                </form>
-                            </div><!-- /.модальное окно-Содержание -->
-                        </div><!-- /.модальное окно-диалог -->
-                    </div><!-- /.модальное окно -->
-                </div>
-            </th:block>
-
-        </div>
-
-        <div th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
-        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        <p>12313123123</p>
-        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        <p>12313123123</p>
     </div>
-</div>
-<th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer -->
+    <div class="container mt-5">
+        <form method="get" action="/admins/messages">
+            <div class="form-row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="input-icon input-icon-country"></span><span
+                                class="input-text">SEARCH By:</span></span>
+                        <div class="large-selectbox clearfix">
+                            <select name="search_by" class="selectbox">
+                                <option th:if="${search_by != null && !search_by.isEmpty()}" th:value="${search_by}" th:text="${search_by}"></option>
+                                <option value="User name">user name</option>
+                                <option value="Product id">Product id</option>
+                                <option value="Find All" >Find all</option>
+                            </select>
+                        </div><!-- End .large-selectbox-->
+                    </div><!-- End .input-group -->
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="input-group input-group-lg">
+                                    <span class="input-group-btn">
+                                    <button class="btn btn-custom-2" type="submit"
+                                            style="color: #7bae23 !important;background-color: #f2f2f2; border: 1px solid #dcdcdc;">Search</button>
+                                    </span>
+                        <input type="text" name="filter" class="form-control" placeholder="Search here"
+                               th:value="${filter != null ? filter : ''}">
+                    </div><!-- /input-group -->
+                </div>
+            </div>
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+        </form>
 
+        <div class="category-toolbar clearfix">
+            <th:block th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></th:block>
+        </div>
+        <div class="card-columns">
+            <table class="table cart-table">
+                <thead>
+                <tr>
+                    <th class="table-title">Id</th>
+                    <th class="table-title">Text</th>
+                    <th class="table-title">Subject</th>
+                    <th class="table-title">Author</th>
+                    <th class="table-title">Product</th>
+                    <th class="table-title">Data</th>
+                    <th class="table-title">Rating</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="message : ${page.content}" th:object="${message}">
+                    <td>
+                        <header class="item-name" style="text-align: center"></header>
+                        <a class="close-button" style="margin: auto" th:href="@{/admins/messages/delete(id=${message.id})}"></a>
+                    </td>
+                    <td class="item-code" style="vertical-align: inherit;" th:text="*{text}"></td>
+                    <td class="item-code" style="vertical-align: inherit;" th:text="*{subject}"></td>
+                    <td class="item-code" style="vertical-align: inherit;"><a
+                            th:href="*{'/admins/users/' + author.id}"
+                            th:text="*{author.username}"></a></td>
+                    <td class="item-code" style="vertical-align: inherit;"><a
+                            th:href="*{'/admins/products/' + product.id}"
+                            th:text="*{product.name}"></a></td>
+                    <td class="item-code" style="vertical-align: inherit;" th:text="*{placedAt.toLocaleString()}"></td>
+                    <td class="item-code" style="vertical-align: inherit;" th:text="*{rating}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
+    </div>
+    <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer -->
+</div>
 </body>
 </html>

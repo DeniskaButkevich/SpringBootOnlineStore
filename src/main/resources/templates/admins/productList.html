@@ -27,6 +27,7 @@
                                 class="input-text">SEARCH By:</span></span>
                         <div class="large-selectbox clearfix">
                             <select name="search_by" class="selectbox">
+                                <option th:if="${search_by != null}" th:value="${search_by}" th:text="${search_by}"></option>
                                 <option value="Id">Id</option>
                                 <option value="Brand">Brand</option>
                                 <option value="Name">Name</option>
