@@ -4,16 +4,11 @@ import com.dez.predesign.data.catalog.Brand;
 import com.dez.predesign.data.catalog.Category;
 import com.dez.predesign.data.catalog.Color;
 import com.dez.predesign.data.catalog.Product;
-import com.dez.predesign.repository.BrandRepo;
-import com.dez.predesign.repository.CategoryRepo;
-import com.dez.predesign.repository.ColorRepo;
-import com.dez.predesign.repository.ProductRepo;
+import com.dez.predesign.repository.*;
+import com.dez.predesign.service.CategoryService;
 import com.dez.predesign.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -44,38 +40,61 @@ public class CategoryController {
     @Autowired
     PageService pageService;
 
+    @Autowired
+    CategoryService categoryService;
+
+    @Autowired
+    EntityManager entityManager;
+
+    @Autowired
+    ProductRepoImpl productRepoImpl;
+
     @ModelAttribute(name = "featured_products")
     public Page<Product> featuredProduct(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 8) Pageable pageable){
         Page<Product> page =productRepo.findAll(pageable);
         return page;
     }
 
+    @ModelAttribute(name = "brands")
+    public Iterable<Brand> getBrands() {return brandRepo.findAll();}
+
     @ModelAttribute(name = "colors")
     public Iterable<Color> colors() {
         return colorRepo.findAll();
     }
+
+    @ModelAttribute(name = "categories")
+    public Iterable<Category> getCategories() {return categoryRepo.findByLevel(1);}
+
+    @ModelAttribute(name = "categories_des")
+    public Iterable<Category> getCategoriesDes() {return categoryRepo.findByLevel(2);}
+
 
     @GetMapping("/category")
     public String show(Model model,
                        @RequestParam Map<String, String> allRequestParams,
                        @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
         //Sort by
-        if (allRequestParams.get("filter") != null && !allRequestParams.get("filter").isEmpty())
-            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(
-                    allRequestParams.get("filter")
-            ));
+        pageable = categoryService.sortByFilter(pageable, allRequestParams);
+        //Add products in model for category page
+        List<Product> products = productRepoImpl.getData(allRequestParams,entityManager);
+        Page<Product> page = new PageImpl<>(products, pageable, products.size());
+        model.addAttribute("page", page);
+        //add Count Page For pagination
+        List<Integer> listpages = pageService.listPages(page);
+        model.addAttribute("listpages", listpages);
+        //merge request param for build filtration on page
+        model.mergeAttributes(allRequestParams);
 
-        //start filter by param
+        //start filter by param ////////////////////////////
         Iterable<Category> categoriesForFilter = null;
-
         boolean p_category_exist = allRequestParams.get("category") != null && !allRequestParams.get("category").isEmpty();
         boolean p_brand_exist = allRequestParams.get("brand") != null && !allRequestParams.get("brand").isEmpty();
-
+        //category for filter
         if (p_category_exist) {
             Category category = categoryRepo.findById(
                     Long.parseLong(
                             allRequestParams.get("category"))).get();
-
             if (category.getLevel() == 2){
                 categoriesForFilter = categoryRepo.findByAncestor(category.getAncestor());
             } else{
@@ -84,55 +103,19 @@ public class CategoryController {
         } else{
             categoriesForFilter = categoryRepo.findByLevel(2);
         }
-
-        Iterable<Brand> brandForFilter = null;
-        if(p_brand_exist)
-            brandForFilter = brandRepo.findByName(allRequestParams.get("brand"));
-        else
-            brandForFilter = brandRepo.findAll();
-        //end filter by param
-
-        Page<Product> page = null;
-
-        if(p_category_exist && p_brand_exist){
-            page = productRepo.findBC(pageable, categoriesForFilter, brandForFilter);
-        }else if(p_brand_exist){
-            page = productRepo.findB(pageable, brandForFilter);
-        }else if(p_category_exist){
-            page = productRepo.findC(pageable,categoriesForFilter);
-        }else
-            page = productRepo.findAll(pageable);
-
-
-        brandForFilter = brandRepo.findAll();
-
-        model.addAttribute("page", page);
+        //end filter by param ///////////////////////////////////////
         model.addAttribute("filterCategory", categoriesForFilter);
-        model.addAttribute("filterBrand", brandForFilter);
 
-        List<Integer> listpages = pageService.listPages(page);
-        model.addAttribute("listpages", listpages);
-
-        String setParam = "";
-        String url = "/category";
-        if (allRequestParams.size() != 0) {
-            Set<String> keySet = allRequestParams.keySet();
-            for (String key : keySet) {
-                String param = allRequestParams.get(key);
-                setParam = setParam + key + "=" + param + "&";
-            }
-        }
-        model.addAttribute("url", url);
+        //Set url and param
+        String setParam = categoryService.setUrlParams(allRequestParams);
         model.addAttribute("setParam", setParam);
+        model.addAttribute("url", "/category");
+        model.addAttribute("text",allRequestParams);
+        //Add one top prodact
+        Product productForTop = categoryService.getProduct();
+        model.addAttribute("productForTop", productForTop);
 
-        List<Long> lds = productRepo.findAllId();
-        if(lds.size() > 0){
-            Random rand = new Random();
-            Long randomElement = lds.get(rand.nextInt(lds.size()));
-
-            Product productForTop = productRepo.findOneProduct(randomElement);
-            model.addAttribute("productForTop", productForTop);
-        }
+        ////////////////////////////////////////////////////////////////////////
         return "category";
     }
 }

@@ -59,7 +59,9 @@ public class ProductCategoryController {
             model.addAttribute("errorCategory", "Name already exist");
             return "admins/productCategories";
         }
-        categoryRepo.save(new Category(name, 1));
+        Category category = new Category(name, 1);
+        category.setAncestor(category);
+        categoryRepo.save(category);
 
         return "redirect:/admins/product/categories";
     }

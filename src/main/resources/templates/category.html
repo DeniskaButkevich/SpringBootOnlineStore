@@ -86,7 +86,8 @@
                                     </div><!-- End .view-box -->
                                 </div><!-- End .toolbox-filter -->
 
-                                <th:block th:include="parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></th:block>
+                                <th:block
+                                        th:include="parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></th:block>
 
                             </div><!-- End .category-toolbar -->
                             <div class="md-margin"></div><!-- .space -->
@@ -113,7 +114,8 @@
                             </th:block>
                             <div class="row"></div>
 
-                            <th:block th:include="parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></th:block>
+                            <th:block
+                                    th:include="parts/pager.html :: pager(${url}, ${page},${listpages},${setParam})"></th:block>
 
                         </div><!-- End .col-md-9 -->
 
@@ -131,11 +133,22 @@
                                         <div id="category-list-1" class="collapse in">
                                             <div class="panel-body">
                                                 <ul class="category-filter-list jscrollpane">
-                                                    <th:block th:each=" category: ${filterCategory}">
-                                                        <li><a
-                                                                th:href="${url} + '?category=' + ${category.id} + '&' + ${setParam}"
-                                                                th:text="${category.name} + '(' + ${category.getProducts().size()} + ')'"
-                                                        ></a></li>
+
+                                                    <th:block th:each="cat: ${categories}">
+                                                        <li th:if="${cat.ancestor != null && cat.id == cat.ancestor.id}">
+                                                            <a
+                                                                    th:href="${url} + '?category=' + ${cat.id} + '&' + ${setParam}"
+                                                                    th:text="${cat.name} + '(' + ${cat.getProducts().size()} + ')'"
+                                                                    th:attrappend="style=${category != null && #strings.contains(cat.id,category) ? ' color: #7bae23;' : ''}"
+                                                            ></a></li>
+                                                        <th:block th:each="cat_des: ${categories_des}">
+                                                            <li th:if="${cat_des.ancestor.id == cat.id}"><a
+                                                                    style="margin-left: 10px"
+                                                                    th:href="${url} + '?category=' + ${cat_des.id} + '&' + ${setParam}"
+                                                                    th:text="${cat_des.name} + '(' + ${cat_des.getProducts().size()} + ')'"
+                                                                    th:attrappend="style=${category != null && #strings.contains(cat_des.id,category) ? ' color: #7bae23;' : ''}"></a>
+                                                            </li>
+                                                        </th:block>
                                                     </th:block>
                                                 </ul>
                                             </div><!-- End .panel-body -->
@@ -153,11 +166,12 @@
                                         <div id="category-list-2" class="collapse in">
                                             <div class="panel-body">
                                                 <ul class="category-filter-list jscrollpane">
-                                                    <th:block th:each=" brand: ${filterBrand}">
-                                                        <li><a
-                                                                th:href="${url} + '?brand=' + ${brand.name} + '&' + ${setParam}"
-                                                                th:text="${brand.name} + '(' + ${brand.getProducts().size()} + ')'"
-                                                        ></a></li>
+                                                    <th:block th:each="brand_v : ${brands}">
+                                                        <li>
+                                                            <a th:style="${brand!= null && #strings.contains(brand,brand_v.name) ? ' color: #7bae23;' : ''}"
+                                                               th:href="${url} + '?brand=' + ${brand_v.name} + '&' + ${setParam}"
+                                                               th:text="${brand_v.name} + '(' + ${brand_v.getProducts().size()} + ')'"
+                                                            ></a></li>
                                                     </th:block>
                                                 </ul>
                                             </div><!-- End .panel-body -->
@@ -171,27 +185,36 @@
                                             <a class="accordion-btn opened" data-toggle="collapse"
                                                data-target="#category-list-3"></a>
                                         </div><!-- End .accordion-header -->
+                                        <form method="get" th:action="${url} + '?' + ${setParam}" id="priceForm">
+                                            <div id="category-list-3" class="collapse in">
+                                                <div class="panel-body">
+                                                    <div id="price-range"></div><!-- End #price-range -->
+                                                    <div id="price-range-details">
+                                                        <span class="sm-separator">from</span>
+                                                        <input type="text" name="price-range-low" id="price-range-low"
+                                                               th:value="33" class="separator">
+                                                        <span class="sm-separator">to</span>
+                                                        <input type="text" name="price-range-high"
+                                                               id="price-range-high">
+                                                        <th:block th:each="elem, i : ${text.keySet()}">
+                                                            <th:block
+                                                                    th:if="${!#strings.contains(elem,'price-range-low') && !#strings.contains(elem,'price-range-high')}">
+                                                                <input type="hidden" th:name="${elem}" class="separator"
+                                                                       th:value="${text.get(elem)}">
+                                                            </th:block>
+                                                        </th:block>
+                                                    </div>
+                                                    <div id="price-range-btns">
+                                                        <a id="price_filter"
+                                                           class="btn btn-custom-2 btn-sm"
+                                                           onclick="document.getElementById('priceForm').submit()">Ok</a>
+                                                        <a onclick="clearPriceFilter"
+                                                           class="btn btn-custom-2 btn-sm">Clear</a>
+                                                    </div>
 
-                                        <div id="category-list-3" class="collapse in">
-                                            <div class="panel-body">
-                                                <div id="price-range">
-
-                                                </div><!-- End #price-range -->
-                                                <div id="price-range-details">
-                                                    <span class="sm-separator">from</span>
-                                                    <input type="text" id="price-range-low" class="separator">
-                                                    <span class="sm-separator">to</span>
-                                                    <input type="text" id="price-range-high">
-                                                </div>
-                                                <div id="price-range-btns">
-                                                    <a th:href="${url} + '?price=' + 'none' + '&' + ${setParam}"
-                                                       class="btn btn-custom-2 btn-sm">Ok</a>
-                                                    <a onclick="clearPriceFilter"
-                                                       class="btn btn-custom-2 btn-sm">Clear</a>
-                                                </div>
-
-                                            </div><!-- End .panel-body -->
-                                        </div><!-- #collapse -->
+                                                </div><!-- End .panel-body -->
+                                            </div><!-- #collapse -->
+                                        </form>
                                     </div><!-- End .panel -->
 
                                     <div class="panel">
@@ -205,9 +228,12 @@
                                         <div id="category-list-4" class="collapse in">
                                             <div class="panel-body">
                                                 <ul class="filter-color-list clearfix" style="width: 242px;">
-                                                    <th:block th:each="color, i : ${colors}">
-                                                        <li><a th:href="${url} + '?color=' + ${color.getRgb()} + '&' + ${setParam}"
-                                                               th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}"
+                                                    <th:block th:each="clr, i : ${colors}">
+                                                        <li>
+
+                                                            <a th:attrprepend="style=${color != null && #strings.contains(clr.getRgb(),color) ? 'transform: scale(1.25);border: #262626 solid 2px;' : ''}"
+                                                               th:href="${url} + '?color=' + ${clr.getRgb()} + '&' + ${setParam}"
+                                                               th:attrappend="style=${'background-color: rgb(' + clr.getRgb() + ');'}"
                                                                class="filter-color-box"></a></li>
                                                     </th:block>
                                                 </ul>
@@ -224,7 +250,9 @@
                                     <ul class="featured-list clearfix">
                                         <th:block th:each="product, i : ${featured_products?.content}">
 
-                                            <th:block th:if="${(i.index+1)%3 == 1}"><li></th:block>
+                                            <th:block th:if="${(i.index+1)%3 == 1}">
+                                                <li>
+                                            </th:block>
 
                                             <div class="featured-product clearfix" th:object="${product}">
                                                 <figure>
@@ -239,7 +267,8 @@
                                                         <div class="ratings-result" data-result="84"></div>
                                                     </div><!-- End .ratings -->
                                                 </div><!-- End .rating-container -->
-                                                <div class="featured-price">[[*{price}]]</div><!-- End .featured-price -->
+                                                <div class="featured-price">[[*{price}]]</div>
+                                                <!-- End .featured-price -->
                                             </div><!-- End .featured-product -->
 
                                             <th:block th:if="${(i.count+1)%3 == 1}"></li></th:block>
