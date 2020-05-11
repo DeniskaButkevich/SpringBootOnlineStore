@@ -42,7 +42,8 @@
                                     <thead>
                                     <tr>
                                         <th class="table-title">Name</th>
-                                        <th class="table-title">Description</th>
+                                        <th class="table-title">Colors</th>
+                                        <th class="table-title">Sizes</th>
                                         <th class="table-title">Price</th>
                                         <th class="table-title">Brand</th>
                                         <th class="table-title">Delete</th>
@@ -59,17 +60,26 @@
                                                 <header class="item-name"><a
                                                         th:href="'/product/' + *{id}">[[*{name}]]</a>
                                                 </header>
-                                                <ul>
-                                                    <li>Color: [[*{color.rgb}]]</li>
-                                                    <li>Size: SM</li>
-                                                </ul>
                                             </td>
-                                            <td class="item-code">[[*{Description}]]</td>
-                                            <td class="item-price-col"><span class="item-price-special"
-                                                                             th:value="*{price}">[[*{price}]]</span>
+                                            <td class="item-price-col">
+                                                <th:block th:each="color : ${product.color.iterator()}">
+                                                    <label th:class="label-color">
+                                                        <span th:attrappend="style=${'background-color: rgb(' + color.getRgb() + ');'}"></span>
+                                                    </label>
+                                                </th:block>
+                                            </td>
+                                            <td class="item-price-col">
+                                                <th:block th:each="size : ${product.sizes.iterator()}" th:object="${size}">
+                                                    <label class="li-size">
+                                                        <li><a th:text="${size.size}"></a></li>
+                                                    </label>
+                                                </th:block>
                                             </td>
                                             <td class="item-price-col"><span class="item-price-special"
-                                                                             th:value="*{brand}">[[*{brand.name}]]</span>
+                                                                             th:value="*{price}" th:text="*{price}"></span>
+                                            </td>
+                                            <td class="item-price-col"><span class="item-price-special"
+                                                                             th:value="*{brand}" th:text="${product.brand?.name}"></span>
                                             </td>
 
                                             <td class="item-total-col">

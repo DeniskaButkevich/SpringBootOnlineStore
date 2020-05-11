@@ -63,7 +63,7 @@
     <div class="col-md-4 col-sm-6 col-xs-12">
         <div class="item item-hover">
             <div class="item-image-wrapper">
-                <figure class="item-image-container">
+                <figure class="item-image-container" style="display: table-cell; vertical-align: middle; height: 305px">
                     <a th:href="${'product/' + product.id}">
                         <img th:if="${product.filename != null}" th:src="'img/' + ${product.filename}" alt="item1"
                              class="item-image">
@@ -178,9 +178,8 @@
 <th:block th:fragment="also_purchased(product)">
     <div class="item item-hover" th:object="${product}">
         <div class="item-image-wrapper">
-            <figure class="item-image-container">
+            <figure class="item-image-container" style="display: table-cell; height: 310px; vertical-align: middle;" >
                 <a th:href="'/product/' + *{id}">
-
                     <img th:if="*{filename != null}" th:src="'/img/' + *{filename}" th:alt="*{filename}"
                          class="item-image">
                     <img th:unless="*{filename != null}" src="/images/products/item8.jpg" alt="item" class="item-image">
@@ -235,7 +234,7 @@
     <div class="col-md-4 col-sm-6 col-xs-12" th:object="${product}">
         <div class="item item-hover">
             <div class="item-image-wrapper">
-                <figure class="item-image-container">
+                <figure class="item-image-container" style="display: table-cell; height: 310px; vertical-align: middle;">
                     <a th:href="'/product/' + *{id}">
                         <img th:if="*{filename != null}" th:src="'/img/' + *{filename}" th:alt="*{filename}"
                              class="item-image">

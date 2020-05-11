@@ -76,8 +76,8 @@
                             th:href="*{'/admins/users/' + author.id}"
                             th:text="*{author.username}"></a></td>
                     <td class="item-code" style="vertical-align: inherit;"><a
-                            th:href="*{'/admins/products/' + product.id}"
-                            th:text="*{product.name}"></a></td>
+                            th:href="*{'/admins/products/' + product?.id}"
+                            th:text="*{product?.name}"></a></td>
                     <td class="item-code" style="vertical-align: inherit;" th:text="*{placedAt.toLocaleString()}"></td>
                     <td class="item-code" style="vertical-align: inherit;" th:text="*{rating}"></td>
                 </tr>
@@ -86,7 +86,9 @@
         </div>
         <div th:include="admins/parts/pager.html :: pager(${url}, ${page},${listpages})"></div>
     </div>
+    <div th:replace="admins/parts/footer.html :: footer"></div><!-- End #footer -->
     <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer -->
 </div>
+
 </body>
 </html>

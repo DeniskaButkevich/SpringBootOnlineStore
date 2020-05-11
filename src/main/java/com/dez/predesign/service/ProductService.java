@@ -58,7 +58,7 @@ public class ProductService {
             Set<Product> set = user.getProducts();
             if (!set.contains(product)) {
                 set.add(product);
-                if (set.size() > 3) {
+                if (set.size() > 9) {
                     Iterator iterator = set.iterator();
                     if(iterator.hasNext()){
                         iterator.next();

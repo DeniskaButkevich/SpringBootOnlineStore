@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<footer th:fragment="footer" id="footer" >
+    <div id="twitterfeed-container">
+        <div class="container">
+            <div class="row">
+
+                <div class="twitterfeed col-md-12">
+                    <div class="twitter-icon"><i class="fa fa-twitter"></i></div><!-- End .twitter-icon -->
+                    <div class="row">
+                        <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+                            <div class="twitter_feed flexslider"></div>
+                        </div>
+                    </div>
+
+                </div><!-- End .twiitterfeed .col-md-12 -->
+
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </div><!-- End #twitterfeed-container -->
+    <div id="inner-footer">
+
+
+
+    </div><!-- End #inner-footer -->
+
+    <div id="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7 col-sm-7 col-xs-12 footer-social-links-container">
+                    <ul class="social-links clearfix">
+                        <li><a href="#" class="social-icon icon-facebook"></a></li>
+                        <li><a href="#" class="social-icon icon-twitter"></a></li>
+                        <li><a href="#" class="social-icon icon-rss"></a></li>
+                        <li><a href="#" class="social-icon icon-delicious"></a></li>
+                        <li><a href="#" class="social-icon icon-linkedin"></a></li>
+                        <li><a href="#" class="social-icon icon-flickr"></a></li>
+                        <li><a href="#" class="social-icon icon-skype"></a></li>
+                        <li><a href="#" class="social-icon icon-email"></a></li>
+                    </ul>
+                </div><!-- End .col-md-7 -->
+
+                <div class="col-md-5 col-sm-5 col-xs-12 footer-text-container">
+                    <p>&copy; 2014 Powered by Company&trade;. All Rights Reserved.</p>
+                </div><!-- End .col-md-5 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </div><!-- End #footer-bottom -->
+
+</footer><!-- End #footer -->
+
+<th:block th:fragment="afterFooter">
+    <div id="scroll-compare" class="fix_compare" >
+        <a href="/compare-products" class="btn btn-custom" id="product_compare" ></a>
+        <a class="btn btn-custom glyphicon glyphicon-trash" th:onclick="'clearCompare()'"></a>
+    </div>
+    <div id="scroll-cart" class="fix_cart" >
+        <a href="/cart" class="btn btn-custom product_cart"></a>
+        <a class="btn btn-custom glyphicon glyphicon-trash" th:onclick="'removeFromCart()'"></a>
+    </div>
+
+    <a href="#" id="scroll-top" title="Scroll to Top"><i class="fa fa-angle-up"></i></a><!-- End #scroll-top -->
+
+    <!-- END -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/smoothscroll.js"></script>
+    <script src="/js/jquery.debouncedresize.js"></script>
+    <script src="/js/retina.min.js"></script>
+    <script src="/js/jquery.placeholder.js"></script>
+    <script src="/js/jquery.hoverIntent.min.js"></script>
+    <script src="/js/twitter/jquery.tweet.min.js"></script>
+    <script src="/js/jquery.flexslider-min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/jflickrfeed.min.js"></script>
+    <script src="/js/jquery.prettyPhoto.js"></script>
+    <script src="/js/jquery.nouislider.min.js"></script>
+    <script src="/js/jquery.jscrollpane.min.js"></script>
+    <script src="/js/jquery.mousewheel.js"></script>
+    <script src="/js/jquery.themepunch.tools.min.js"></script>
+    <script src="/js/jquery.themepunch.revolution.min.js"></script>
+    <script src="/js/jquery.selectbox.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/index.js"></script>
+
+</th:block><!-- End #footer -->

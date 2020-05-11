@@ -15,6 +15,7 @@
         <h2 th:text="Welcome "></h2>
         <h3 sec:authentication="name"></h3>
     </div>
+    <div th:replace="admins/parts/footer.html :: footer"></div><!-- End #footer -->
     <th:block th:insert="parts/footer.html :: afterFooter"></th:block><!-- End #footer -->
 </div>
 </body>

@@ -220,9 +220,9 @@
                                     <ul class="comments-list" style="margin-bottom: 0px;">
                                         <li th:each="message : ${page.content}">
                                             <div class="comment clearfix">
-                                                <figure>
+                                                <figure style="height: 70px; width: 70px">
 <!--                                                    <img th:src="${message.author.filename != null ? '/img/' + message.author.filename : '/images/blog/user1.jpg'}" alt="Comment Author">-->
-                                                    <img src="/images/blog/user1.jpg" alt="Comment Author">
+                                                    <img src="/images/blog/person.jpg" alt="Comment Author">
                                                 </figure>
                                                 <div class="comment-details">
                                                     <div class="comment-title" th:text="${message.subject}">
@@ -325,7 +325,7 @@
                                             </th:block>
 
                                             <div class="featured-product clearfix" th:object="${product}">
-                                                <figure>
+                                                <figure style="width: 115px; height: 115px">
                                                     <img th:if="*{filename != null}" th:src="'/img/' + *{filename}"
                                                          th:alt="*{filename}">
                                                     <img th:unless="*{filename != null}"
@@ -337,7 +337,7 @@
                                                         <div class="ratings-result" data-result="84"></div>
                                                     </div><!-- End .ratings -->
                                                 </div><!-- End .rating-container -->
-                                                <div class="featured-price">[[*{price}]]</div>
+                                                <div class="featured-price">[[*{price}]]$</div>
                                                 <!-- End .featured-price -->
                                             </div><!-- End .featured-product -->
 

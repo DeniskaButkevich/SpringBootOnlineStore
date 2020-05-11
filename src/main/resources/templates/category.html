@@ -255,7 +255,7 @@
                                             </th:block>
 
                                             <div class="featured-product clearfix" th:object="${product}">
-                                                <figure>
+                                                <figure style="width: 115px; height: 115px">
                                                     <img th:if="*{filename != null}" th:src="'/img/' + *{filename}"
                                                          th:alt="*{filename}">
                                                     <img th:unless="*{filename != null}"
@@ -267,7 +267,7 @@
                                                         <div class="ratings-result" data-result="84"></div>
                                                     </div><!-- End .ratings -->
                                                 </div><!-- End .rating-container -->
-                                                <div class="featured-price">[[*{price}]]</div>
+                                                <div class="featured-price">[[*{price}]]$</div>
                                                 <!-- End .featured-price -->
                                             </div><!-- End .featured-product -->
 
@@ -278,20 +278,8 @@
                                 </div><!-- End .featured-slider -->
                             </div><!-- End .widget -->
 
-                            <div class="widget banner-slider-container">
-                                <div class="banner-slider flexslider">
-                                    <ul class="banner-slider-list clearfix">
-                                        <li><a href="#"><img src="images/banner1.jpg" alt="Banner 1"></a></li>
-                                        <li><a href="#"><img src="images/banner2.jpg" alt="Banner 2"></a></li>
-                                        <li><a href="#"><img src="images/banner3.jpg" alt="Banner 3"></a></li>
-                                    </ul>
-                                </div>
-                            </div><!-- End .widget -->
-
                         </aside><!-- End .col-md-3 -->
                     </div><!-- End .row -->
-
-
                 </div><!-- End .col-md-12 -->
             </div><!-- End .row -->
         </div><!-- End .container -->
