@@ -33,8 +33,6 @@ public class ProductController {
     private String AWS_ACCESS_KEY_ID;
     @Value("${S3_BUCKET_NAME}")
     private String S3_BUCKET_NAME;
-    @Value("${upload.path}")
-    private String uploadPath;
 
     private ProductRepo productRepo;
     private ProductService productService;
@@ -43,8 +41,7 @@ public class ProductController {
     public ProductController(
             ProductRepo productRepo,
             ProductService productService,
-            PageService pageService,
-            ImageRepo imageRepo) {
+            PageService pageService) {
         this.productRepo = productRepo;
         this.productService = productService;
         this.pageService = pageService;

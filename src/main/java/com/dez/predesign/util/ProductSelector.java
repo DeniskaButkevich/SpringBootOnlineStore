@@ -11,14 +11,17 @@ public class ProductSelector {
 
     public static Iterable<Product> getRandomProducts(Integer count, ProductRepo productRepo) {
         List<Long> lds = productRepo.findAllId();
-        List<Long> random_ids = new ArrayList<>();
+        Iterable<Product> products = null;
+        if(lds != null && !lds.isEmpty()){
+            List<Long> random_ids = new ArrayList<>();
 
-        for(int i = 0; i < 6; i++){
-            Random rand = new Random();
-            Long randomElement = lds.get(rand.nextInt(lds.size()));
-            random_ids.add(randomElement);
+            for(int i = 0; i < 6; i++){
+                Random rand = new Random();
+                Long randomElement = lds.get(rand.nextInt(lds.size()));
+                random_ids.add(randomElement);
+            }
+            products = productRepo.findAllProductsByIds(random_ids);
         }
-        Iterable<Product> products = productRepo.findAllProductsByIds(random_ids);
         return products;
     }
 

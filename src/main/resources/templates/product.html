@@ -36,13 +36,13 @@
                             <div id="product-image-carousel-container">
                                 <ul id="product-carousel" class="celastislide-list">
                                     <li class="active-slide">
-                                        <a th:if="${product.filename != null}" data-rel='prettyPhoto[product]'
-                                           class="product-gallery-item" th:href="'/img/' + ${product.filename}"
-                                           th:data-image="'/img/' + ${product.filename}"
-                                           th:data-zoom-image="'/img/' + ${product.filename}">
-                                            <img th:src="'/img/' + ${product.filename}" alt="Phone photo 1"></a>
+                                        <a th:if="${product.hoverFilename != null}" data-rel='prettyPhoto[product]'
+                                           class="product-gallery-item" th:href="'/img/' + ${product.hoverFilename}"
+                                           th:data-image="'/img/' + ${product.hoverFilename}"
+                                           th:data-zoom-image="'/img/' + ${product.hoverFilename}">
+                                            <img th:src="'/img/' + ${product.hoverFilename}" alt="Phone photo 1"></a>
 
-                                        <a th:unless="${product.filename != null}" data-rel='prettyPhoto[product]'
+                                        <a th:unless="${product.hoverFilename != null}" data-rel='prettyPhoto[product]'
                                            class="product-gallery-item" href="/images/products/big-item1.jpg"
                                            data-image="/images/products/big-item1.jpg"
                                            tdata-zoom-image="/images/products/big-item1.jpg">

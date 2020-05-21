@@ -15,9 +15,6 @@ import javax.sql.DataSource;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${upload.path}")
-    private String uploadPath;
-
     @Value("${upload.path.amazons3}")
     private String uploadPathAmazonS3;
 
